@@ -1,3 +1,13 @@
 {
-  "extends": "@jyb/eslint-config-jyb"
+    "extends": "@jyb/eslint-config-jyb",
+    "rules": {
+        "comma-dangle": "off",
+        "no-plusplus": "off",
+        "prefer-rest-params": "off"
+    },
+    "globals": {
+        "CONFIG_FILES": true,
+        "COMMAND_PREFIX": true,
+        "JYB_COMMAND_PREFIX": true
+    }
 }
