@@ -2,8 +2,7 @@
  * 输出日志
  */
 
-require('colors');
-
+const chalk = require('chalk');
 const utilLang = require('./lang');
 
 /* eslint-disable no-console */
@@ -26,26 +25,40 @@ const types = {
     }
 };
 
+/**
+ * 创建日志类型
+ * @param {String} type 
+ * @param {Array} argv
+ */
 function createLog(type, argv) {
     const arrArgv = arraySlice.call(argv, 0);
     const logType = types[type];
 
     if (utilLang.isBoolean(arrArgv[arrArgv.length - 1])) {
         arrArgv.pop();
-        logger((`[${logType.title}]: ${arrayJoin.call(arrArgv, '  ')}`)[logType.color]);
+        logger(chalk[logType.color](`[${logType.title}]: ${arrayJoin.call(arrArgv, '  ')}`));
     } else {
-        logger((`${arrayJoin.call(arrArgv, '  ')}`)[logType.color]);
+        logger(chalk[logType.color](`${arrayJoin.call(arrArgv, '  ')}`));
     }
 }
 
+/**
+ * Info类型日志
+ */
 function info() {
     createLog('info', arguments);
 }
 
+/**
+ * Warn类型日志
+ */
 function warn() {
     createLog('warn', arguments);
 }
 
+/**
+ * Error类型日志
+ */
 function error() {
     createLog('error', arguments);
 }

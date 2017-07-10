@@ -1,19 +1,29 @@
 {
   "name": "jfet",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "jyb front-end tookit.",
+  "bin": {
+    "jfet": "./bin/jfet"
+  },
   "main": "index.js",
+  "files": [
+    "bin",
+    "lib"
+  ],
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["front-end", "tookit"],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.1.2",
-    "fs-extra": "^3.0.1"
-  }
+    "chalk": "^2.0.1",
+    "figlet": "^1.2.0",
+    "fs-extra": "^3.0.1",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {}
 }
