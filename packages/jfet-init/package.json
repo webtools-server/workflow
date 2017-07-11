@@ -1,12 +1,12 @@
 {
   "name": "jfet-init",
   "version": "1.0.0",
-  "description": "",
+  "description": "init command plugin for jfet.",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["jfet", "command", "plugin"],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
