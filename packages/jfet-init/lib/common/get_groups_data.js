@@ -5,39 +5,43 @@
 const http = require('http');
 const https = require('https');
 const url = require('url');
+const config = require('../config');
 const configPkg = require('../config/config.json');
 
+/**
+ * 获取组数据
+ * @return {Promise}
+ */
 function getGroupsData() {
     return new Promise((resolve, reject) => {
-        // https://github.com/fe-template
-        // https://api.github.com/orgs/fe-template/repos
-        const match = configPkg.repositoryURL.match(/^(http|https):\/\/(\S+)\/(\S+)$/i);
+        const match = config.gitlabGroup.match(/^(http|https):\/\/(\S+)\/groups\/(\S+)$/i);
 
-        // ["https://github.com/fe-template/", "https", "github.com", "fe-template"]
+        // [ 'http://git.jtjr.com/groups/noop', 'http', 'git.jtjr.com', 'noop']
+        // http://git.jtjr.com/api/v3/groups/noop
         if (!match) {
-            reject('Repository url format error. Please reconfigure the repository url.');
+            return reject('Repository url format error.');
         }
 
-        const urlInfo = url.parse(`${match[1]}://api.${match[2]}`);
+        const urlInfo = url.parse(`${match[1]}://${match[2]}`);
         const request = iO(urlInfo.protocol);
 
         if (!request) {
-            reject('Protocol error.');
+            return reject('Protocol error.');
         }
 
         const options = {
             hostname: urlInfo.host,
             port: getPort(urlInfo),
-            path: `/orgs/${match[3]}/repos`,
+            path: `/api/v3/groups/${match[3]}?private_token=${configPkg.privateToken}`,
             headers: {
-                'User-Agent': 'Ifet-init'
+                'User-Agent': config.userAgent
             },
             method: 'GET'
         };
 
         const req = request(options, (res) => {
             if (res.statusCode === 401) {
-                reject('401 Unauthorized');
+                return reject('401 unauthorized. Please configure your private token first.');
             }
 
             const data = [];
@@ -46,28 +50,42 @@ function getGroupsData() {
                 data.push(chunk);
             });
             res.on('end', () => {
-                resolve(data.join(''));
+                try {
+                    resolve(JSON.parse(data.join('')));
+                } catch (e) {
+                    reject('Data Format error.');
+                }
             });
         });
 
         req.on('error', (e) => {
-            reject(`problem with request: ${e.message}`);
+            reject(`Problem with request: ${e.message}`);
         });
 
         req.end();
     });
 }
 
+/**
+ * request
+ * @param {String} protocol 
+ */
 function iO(protocol) {
     if (protocol === 'http:') {
         return http.request;
-    } else if (protocol === 'https:') {
-        return https.request;
-    } else {
-        return null;
     }
+
+    if (protocol === 'https:') {
+        return https.request;
+    }
+
+    return null;
 }
 
+/**
+ * 获取端口
+ * @param {Object} urlInfo 
+ */
 function getPort(urlInfo) {
     const protocol = urlInfo.protocol;
     let port = 80;
