@@ -4,7 +4,6 @@
 
 const optionConfig = require('./option/config');
 const optionTemplate = require('./option/template');
-const optionSearch = require('./option/search');
 const optionLS = require('./option/ls');
 const pkg = require('../package.json');
 
@@ -36,12 +35,6 @@ plugin.builder = {
         describe: 'Init project from template',
         default: ''
     },
-    search: {
-        type: 'string',
-        alias: 's',
-        describe: 'Search template',
-        default: ''
-    },
     ls: {
         type: 'boolean',
         describe: 'Show all template',
@@ -52,27 +45,34 @@ plugin.builder = {
         alias: 'f',
         describe: 'Force clean current directory',
         default: false
+    },
+    output: {
+        type: 'string',
+        alias: 'o',
+        describe: 'Output path',
+        default: ''
     }
 };
 
 // handler
 plugin.handler = (configFunc, argv) => {
-    console.log(argv);
-
     if (argv.config) {
         return optionConfig.run();
     }
 
     if (argv.ls) {
-        return optionLS.run();
+        return optionLS.run({
+            output: argv.output,
+            force: argv.force
+        });
     }
 
     if (argv.template) {
-        return optionTemplate.run({ template: argv.template });
-    }
-
-    if (argv.search) {
-        return optionSearch.run({ template: argv.search });
+        return optionTemplate.run({
+            template: argv.template,
+            output: argv.output,
+            force: argv.force
+        });
     }
 };
 
