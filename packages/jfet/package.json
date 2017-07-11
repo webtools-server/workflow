@@ -14,7 +14,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "../../node_modules/.bin/mocha ./test/**/*.test.js"
   },
   "keywords": ["front-end", "tookit"],
   "author": "canye.wu@jyblife.com",
