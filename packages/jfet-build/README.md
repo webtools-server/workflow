@@ -18,6 +18,45 @@ npm i @jyb/jfet-build -g
 ## 使用
 
 ```shell
+jfet build --watch/-w
+
 jfet build --version
 jfet build --help
+```
+
+## 配置文件
+
+```javascript
+module.exports = {
+    build(context) {
+        // 环境 watch,build
+        context.env === 'watch';
+
+        // 辅助功能
+        context.helper.watch
+        context.helper.fse
+        context.core.webpack
+
+        // 修改预置构建方案
+        context.setPreset('react');
+
+        // 修改预置构建方案的配置
+        context.setConfig({
+            outputPath: '',
+            publicPath: ''
+        });
+
+        // 添加构建功能块
+        context.addBlocks();
+
+        // 构建前
+        context.on('before', () => {});
+
+        // 构建后
+        context.on('after', () => {});
+
+        context.on('rebuild', () => {});
+        context.on('error', (e) => {});
+    }
+};
 ```
