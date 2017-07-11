@@ -6,7 +6,9 @@
   "dependencies": {},
   "devDependencies": {
     "@jyb/eslint-config-jyb": "^1.0.0",
-    "lerna": "^2.0.0-rc.5"
+    "lerna": "^2.0.0-rc.5",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
