@@ -1,0 +1,15 @@
+{
+  "name": "jfet-build",
+  "version": "1.0.0",
+  "description": "build command plugin for jfet.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["jfet", "command", "plugin"],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    
+  }
+}
