@@ -2,19 +2,52 @@
  * ls
  */
 
+const inquirer = require('inquirer');
 const utilLog = require('../util/log');
 const getGroupsData = require('../common/get_groups_data');
+const generate = require('../common/generate');
+const config = require('../config');
 
 const optionLS = {};
 
-optionLS.run = () => {
-    getGroupsData().then((res) => {
-        const projects = JSON.parse(res);
+/**
+ * 选择创建项目
+ * @param {Object} opts
+ * @param {String} output 输出路径
+ * @param {Boolean} force 是否先清空输出路径
+ */
+optionLS.run = (opts) => {
+    const { output, force } = opts;
 
-        utilLog.info(`仓库有${projects.length}个模板\r\n`);
+    getGroupsData().then((res) => {
+        const projects = res.projects || [];
+        const repoMap = {};
+        const choices = [];
+
         for (let i = 0, len = projects.length; i < len; i++) {
-            utilLog.info(`${i + 1}：${projects[i].name} - ${projects[i].description}\r\n`);
+            const curr = projects[i];
+            const name = curr.name;
+
+            if (name.indexOf(config.templatePrefix) > -1) {
+                repoMap[name] = curr.http_url_to_repo;
+                choices.push({
+                    name: `${i + 1}：${name} - ${curr.description}`,
+                    value: name
+                });
+            }
         }
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'template',
+                message: '请选择初始化的项目模板?',
+                choices
+            }
+        ]).then((answers) => {
+            const template = answers.template;
+            generate(template, repoMap[template], output, force);
+        });
     }).catch((err) => {
         utilLog.error(err);
     });
