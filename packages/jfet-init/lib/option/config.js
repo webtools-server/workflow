@@ -7,18 +7,21 @@ const co = require('co');
 const inquirer = require('inquirer');
 const fse = require('fs-extra');
 const utilLog = require('../util/log');
+const config = require('../config');
 
 const CONFIG_URL = path.join(__dirname, '..', 'config/config.json');
 const optionConfig = {};
 
+/**
+ * 配置
+ */
 optionConfig.run = () => {
-    co(function*() {
-        const answers = yield configPrompt();
-        const isWriteSucc = yield writeConfig(answers);
-
-        if (isWriteSucc) {
+    co(function* () {
+        try {
+            const answers = yield configPrompt();
+            fse.outputFileSync(CONFIG_URL, JSON.stringify(answers, null, 4));
             utilLog.info('配置写入成功');
-        } else {
+        } catch (e) {
             utilLog.error('配置写入失败');
         }
     }).catch((err) => {
@@ -27,30 +30,15 @@ optionConfig.run = () => {
     });
 };
 
-function writeConfig(info) {
-    return (cb) => {
-        fse.writeJSON(CONFIG_URL, info, (err) => {
-            if (err) {
-                return cb(null, false);
-            }
-
-            cb(null, true);
-        });
-    };
-}
-
+/**
+ * 配置引导
+ */
 function configPrompt() {
-    const questions = [{
-        type: 'input',
-        name: 'repositoryURL',
-        message: '请输入你的仓库地址（格式：https://github.com/fe-template）：'
-    }];
-
-    return (cb) => {
-        inquirer.prompt(questions).then((answers) => {
-            cb(null, answers);
+    return new Promise((resolve) => {
+        inquirer.prompt(config.questions).then((answers) => {
+            resolve(answers);
         });
-    };
+    });
 }
 
 module.exports = optionConfig;
