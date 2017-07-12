@@ -30,7 +30,10 @@ jfet build --help
 module.exports = {
     build(context) {
         // 环境 watch,build
-        context.env === 'watch';
+        context.env
+        // 构建方案
+        context.preset
+        context.configuration
 
         // 辅助功能
         context.helper.watch
@@ -45,9 +48,6 @@ module.exports = {
             outputPath: '',
             publicPath: ''
         });
-
-        // 添加构建功能块
-        context.addBlocks();
 
         // 构建前
         context.on('before', () => {});
