@@ -5,6 +5,7 @@
  */
 
 const webpack = require('webpack');
+const chalk = require('chalk');
 const version = require('./version');
 const _ = require('./util');
 
@@ -20,8 +21,10 @@ exports.setContext = require('./configuration/content');
 exports.setDevTool = require('./configuration/devtool');
 exports.setOutput = require('./configuration/output');
 
+exports.webpackCore = webpack;
 exports.createConfig = createConfig;
 exports.customConfig = customConfig;
+exports.commonDoneHandler = commonDoneHandler;
 
 /**
  * 创建配置
@@ -29,7 +32,7 @@ exports.customConfig = customConfig;
  * @return {object}
  */
 function createConfig(core, configSetters) {
-    if (_.isArrayOfFunc(configSetters)) {
+    if (!_.isArrayOfFunc(configSetters)) {
         throw new Error('configSetters must be an array of functions.');
     }
 
@@ -50,4 +53,33 @@ function createEmptyConfig(context, util) {
 
 function customConfig(wpConfig) {
     return (context, util) => util.merge(wpConfig);
+}
+
+
+function commonDoneHandler(isWatch, resolve, err, stats) {
+    if (err) {
+        console.log(chalk.red(err));
+        process.exit(1);
+    }
+
+    const { errors, time } = stats.toJson();
+    if (errors && errors.length) {
+        console.log(chalk.red(errors));
+        process.exit(1);
+    }
+
+    if (!isWatch || stats.hasErrors()) {
+        const buildInfo = stats.toString({
+            colors: true,
+            children: true
+        });
+        console.log(stats.hasErrors() ? chalk.red(buildInfo) : buildInfo);
+    } else {
+        console.log(
+            stats.stats ?
+                chalk.green('Compiled successfully.') :
+                chalk.green(`Compiled successfully in ${time}ms.`)
+        );
+    }
+    resolve();
 }
