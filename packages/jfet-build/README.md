@@ -51,11 +51,10 @@ module.exports = {
 
         // 构建前
         context.on('before', () => {});
-
+        // 生成打包配置
+        context.on('created', (packConfig) => {});
         // 构建后
         context.on('after', () => {});
-
-        context.on('rebuild', () => {});
         context.on('error', (e) => {});
     }
 };
