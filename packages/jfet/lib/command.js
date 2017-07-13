@@ -69,15 +69,13 @@ class Command {
         for (let i = 0, l = resources.length; i < l; i++) {
             try {
                 result = require(resources[i]);
+                return result;
             } catch (e) {
                 err.push(e);
             }
         }
 
-        if (!result) {
-            utilLog.error(err.join('\n'));
-        }
-
+        utilLog.error(err.join('\n'));
         return result;
     }
 

@@ -10,6 +10,6 @@ module.exports = {
     // 工具配置文件
     CONFIG_FILES: 'jfet.config.js',
     // 命令前缀
-    COMMAND_PREFIX: ['jfet-', '@jyb/jfet-']
+    COMMAND_PREFIX: ['@jyb/jfet-', 'jfet-']
 };
 
