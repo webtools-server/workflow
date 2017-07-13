@@ -21,6 +21,8 @@ class ContextBuild extends EventEmitter {
         this.preset = 'common';
         // 存储用户的设置
         this.configuration = {};
+        // 打包配置，preset里面设置才会有
+        this.packConfig = {};
     }
 
     setPreset(name) {
@@ -39,12 +41,18 @@ class ContextBuild extends EventEmitter {
         this.configuration = cfg;
     }
 
-    getPreset() {
+    createConfig() {
+        this.packConfig = core.createConfig(...arguments);
+        this.emit('created', this.packConfig);
+        return this.packConfig;
+    }
+
+    start() {
         const resources = PRESET_PREFIX.map(p => `${p}${this.preset}`);
         const preset = getModule(resources);
         const that = this;
 
-        if (_.isFunction(preset.run)) {
+        if (preset && _.isFunction(preset.run)) {
             co(function* () {
                 try {
                     // emit before event
