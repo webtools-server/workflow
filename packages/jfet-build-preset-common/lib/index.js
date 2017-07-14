@@ -3,13 +3,26 @@
  */
 
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const webpack = require('@jyb/jfet-build-block-webpack3');
 const less = require('@jyb/jfet-build-block-less');
 const babel = require('@jyb/jfet-build-block-babel6');
 const assets = require('@jyb/jfet-build-block-assets');
-const extractText = require('@jyb/jfet-build-block-extract-text');
 
-const { createConfig, entryPoint, setOutput, webpackCore, commonDoneHandler } = webpack;
+const {
+    // config
+    createConfig,
+    entryPoint,
+    setOutput,
+    addPlugins,
+
+    // plugin
+    extractText,
+
+    // webpack
+    webpackCore,
+    commonDoneHandler
+} = webpack;
 const preset = {};
 
 preset.run = (core, context) => {
@@ -32,12 +45,42 @@ preset.run = (core, context) => {
             cacheDirectory: true
         }),
         core.match(['*.less'], [
-            less(),
+            less(true, {
+                minimize: true
+            }),
             extractText()
         ]),
         core.match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.webp'], [
             assets.file()
         ]),
+        addPlugins([
+            new webpackCore.LoaderOptionsPlugin({
+                options: {
+                    context: __dirname,
+                    minimize: true,
+                    postcss: [
+                        autoprefixer({
+                            browsers: [
+                                '>1%',
+                                'last 4 versions',
+                                'Firefox ESR',
+                                'not ie < 9'
+                            ],
+                        })
+                    ],
+                },
+            }),
+            new webpackCore.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                },
+                output: {
+                    comments: false
+                },
+                screwIe8: true,
+                sourceMap: false
+            })
+        ])
     ]);
 
     return new Promise((resolve) => {
