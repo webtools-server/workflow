@@ -8,6 +8,7 @@ const webpack = require('@jyb/jfet-build-block-webpack3');
 const less = require('@jyb/jfet-build-block-less');
 const babel = require('@jyb/jfet-build-block-babel6');
 const assets = require('@jyb/jfet-build-block-assets');
+const dot = require('@jyb/jfet-build-block-dot');
 
 const {
     // config
@@ -44,6 +45,7 @@ preset.run = (core, context) => {
             ],
             cacheDirectory: true
         }),
+        dot(),
         core.match(['*.less'], [
             less(true, {
                 minimize: true
@@ -70,16 +72,16 @@ preset.run = (core, context) => {
                     ],
                 },
             }),
-            new webpackCore.optimize.UglifyJsPlugin({
-                compress: {
-                    warnings: false
-                },
-                output: {
-                    comments: false
-                },
-                screwIe8: true,
-                sourceMap: false
-            })
+            // new webpackCore.optimize.UglifyJsPlugin({
+            //     compress: {
+            //         warnings: false
+            //     },
+            //     output: {
+            //         comments: false
+            //     },
+            //     screwIe8: true,
+            //     sourceMap: false
+            // })
         ])
     ]);
 
