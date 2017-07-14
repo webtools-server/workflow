@@ -7,6 +7,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+function defaultSetConfig() {
+    return {};
+}
+
 /**
  * @param {Object} [options]
  * @param {Object} [options.scan]
@@ -19,17 +23,20 @@ function htmlPlugin(options = {}) {
     return (context, util) => {
         const scanResult = util.scan(options.scan);
         const plugins = [];
+        const setConfig = options.setConfig || defaultSetConfig;
 
         for (const k in scanResult) {
             const pathDetail = path.parse(k);
+            const curr = scanResult[k];
+            const mergeConfig = setConfig(k, curr);
 
             plugins.push(
-                new HtmlWebpackPlugin({
-                    template: scanResult[k],
+                new HtmlWebpackPlugin(Object.assign({
+                    template: curr,
                     filename: k,
                     inject: 'body',
                     chunks: ['vendor', pathDetail.name]
-                })
+                }, mergeConfig))
             );
         }
         return util.addPlugin(plugins);

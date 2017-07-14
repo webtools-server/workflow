@@ -1,0 +1,16 @@
+{
+  "name": "@jyb/jfet-build-block-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "vue-loader": "^12.2.2",
+    "vue-template-compiler": "^2.4.1"
+  }
+}

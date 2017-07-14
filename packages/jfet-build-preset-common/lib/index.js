@@ -11,6 +11,7 @@ const less = require('@jyb/jfet-build-block-less');
 const babel = require('@jyb/jfet-build-block-babel6');
 const assets = require('@jyb/jfet-build-block-assets');
 const dot = require('@jyb/jfet-build-block-dot');
+const vue = require('@jyb/jfet-build-block-vue');
 
 const {
     // config
@@ -66,6 +67,7 @@ preset.run = (core, context) => {
             cacheDirectory: true
         }),
         dot(),
+        vue(),
         core.match(['*.less'], [
             less(true, {
                 minimize: true
