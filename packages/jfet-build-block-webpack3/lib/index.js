@@ -11,6 +11,7 @@ const _ = require('./util');
 
 const webpackVersion = version.parse(require('webpack/package.json').version);
 
+// configuration
 exports.defineConstants = require('./configuration/define');
 exports.addPlugins = require('./configuration/plugins');
 exports.entryPoint = require('./configuration/entry');
@@ -20,6 +21,9 @@ exports.resolveAliases = require('./configuration/alias');
 exports.setContext = require('./configuration/content');
 exports.setDevTool = require('./configuration/devtool');
 exports.setOutput = require('./configuration/output');
+
+// plugin
+exports.extractText = require('./plugin/extract_text');
 
 exports.webpackCore = webpack;
 exports.createConfig = createConfig;
