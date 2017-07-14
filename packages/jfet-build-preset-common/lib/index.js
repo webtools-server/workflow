@@ -4,6 +4,8 @@
 
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const ManifestPlugin = require('webpack-manifest-plugin');
+
 const webpack = require('@jyb/jfet-build-block-webpack3');
 const less = require('@jyb/jfet-build-block-less');
 const babel = require('@jyb/jfet-build-block-babel6');
@@ -19,6 +21,7 @@ const {
 
     // plugin
     extractText,
+    htmlPlugin,
 
     // webpack
     webpackCore,
@@ -55,6 +58,19 @@ preset.run = (core, context) => {
         core.match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.webp'], [
             assets.file()
         ]),
+        htmlPlugin({
+            scan: {
+                pattern: path.join(__dirname, '..', 'demo/development/pages/**/index.html'),
+                prefixFilter(name) {
+                    const arrPath = path.dirname(name).split(path.sep);
+                    const ext = path.extname(name);
+                    const newName = arrPath.pop();
+
+                    return newName ? newName + ext : name;
+                }
+            },
+            setConfig() {}
+        }),
         addPlugins([
             new webpackCore.LoaderOptionsPlugin({
                 options: {
@@ -81,7 +97,13 @@ preset.run = (core, context) => {
             //     },
             //     screwIe8: true,
             //     sourceMap: false
-            // })
+            // }),
+            new ManifestPlugin({ // see https://www.npmjs.com/package/webpack-manifest-plugin
+                fileName: 'mainfest.json',
+                // basePath: 'public/',
+                // publicPath: 'public_path'
+                // stripSrc
+            })
         ])
     ]);
 

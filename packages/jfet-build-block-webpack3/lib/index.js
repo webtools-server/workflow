@@ -24,6 +24,7 @@ exports.setOutput = require('./configuration/output');
 
 // plugin
 exports.extractText = require('./plugin/extract_text');
+exports.htmlPlugin = require('./plugin/html');
 
 exports.webpackCore = webpack;
 exports.createConfig = createConfig;
