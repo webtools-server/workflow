@@ -37,15 +37,22 @@ plugin.builder = {
         type: 'boolean',
         alias: 'l',
         describe: 'Start liveReload',
-        default: true
+        default: false
+    },
+    ssi: {
+        type: 'boolean',
+        alias: 's',
+        describe: 'Support server side includes',
+        default: false
     }
 };
 
 // handler
 plugin.handler = (configFunc, argv) => {
-    const serve = new Server(argv.cwd, argv.port, argv.livereload);
+    const serve = new Server(argv.cwd, argv.port, argv.ssi, argv.livereload);
 
     configFunc({
+        setSSIConfig: serve.setSSIConfig,
         registerRouter: serve.registerRouter,
         proxy: serve.proxy
     });

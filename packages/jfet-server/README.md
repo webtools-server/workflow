@@ -5,7 +5,7 @@ server命令插件
 ## 功能
 
 - 支持代理，路由
-- 支持ssi(TODO)
+- 支持ssi
 - 支持livereload(TODO)
 
 ## 安装
@@ -22,6 +22,7 @@ npm i @jyb/jfet-server -g
 ```shell
 jfet server --cwd/-c <cwd>
 jfet server --port/-p <port>
+jfet server --ssi/-s
 jfet server --livereload/-l
 
 jfet server --version
@@ -34,6 +35,15 @@ jfet server --help
 module.exports = {
     server(context) {
         const proxy = context.proxy;
+
+        // ssi configuration
+        // see https://github.com/yanni4night/node-ssi
+        context.setSSIConfig({
+            baseDir: '..',
+            ext: '.html'
+        });
+        
+        // router
         context.registerRouter('get', '/home', function*(next) {});
         context.registerRouter('get', '/api/detail', proxy({
             url: 'http://alicdn.com/index.js'

@@ -23,12 +23,12 @@ module.exports = function koaSSI(opt) {
         let url = urlModule.parse(this.request.path).pathname;
 
         url = /\/$/.test(url) ? (`${url}index${opt.ext}`) : url;
-
         if (!endsWith(url, opt.ext)) {
             return yield* next;
         }
 
-        const filePath = path.join(opt.baseDir, url);
+        const that = this;
+        const filePath = path.join(process.cwd(), url);
 
         try {
             yield compileFile();
@@ -46,8 +46,8 @@ module.exports = function koaSSI(opt) {
 
                         return reject(err);
                     }
-                    this.set('Content-Type', 'text/html; charset=UTF-8');
-                    this.body = content;
+                    that.set('Content-Type', 'text/html; charset=UTF-8');
+                    that.body = content;
                     resolve();
                 });
             });

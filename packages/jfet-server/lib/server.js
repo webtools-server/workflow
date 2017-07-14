@@ -12,17 +12,24 @@ const koaProxy = require('koa-proxy');
 const Router = require('koa-router');
 const util = require('./util');
 
+const koaSSI = require('./middleware/ssi');
+
 class Server {
-    constructor(cwd, port, livereload) {
+    constructor(cwd, port, ssi, livereload) {
         this.cwd = cwd;
         this.port = port;
+        this.ssi = ssi;
         this.livereload = livereload;
 
         this.app = new Koa();
 
+        // ssi
+        this.ssiConfig = {};
+
         // router && proxy
         this.routerStore = [];
         this.proxy = koaProxy;
+
         this.init();
     }
 
@@ -30,8 +37,16 @@ class Server {
         // body parser
         this.app.use(bodyParser());
 
+        if (this.ssi) {
+            this.app.use(koaSSI(this.ssiConfig));
+        }
+
         // static serve
         this.app.use(serve(path.join(process.cwd(), this.cwd)));
+    }
+
+    setSSIConfig(options) {
+        Object.assign(this.ssiConfig, options);
     }
 
     registerRouter(method, rpath, middlewares) {
