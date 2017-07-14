@@ -1,0 +1,29 @@
+{
+  "name": "jfet-server",
+  "version": "1.0.0",
+  "description": "server command plugin for jfet.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jfet",
+    "command",
+    "plugin"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "koa": "^1.4.0",
+    "koa-bodyparser": "^2.5.0",
+    "koa-proxy": "^0.8.0",
+    "koa-router": "^5.4.2",
+    "koa-static": "^2.1.0",
+    "node-ssi": "^0.3.2",
+    "opn": "^5.1.0"
+  },
+  "jfetOptions": {
+    "commandPlugin": "./lib/index.js"
+  }
+}
