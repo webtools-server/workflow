@@ -15,6 +15,16 @@ function entryPoint(entry) {
     });
 }
 
+function scanEntry(options) {
+    return (context, util) => {
+        const scanResult = util.scan(options);
+
+        return util.merge({
+            entry: scanResult
+        });
+    };
+}
+
 function normalizeEntry(entry) {
     if (Array.isArray(entry)) {
         return {
@@ -36,4 +46,8 @@ function normalizeEntry(entry) {
     throw new Error(`Expected entry point to be object, array or string. Instead got: ${entry}`);
 }
 
-module.exports = entryPoint;
+module.exports = {
+    entryPoint,
+    scanEntry
+};
+

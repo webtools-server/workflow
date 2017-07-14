@@ -16,6 +16,7 @@ const {
     // config
     createConfig,
     entryPoint,
+    scanEntry,
     setOutput,
     addPlugins,
 
@@ -29,9 +30,25 @@ const {
 } = webpack;
 const preset = {};
 
+function prefixFilter(name) {
+    const arrPath = path.dirname(name).split(path.sep);
+    const ext = path.extname(name);
+    const newName = arrPath.pop();
+
+    if (ext === '.html') {
+        return newName ? newName + ext : name;
+    }
+
+    return newName || name;
+}
+
 preset.run = (core, context) => {
     const { configuration, env } = context;
     const webpackConfig = createConfig(context, [
+        scanEntry({
+            pattern: path.join(__dirname, '..', 'demo/development/pages/**/index.js'),
+            prefixFilter
+        }),
         entryPoint({
             home: path.join(__dirname, '..', 'demo/development/pages/home/index.js'),
             list: path.join(__dirname, '..', 'demo/development/pages/list/index.js')
@@ -61,13 +78,7 @@ preset.run = (core, context) => {
         htmlPlugin({
             scan: {
                 pattern: path.join(__dirname, '..', 'demo/development/pages/**/index.html'),
-                prefixFilter(name) {
-                    const arrPath = path.dirname(name).split(path.sep);
-                    const ext = path.extname(name);
-                    const newName = arrPath.pop();
-
-                    return newName ? newName + ext : name;
-                }
+                prefixFilter
             },
             setConfig() {}
         }),
@@ -88,16 +99,16 @@ preset.run = (core, context) => {
                     ],
                 },
             }),
-            // new webpackCore.optimize.UglifyJsPlugin({
-            //     compress: {
-            //         warnings: false
-            //     },
-            //     output: {
-            //         comments: false
-            //     },
-            //     screwIe8: true,
-            //     sourceMap: false
-            // }),
+            new webpackCore.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                },
+                output: {
+                    comments: false
+                },
+                screwIe8: true,
+                sourceMap: false
+            }),
             new ManifestPlugin({ // see https://www.npmjs.com/package/webpack-manifest-plugin
                 fileName: 'mainfest.json',
                 // basePath: 'public/',

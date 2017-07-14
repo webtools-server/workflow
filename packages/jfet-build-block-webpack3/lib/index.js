@@ -8,13 +8,13 @@ const webpack = require('webpack');
 const chalk = require('chalk');
 const version = require('./version');
 const _ = require('./util');
+const entry = require('./configuration/entry');
 
 const webpackVersion = version.parse(require('webpack/package.json').version);
 
 // configuration
 exports.defineConstants = require('./configuration/define');
 exports.addPlugins = require('./configuration/plugins');
-exports.entryPoint = require('./configuration/entry');
 exports.performance = require('./configuration/performance');
 exports.resolve = require('./configuration/resolve');
 exports.resolveAliases = require('./configuration/alias');
@@ -25,6 +25,9 @@ exports.setOutput = require('./configuration/output');
 // plugin
 exports.extractText = require('./plugin/extract_text');
 exports.htmlPlugin = require('./plugin/html');
+
+exports.scanEntry = entry.scanEntry;
+exports.entryPoint = entry.entryPoint;
 
 exports.webpackCore = webpack;
 exports.createConfig = createConfig;
