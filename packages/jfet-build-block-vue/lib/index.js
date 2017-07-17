@@ -1,11 +1,11 @@
 /**
- * SASS webpack block.
+ * vue webpack block.
  *
- * @see https://github.com/webpack-contrib/less-loader
+ * @see https://vue-loader.vuejs.org/zh-cn/
  */
 
 /**
- * @param {object}   [options] See http://lesscss.org/usage/#command-line-usage-options
+ * @param {object}   [options]
  * @return {Function}
  */
 function vue(options = {}) {
