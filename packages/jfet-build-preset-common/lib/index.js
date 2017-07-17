@@ -12,24 +12,135 @@ const babel = require('@jyb/jfet-build-block-babel6');
 const assets = require('@jyb/jfet-build-block-assets');
 const dot = require('@jyb/jfet-build-block-dot');
 const vue = require('@jyb/jfet-build-block-vue');
+const assemble = require('@jyb/jfet-build-block-assemble');
 
 const {
     // config
     createConfig,
     entryPoint,
+    defineConstants,
+    resolveAliases,
+    setContext,
+    setDevTool,
     scanEntry,
     setOutput,
     addPlugins,
 
     // plugin
     extractText,
-    htmlPlugin,
 
     // webpack
     webpackCore,
     commonDoneHandler
 } = webpack;
 const preset = {};
+
+preset.run = (core, context) => {
+    const { configuration, env } = context;
+    const isProduction = env !== 'watch';
+
+    // plugin
+    const plugins = [
+        new webpackCore.LoaderOptionsPlugin({
+            options: {
+                context: __dirname,
+                minimize: true,
+                postcss: [
+                    autoprefixer({
+                        browsers: [
+                            '>1%',
+                            'last 4 versions',
+                            'Firefox ESR',
+                            'not ie < 9'
+                        ],
+                    })
+                ],
+            },
+        }),
+        new ManifestPlugin(Object.assign({ // see https://www.npmjs.com/package/webpack-manifest-plugin
+            fileName: 'mainfest.json'
+        }, configuration.manifestPlugin))
+    ];
+
+    if (isProduction) {
+        plugins.push(new webpackCore.optimize.UglifyJsPlugin(Object.assign({
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            },
+            screwIe8: true,
+            sourceMap: false
+        }, configuration.uglifyJsPlugin)));
+    }
+
+    if (configuration.commonsChunkPlugin) {
+        plugins.push(new webpackCore.optimize.CommonsChunkPlugin(Object.assign({
+            name: 'vendor',
+            filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
+        }, configuration.commonsChunkPlugin)));
+    }
+
+    const webpackConfig = createConfig(context, [
+        scanEntry(Object.assign({ prefixFilter }, configuration.scanEntry)),
+        entryPoint(configuration.entryPoint),
+        setOutput(Object.assign({
+            filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
+        }, configuration.setOutput)),
+        defineConstants(configuration.defineConstants),
+        resolveAliases(configuration.resolveAliases),
+        setContext(configuration.setContext),
+        setDevTool(configuration.setDevTool),
+        babel(Object.assign({
+            babelrc: false,
+            presets: [
+                require.resolve('babel-preset-es2015'),
+                require.resolve('babel-preset-stage-0'),
+            ],
+            cacheDirectory: true
+        }, configuration.babel)),
+        dot(configuration.dot),
+        vue(configuration.vue),
+        assemble(configuration.assemble),
+        core.match(['*.less'], [
+            less(true, {
+                minimize: isProduction
+            }),
+            extractText(configuration.extractText || (isProduction ? 'css/[name].[contenthash:8].css' : 'css/[name].css'))
+        ]),
+        core.match(/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i, [
+            assets.url(Object.assign({
+                name: 'image/[name].[hash:8].[ext]',
+                limit: 10000
+            }, configuration.image)),
+            assets.image(configuration.imageLoader || {})
+        ]),
+        core.match(/\.svg(\?.*)?$/, [
+            assets.url(Object.assign({
+                name: 'image/[name].[hash:8].[ext]',
+                minetype: 'image/svg+xml'
+            }, configuration.svg))
+        ]),
+        core.match(/\.(woff|woff2|ttf|eot)(\?.*)?$/, [
+            assets.file(Object.assign({
+                name: 'font/[name].[hash:8].[ext]'
+            }, configuration.font))
+        ]),
+        addPlugins(plugins)
+    ]);
+
+    return new Promise((resolve) => {
+        const compiler = webpackCore(webpackConfig);
+        const done = commonDoneHandler.bind(null, !isProduction, resolve);
+
+        if (!isProduction) {
+            compiler.watch(200, done);
+        } else {
+            compiler.run(done);
+        }
+    });
+};
 
 function prefixFilter(name) {
     const arrPath = path.dirname(name).split(path.sep);
@@ -42,94 +153,5 @@ function prefixFilter(name) {
 
     return newName || name;
 }
-
-preset.run = (core, context) => {
-    const { configuration, env } = context;
-    const webpackConfig = createConfig(context, [
-        scanEntry({
-            pattern: path.join(__dirname, '..', 'demo/development/pages/**/index.js'),
-            prefixFilter
-        }),
-        entryPoint({
-            home: path.join(__dirname, '..', 'demo/development/pages/home/index.js'),
-            list: path.join(__dirname, '..', 'demo/development/pages/list/index.js')
-        }),
-        setOutput({
-            filename: 'js/[name].[hash:8].js',
-            path: path.join(__dirname, '..', 'demo/development/public')
-        }),
-        babel({
-            babelrc: false,
-            presets: [
-                require.resolve('babel-preset-es2015'),
-                require.resolve('babel-preset-stage-0'),
-            ],
-            cacheDirectory: true
-        }),
-        dot(),
-        vue(),
-        core.match(['*.less'], [
-            less(true, {
-                minimize: true
-            }),
-            extractText()
-        ]),
-        core.match(['*.gif', '*.jpg', '*.jpeg', '*.png', '*.webp'], [
-            assets.file()
-        ]),
-        htmlPlugin({
-            scan: {
-                pattern: path.join(__dirname, '..', 'demo/development/pages/**/index.html'),
-                prefixFilter
-            },
-            setConfig() {}
-        }),
-        addPlugins([
-            new webpackCore.LoaderOptionsPlugin({
-                options: {
-                    context: __dirname,
-                    minimize: true,
-                    postcss: [
-                        autoprefixer({
-                            browsers: [
-                                '>1%',
-                                'last 4 versions',
-                                'Firefox ESR',
-                                'not ie < 9'
-                            ],
-                        })
-                    ],
-                },
-            }),
-            new webpackCore.optimize.UglifyJsPlugin({
-                compress: {
-                    warnings: false
-                },
-                output: {
-                    comments: false
-                },
-                screwIe8: true,
-                sourceMap: false
-            }),
-            new ManifestPlugin({ // see https://www.npmjs.com/package/webpack-manifest-plugin
-                fileName: 'mainfest.json',
-                // basePath: 'public/',
-                // publicPath: 'public_path'
-                // stripSrc
-            })
-        ])
-    ]);
-
-    return new Promise((resolve) => {
-        const compiler = webpackCore(webpackConfig);
-        const done = commonDoneHandler.bind(null, env === 'watch', resolve);
-
-        if (env === 'watch') {
-            compiler.watch(200, done);
-        } else {
-            compiler.run(done);
-        }
-    });
-};
 
 module.exports = preset;
