@@ -34,6 +34,9 @@ plugin.handler = (configFunc, argv) => {
     const env = argv.watch ? 'watch' : 'build';
     const context = new ContextBuild(env);
 
+    // jfet env
+    process.env.JFET_ENV = env;
+
     // 执行配置函数
     configFunc(context);
 

@@ -40,6 +40,10 @@ function addPlugin(plugin) {
  * 查找入口
  */
 function scan(options = {}) {
+    if (!options.pattern) {
+        return {};
+    }
+
     const result = glob.sync(options.pattern);
     const prefixFilter = options.prefixFilter || defaultPrefixFilter;
 

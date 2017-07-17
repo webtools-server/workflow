@@ -4,6 +4,7 @@
 
 const EventEmitter = require('events');
 const co = require('co');
+const ora = require('ora');
 const core = require('./core');
 const constant = require('./constant');
 const getModule = require('./util/get_module');
@@ -55,12 +56,15 @@ class ContextBuild extends EventEmitter {
         if (preset && _.isFunction(preset.run)) {
             co(function* () {
                 try {
+                    const spinner = ora('Build start\n').start();
                     // emit before event
                     that.emit('before');
+                    spinner.text = 'Run preset...';
                     // preset run
                     yield preset.run(core, that);
                     // emit after event
                     that.emit('after');
+                    spinner.stop();
                 } catch (e) {
                     that.emit('error', e);
                 }
