@@ -18,7 +18,7 @@ exports.addPlugins = require('./configuration/plugins');
 exports.performance = require('./configuration/performance');
 exports.resolve = require('./configuration/resolve');
 exports.resolveAliases = require('./configuration/alias');
-exports.setContext = require('./configuration/content');
+exports.setContext = require('./configuration/context');
 exports.setDevTool = require('./configuration/devtool');
 exports.setOutput = require('./configuration/output');
 

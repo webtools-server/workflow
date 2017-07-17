@@ -9,7 +9,7 @@ const path = require('path');
  */
 function setContext(contextPath) {
     return (context, util) => util.merge({
-        context: path.resolve(contextPath)
+        context: path.resolve(contextPath || process.cwd())
     });
 }
 

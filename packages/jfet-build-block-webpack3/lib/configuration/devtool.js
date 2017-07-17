@@ -5,7 +5,7 @@
 /**
  * @see https://webpack.github.io/docs/configuration.html#devtool
  */
-function setDevTool(devtool) {
+function setDevTool(devtool = '') {
     return (context, util) => util.merge({ devtool });
 }
 

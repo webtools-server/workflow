@@ -43,7 +43,7 @@ function normalizeEntry(entry) {
         return entry;
     }
 
-    throw new Error(`Expected entry point to be object, array or string. Instead got: ${entry}`);
+    return {};
 }
 
 module.exports = {
