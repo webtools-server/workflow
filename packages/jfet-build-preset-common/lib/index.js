@@ -38,6 +38,8 @@ const preset = {};
 preset.run = (core, context) => {
     const { configuration, env } = context;
     const isProduction = env !== 'watch';
+    const jsFileName = isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js';
+    const cssFileName = isProduction ? 'css/[name].[hash:8].css' : 'css/[name].css';
 
     // plugin
     const plugins = [
@@ -78,7 +80,7 @@ preset.run = (core, context) => {
     if (configuration.commonsChunkPlugin) {
         plugins.push(new webpackCore.optimize.CommonsChunkPlugin(Object.assign({
             name: 'vendor',
-            filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
+            filename: jsFileName,
         }, configuration.commonsChunkPlugin)));
     }
 
@@ -86,7 +88,7 @@ preset.run = (core, context) => {
         scanEntry(Object.assign({ prefixFilter }, configuration.scanEntry)),
         entryPoint(configuration.entryPoint),
         setOutput(Object.assign({
-            filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
+            filename: jsFileName,
         }, configuration.setOutput)),
         defineConstants(configuration.defineConstants),
         resolveAliases(configuration.resolveAliases),
@@ -107,7 +109,7 @@ preset.run = (core, context) => {
             less(true, {
                 minimize: isProduction
             }),
-            extractText(configuration.extractText || (isProduction ? 'css/[name].[contenthash:8].css' : 'css/[name].css'))
+            extractText(configuration.extractText || cssFileName)
         ]),
         core.match(/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i, [
             assets.url(Object.assign({

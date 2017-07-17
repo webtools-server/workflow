@@ -24,6 +24,8 @@ class ContextBuild extends EventEmitter {
         this.configuration = {};
         // 打包配置，preset里面设置才会有
         this.packConfig = {};
+        // block
+        this.blocks = [];
     }
 
     setPreset(name) {
@@ -42,8 +44,13 @@ class ContextBuild extends EventEmitter {
         this.configuration = cfg;
     }
 
-    createConfig() {
-        this.packConfig = core.createConfig(...arguments);
+    addBlock(block) {
+        this.blocks.push(block);
+    }
+
+    createConfig(initialContext, configSetters) {
+        configSetters = configSetters.concat(this.blocks);
+        this.packConfig = core.createConfig(initialContext, configSetters);
         this.emit('created', this.packConfig);
         return this.packConfig;
     }
