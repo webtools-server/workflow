@@ -29,8 +29,6 @@ class Server {
         // router && proxy
         this.routerStore = [];
         this.proxy = koaProxy;
-
-        this.init();
     }
 
     init() {
@@ -62,6 +60,8 @@ class Server {
     }
 
     start() {
+        // init
+        this.init();
         // router
         const router = new Router();
         const routerStore = this.routerStore;
