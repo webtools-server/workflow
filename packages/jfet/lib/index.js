@@ -49,7 +49,8 @@ cli.run = (option) => {
         // 读取配置
         let configuration = null;
         let configurationFunc = noop;
-        const configFiles = path.join(cwd, CONFIG_FILES);
+        const configFilePath = command.pkgOptions.configFilePath || '';
+        const configFiles = path.join(cwd, configFilePath, CONFIG_FILES);
 
         if (utilFs.fileExists(configFiles)) {
             configuration = require(configFiles) || {};

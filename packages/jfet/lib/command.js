@@ -24,7 +24,16 @@ class Command {
             throw new Error('Name is required and string type.');
         }
 
+        this.pkgOptions = {}; // configFilePath,commandPlugin
         this.name = name;
+    }
+
+    getPkgOptions() {
+        // 当前目录存在package.json文件，获取jfetOptions字段
+        if (utilFs.fileExists(currPkgFile)) {
+            const currPkg = require(currPkgFile);
+            this.pkgOptions = currPkg.jfetOptions || {};
+        }
     }
 
     /**
@@ -33,15 +42,9 @@ class Command {
      * @return {Object|Null}
      */
     load() {
-        let jfetOptions = {};
+        this.getPkgOptions();
 
-        // 当前目录存在package.json文件，获取jfetOptions字段
-        if (utilFs.fileExists(currPkgFile)) {
-            const currPkg = require(currPkgFile);
-            jfetOptions = currPkg.jfetOptions || {};
-        }
-
-        // jfet-build @jyb/jfet-build
+        const jfetOptions = this.pkgOptions;
         const name = this.name;
 
         // check name
