@@ -1,5 +1,5 @@
 {
-  "name": "jfet-server",
+  "name": "@jyb/jfet-server",
   "version": "1.0.1",
   "description": "server command plugin for jfet.",
   "main": "lib/index.js",
@@ -10,6 +10,9 @@
     "jfet",
     "command",
     "plugin"
+  ],
+   "files": [
+    "lib"
   ],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
