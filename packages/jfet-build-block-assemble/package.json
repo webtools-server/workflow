@@ -1,7 +1,7 @@
 {
   "name": "@jyb/jfet-build-block-assemble",
   "version": "1.0.0",
-  "description": "",
+  "description": "assemble build block for jfet",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,7 @@
    "files": [
     "lib"
   ],
-  "keywords": [],
+  "keywords": ["assemble", "build", "block", "jfet"],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {

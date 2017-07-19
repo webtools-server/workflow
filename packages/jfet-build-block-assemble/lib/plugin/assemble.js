@@ -17,8 +17,6 @@ class AssemblePlugin {
             layouts: '',
             partials: '',
             pages: '',
-            extname: '.html',
-            outputPath: path.join(process.cwd(), 'public'),
             helper: {},
             injectData: {},
             mapPath: '',
@@ -38,10 +36,6 @@ class AssemblePlugin {
 
         const helper = options.helper;
         const app = assemble();
-
-        if (typeof options.assembleApp === 'function') {
-            options.assembleApp(app);
-        }
 
         // plugin
         app.use(watch());
@@ -66,8 +60,8 @@ class AssemblePlugin {
                 .pipe(app.dest((file) => {
                     console.log(chalk.green(`Assemble build successfully, ${JSON.stringify(file.key)}`));
                     if (typeof options.renameFunc !== 'function') {
-                        file.extname = options.extname;
-                        return options.outputPath;
+                        file.extname = '.html';
+                        return path.join(process.cwd(), 'public');
                     }
 
                     return options.renameFunc(file);
@@ -77,6 +71,10 @@ class AssemblePlugin {
         // watch
         if (process.env.JFET_ENV === 'watch') {
             app.watch([options.layouts, options.partials, options.pages], ['default']);
+        }
+
+        if (typeof options.assembleApp === 'function') {
+            options.assembleApp(app);
         }
 
         // webpack compiler after emit
