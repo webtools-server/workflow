@@ -68,7 +68,7 @@ cli.run = (option) => {
             handler() {
                 const args = utilLang.arraySlice.call(arguments, 0);
 
-                args.unshift(configurationFunc);
+                args.unshift(configurationFunc.bind(null, command.abcOptions));
                 commandPlugin.handler.apply(null, args);
             }
         }).version(() => commandPlugin.version).help().argv;

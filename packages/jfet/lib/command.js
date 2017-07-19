@@ -10,6 +10,7 @@ const constant = require('./constant');
 
 const cwd = process.cwd();
 const currPkgFile = path.join(cwd, 'package.json');
+const currAbcFile = path.join(cwd, 'abc.json');
 const PLUGIN_NAME_REGEX = /^[a-z0-9]+$/;
 const { COMMAND_PREFIX } = constant;
 
@@ -25,6 +26,7 @@ class Command {
         }
 
         this.pkgOptions = {}; // configFilePath,commandPlugin
+        this.abcOptions = {}; // abc.json
         this.name = name;
     }
 
@@ -33,6 +35,11 @@ class Command {
         if (utilFs.fileExists(currPkgFile)) {
             const currPkg = require(currPkgFile);
             this.pkgOptions = currPkg.jfetOptions || {};
+        }
+
+        // 当前目录存在abc.json文件
+        if (utilFs.fileExists(currAbcFile)) {
+            this.abcOptions = require(currAbcFile);
         }
     }
 
@@ -44,7 +51,7 @@ class Command {
     load() {
         this.getPkgOptions();
 
-        const jfetOptions = this.pkgOptions;
+        const jfetOptions = this.abcOptions.jfetOptions || this.pkgOptions;
         const name = this.name;
 
         // check name
