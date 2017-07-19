@@ -49,7 +49,9 @@ cli.run = (option) => {
         // 读取配置
         let configuration = null;
         let configurationFunc = noop;
-        const configFilePath = command.pkgOptions.configFilePath || '';
+        const abcOptions = command.abcOptions;
+        const abcJfetOptions = abcOptions.jfetOptions || {};
+        const configFilePath = abcJfetOptions.configFilePath || command.pkgOptions.configFilePath || '';
         const configFiles = path.join(cwd, configFilePath, CONFIG_FILES);
 
         if (utilFs.fileExists(configFiles)) {
@@ -68,7 +70,7 @@ cli.run = (option) => {
             handler() {
                 const args = utilLang.arraySlice.call(arguments, 0);
 
-                args.unshift(configurationFunc.bind(null, command.abcOptions));
+                args.unshift(configurationFunc.bind(null, abcOptions[commandPlugin.name]));
                 commandPlugin.handler.apply(null, args);
             }
         }).version(() => commandPlugin.version).help().argv;
