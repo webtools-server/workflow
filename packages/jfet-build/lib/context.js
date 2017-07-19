@@ -28,12 +28,12 @@ class ContextBuild extends EventEmitter {
         this.blocks = [];
     }
 
-    setPreset(name) {
-        if (!name || !_.isString(name)) {
-            throw new Error('Preset name not be empty and must be string.');
+    setPreset(preset) {
+        if (!preset || !_.isString(preset) || !_.isFunction(preset.run)) {
+            throw new Error('Preset name not be empty and must be string or object which have a run function.');
         }
 
-        this.preset = name;
+        this.preset = preset;
     }
 
     setConfig(cfg) {
@@ -56,8 +56,17 @@ class ContextBuild extends EventEmitter {
     }
 
     start() {
-        const resources = PRESET_PREFIX.map(p => `${p}${this.preset}`);
-        const preset = getModule(resources);
+        const preset = this.preset;
+
+        if (preset && _.isString(preset)) {
+            const resources = PRESET_PREFIX.map(p => `${p}${preset}`);
+            this.runPreset(getModule(resources));
+        } else {
+            this.runPreset(preset);
+        }
+    }
+
+    runPreset(preset) {
         const that = this;
 
         if (preset && _.isFunction(preset.run)) {

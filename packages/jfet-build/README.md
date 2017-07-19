@@ -33,14 +33,10 @@ module.exports = {
         context.env
         // 构建方案
         context.preset
+        // 构建方案配置
         context.configuration
 
-        // 辅助功能
-        context.helper.watch
-        context.helper.fse
-        context.core.webpack
-
-        // 修改预置构建方案
+        // 修改预置构建方案，支持传入string或者object
         context.setPreset('react');
 
         // 修改预置构建方案的配置
@@ -49,12 +45,16 @@ module.exports = {
             publicPath: ''
         });
 
+        // 添加构建功能块
+        context.addBlock();
+
         // 构建前
         context.on('before', () => {});
         // 生成打包配置
         context.on('created', (packConfig) => {});
         // 构建后
         context.on('after', () => {});
+        // 错误
         context.on('error', (e) => {});
     }
 };

@@ -3,7 +3,6 @@
  */
 
 const globToRegex = require('glob-to-regexp');
-const { fileTypes, createFileTypesMapping } = require('./file_types');
 const blockUtils = require('./util');
 
 exports.createConfig = createConfig;
@@ -29,9 +28,7 @@ function createConfig(initialContext, configSetters) {
         throw new Error('Expected parameter \'configSetters\' to be an array of functions.');
     }
 
-    // context.fileType
-    const fileType = createFileTypesMapping(fileTypes);
-    const context = Object.assign({ fileType }, initialContext);
+    const context = Object.assign({}, initialContext);
 
     const baseConfig = {
         resolve: {
