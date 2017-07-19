@@ -6,10 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-   "files": [
+  "files": [
     "lib"
   ],
-  "keywords": ["vue", "build", "block", "jfet"],
+  "keywords": [
+    "vue",
+    "build",
+    "block",
+    "jfet"
+  ],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {

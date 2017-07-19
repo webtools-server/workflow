@@ -6,21 +6,26 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-   "files": [
+  "files": [
     "lib"
   ],
-  "keywords": ["common", "build", "preset", "jfet"],
+  "keywords": [
+    "common",
+    "build",
+    "preset",
+    "jfet"
+  ],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
+    "@jyb/jfet-build-block-assemble": "^1.0.0",
     "@jyb/jfet-build-block-assets": "^1.0.0",
     "@jyb/jfet-build-block-babel6": "^1.0.0",
     "@jyb/jfet-build-block-dot": "^1.0.0",
     "@jyb/jfet-build-block-less": "^1.0.0",
-    "@jyb/jfet-build-block-webpack3": "^1.0.0",
-    "@jyb/jfet-build-block-vue": "^1.0.0",
-    "@jyb/jfet-build-block-assemble": "^1.0.0",
     "@jyb/jfet-build-block-sass": "^1.0.0",
+    "@jyb/jfet-build-block-vue": "^1.0.0",
+    "@jyb/jfet-build-block-webpack3": "^1.0.0",
     "autoprefixer": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
