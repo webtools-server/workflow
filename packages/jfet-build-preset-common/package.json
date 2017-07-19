@@ -1,7 +1,7 @@
 {
   "name": "@jyb/jfet-build-preset-common",
   "version": "1.0.0",
-  "description": "",
+  "description": "common build preset for jfet",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,7 @@
    "files": [
     "lib"
   ],
-  "keywords": [],
+  "keywords": ["common", "build", "preset", "jfet"],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {

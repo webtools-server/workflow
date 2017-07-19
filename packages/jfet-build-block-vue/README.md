@@ -1,1 +1,20 @@
 # vue构建功能块
+
+支持[vue-loader](vue-loader.vuejs.org)
+
+## 安装
+
+```shell
+npm i @jyb/jfet-build-block-vue --save
+```
+
+## 使用
+
+```javascript
+const vue = require('@jyb/jfet-build-block-vue');
+
+// preset
+createConfig(context, [
+    vue(options)
+]);
+```

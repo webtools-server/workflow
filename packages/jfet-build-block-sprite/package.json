@@ -1,7 +1,7 @@
 {
   "name": "@jyb/jfet-build-block-sprite",
   "version": "1.0.0",
-  "description": "",
+  "description": "sprite build block for jfet",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,7 @@
    "files": [
     "lib"
   ],
-  "keywords": [],
+  "keywords": ["sprite", "build", "block", "jfet"],
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {

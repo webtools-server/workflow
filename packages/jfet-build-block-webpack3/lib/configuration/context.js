@@ -5,7 +5,7 @@
 const path = require('path');
 
 /**
- * @see https://webpack.github.io/docs/configuration.html#context
+ * @see https://webpack.js.org/configuration/entry-context/#context
  */
 function setContext(contextPath) {
     return (context, util) => util.merge({

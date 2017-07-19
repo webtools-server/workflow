@@ -1,7 +1,7 @@
 /**
  * Webpack base config block.
  *
- * @see https://webpack.github.io/docs/configuration.html
+ * @see https://webpack.js.org/configuration/
  */
 
 const webpack = require('webpack');
