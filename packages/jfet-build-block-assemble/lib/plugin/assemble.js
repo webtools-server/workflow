@@ -54,18 +54,21 @@ class AssemblePlugin {
         }
 
         // task
-        app.task('default', () => {
+        app.task('default', (cb) => {
             app.src(options.pages)
                 .pipe(app.renderFile(options.injectData))
                 .pipe(app.dest((file) => {
-                    console.log(chalk.green(`Assemble build successfully, ${JSON.stringify(file.key)}`));
                     if (typeof options.renameFunc !== 'function') {
                         file.extname = '.html';
                         return path.join(process.cwd(), 'public');
                     }
 
                     return options.renameFunc(file);
-                }));
+                }))
+                .on('finish', () => {
+                    cb();
+                    console.log(chalk.green('Assemble build successfully.'));
+                });
         });
 
         // watch
@@ -89,8 +92,8 @@ class AssemblePlugin {
                 if (err) {
                     throw err;
                 }
+                callback();
             });
-            callback();
         });
     }
 }
