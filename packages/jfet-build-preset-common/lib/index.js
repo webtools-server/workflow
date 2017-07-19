@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 const webpack = require('@jyb/jfet-build-block-webpack3');
+const sass = require('@jyb/jfet-build-block-sass');
 const less = require('@jyb/jfet-build-block-less');
 const babel = require('@jyb/jfet-build-block-babel6');
 const assets = require('@jyb/jfet-build-block-assets');
@@ -84,7 +85,8 @@ preset.run = (core, context) => {
         }, configuration.commonsChunkPlugin)));
     }
 
-    const webpackConfig = createConfig(context, [
+    // setter
+    const configSetters = [
         scanEntry(Object.assign({ prefixFilter }, configuration.scanEntry)),
         entryPoint(configuration.entryPoint),
         setOutput(Object.assign({
@@ -106,9 +108,15 @@ preset.run = (core, context) => {
         vue(configuration.vue),
         assemble(configuration.assemble),
         core.match(['*.less'], [
-            less(true, {
+            less(true, Object.assign({
                 minimize: isProduction
-            }),
+            }, configuration.less)),
+            extractText(configuration.extractText || cssFileName)
+        ]),
+        core.match(['*.scss'], [
+            sass(true, Object.assign({
+                minimize: isProduction
+            }, configuration.sass)),
             extractText(configuration.extractText || cssFileName)
         ]),
         core.match(/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i, [
@@ -130,10 +138,10 @@ preset.run = (core, context) => {
             }, configuration.font))
         ]),
         addPlugins(plugins)
-    ]);
+    ];
 
     return new Promise((resolve) => {
-        const compiler = webpackCore(webpackConfig);
+        const compiler = webpackCore(createConfig(context, configSetters));
         const done = commonDoneHandler.bind(null, !isProduction, resolve);
 
         if (!isProduction) {

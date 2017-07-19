@@ -12,27 +12,31 @@
  * @param {bool}     [options.sourceMap]
  * @return {Function}
  */
-function sass(options = {}) {
-    return (context, util) => util.addLoader(
-        Object.assign({
-            test: /\.(sass|scss)$/,
-            use: [
-                'style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        sourceMap: Boolean(options.sourceMap)
-                    }
-                },
-                {
-                    loader: 'postcss-loader'
-                },
-                {
-                    loader: 'sass-loader',
-                    options
+function sass(isPostcss = false, options = {}) {
+    const sassLoader = {
+        test: /\.(sass|scss)$/,
+        use: [
+            require.resolve('style-loader'),
+            {
+                loader: require.resolve('css-loader'),
+                options: {
+                    sourceMap: Boolean(options.sourceMap),
+                    minimize: Boolean(options.minimize)
                 }
-            ]
-        }, context.match)
+            },
+            {
+                loader: require.resolve('sass-loader'),
+                options
+            }
+        ]
+    };
+
+    if (isPostcss) {
+        sassLoader.use.splice(2, 0, { loader: require.resolve('postcss-loader') });
+    }
+
+    return (context, util) => util.addLoader(
+        Object.assign(sassLoader, context.match)
     );
 }
 

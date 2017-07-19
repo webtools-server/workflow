@@ -1,5 +1,5 @@
 /**
- * SASS webpack block.
+ * less webpack block.
  *
  * @see https://github.com/webpack-contrib/less-loader
  */

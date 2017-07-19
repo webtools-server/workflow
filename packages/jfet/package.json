@@ -1,5 +1,5 @@
 {
-  "name": "jfet",
+  "name": "@jyb/jfet",
   "version": "0.1.2",
   "description": "jyb front-end tookit.",
   "bin": {
