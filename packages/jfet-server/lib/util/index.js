@@ -4,6 +4,8 @@
 
 const os = require('os');
 
+const toStr = Object.prototype.toString;
+
 const getIPAddress = (() => {
     const ifaces = os.networkInterfaces();
     const defultAddress = '127.0.0.1';
@@ -22,6 +24,11 @@ const getIPAddress = (() => {
     return ip;
 })();
 
+function isObject(obj) {
+    return toStr.call(obj) === '[object Object]';
+}
+
 module.exports = {
-    getIPAddress
+    getIPAddress,
+    isObject
 };

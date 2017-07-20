@@ -10,6 +10,7 @@ const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const koaProxy = require('koa-proxy');
 const Router = require('koa-router');
+const browserSync = require('browser-sync');
 const util = require('./util');
 
 const koaSSI = require('./middleware/ssi');
@@ -23,8 +24,8 @@ class Server {
 
         this.app = new Koa();
 
-        // ssi
-        this.ssiConfig = {};
+        // ssi/livereload config
+        this.config = {};
 
         // router && proxy
         this.routerStore = [];
@@ -35,16 +36,39 @@ class Server {
         // body parser
         this.app.use(bodyParser());
 
+        // ssi
         if (this.ssi) {
-            this.app.use(koaSSI(this.ssiConfig));
+            this.app.use(koaSSI(this.config.ssi));
         }
 
         // static serve
         this.app.use(serve(path.join(process.cwd(), this.cwd)));
     }
 
-    setSSIConfig(options) {
-        Object.assign(this.ssiConfig, options);
+    browserSync(options) {
+        const liveReloadConfig = this.config.livereload || {};
+        const bs = browserSync.create();
+
+        bs.init(Object.assign({
+            open: 'external',
+            port: 8097,
+            notify: false,
+            proxy: options.proxy
+        }, liveReloadConfig.init));
+        bs.watch(liveReloadConfig.watch, {
+            interval: 1000
+        }).on('change', bs.reload);
+    }
+
+    setConfig(options) {
+        if (!util.isObject(options)) {
+            throw new Error('Config type error.');
+        }
+        Object.assign(this.config, options);
+    }
+
+    setLiveReloadConfig(options) {
+        Object.assign(this.liveReloadConfig, options);
     }
 
     registerRouter(method, rpath, middlewares) {
@@ -84,8 +108,10 @@ class Server {
         this.app.listen(port);
         console.log(chalk.green(`server listening on ${opnURL}`));
 
-        // open default browser
-        opn(opnURL);
+        // livereload
+        if (this.livereload) {
+            this.browserSync({ proxy: opnURL });
+        }
     }
 }
 

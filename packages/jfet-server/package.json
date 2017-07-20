@@ -17,6 +17,7 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
+    "browser-sync": "^2.18.12",
     "chalk": "^2.0.1",
     "koa": "^1.4.0",
     "koa-bodyparser": "^2.5.0",

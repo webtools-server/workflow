@@ -52,7 +52,7 @@ plugin.handler = (configFunc, argv) => {
     const serve = new Server(argv.cwd, argv.port, argv.ssi, argv.livereload);
 
     configFunc({
-        setSSIConfig: serve.setSSIConfig.bind(serve),
+        setConfig: serve.setConfig.bind(serve),
         registerRouter: serve.registerRouter.bind(serve),
         proxy: serve.proxy.bind(serve)
     });

@@ -6,7 +6,7 @@ server命令插件
 
 - 支持代理，路由
 - 支持ssi
-- 支持livereload(TODO)
+- 支持livereload
 
 ## 安装
 
@@ -36,11 +36,23 @@ module.exports = {
     server(context) {
         const proxy = context.proxy;
 
-        // ssi configuration
+        // ssi/livereload configuration
         // see https://github.com/yanni4night/node-ssi
-        context.setSSIConfig({
-            baseDir: '..',
-            ext: '.html'
+        // see https://www.browsersync.io/docs/api
+        context.setConfig({
+            ssi: {
+                baseDir: '..',
+                ext: '.html'
+            },
+            livereload: {
+                init: {
+                    open: 'external',
+                    port: 8097,
+                    notify: false,
+                    proxy: ''
+                },
+                watch: ''
+            }
         });
         
         // router
