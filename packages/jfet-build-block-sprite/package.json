@@ -1,0 +1,23 @@
+{
+  "name": "@jyb/jfet-build-block-sprite",
+  "version": "1.0.0",
+  "description": "sprite build block for jfet",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "sprite",
+    "build",
+    "block",
+    "jfet"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "webpack-spritesmith": "^0.3.3"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@jyb/jfet-build-block-dot",
+  "version": "1.0.4",
+  "description": "dot build block for jfet",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "dot",
+    "build",
+    "block",
+    "jfet"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "dot": "^1.1.2",
+    "loader-utils": "^1.1.0"
+  }
+}

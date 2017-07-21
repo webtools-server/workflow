@@ -1,0 +1,23 @@
+{
+  "name": "workflow",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@jyb/eslint-config-jyb": "^1.0.0",
+    "lerna": "^2.0.0-rc.5",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.jtjr.com/h5_webtools_grp/workflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
