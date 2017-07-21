@@ -24,7 +24,7 @@ function createConfig(initialContext, configSetters) {
     if (!initialContext) {
         throw new Error('No initial context passed.');
     }
-    if (!Array.isArray(configSetters) || !configSetters.every(isFunction)) {
+    if (!Array.isArray(configSetters)) {
         throw new Error('Expected parameter \'configSetters\' to be an array of functions.');
     }
 
@@ -40,6 +40,7 @@ function createConfig(initialContext, configSetters) {
         plugins: []
     };
 
+    configSetters = filterNotFunction(configSetters);
     invokePreHooks(configSetters, context);
     const config = invokeConfigSetters(configSetters, context, baseConfig);
     const postProcessedConfig = invokePostHooks(configSetters, context, config);
@@ -68,6 +69,8 @@ function env(envName, configSetters) {
  * @return {Function}
  */
 function group(configSetters) {
+    configSetters = filterNotFunction(configSetters);
+
     const pre = getHooks(configSetters, 'pre');
     const post = getHooks(configSetters, 'post');
 
@@ -90,6 +93,8 @@ function match(test, options, configSetters) {
         configSetters = options;
         options = {};
     }
+
+    configSetters = filterNotFunction(configSetters);
 
     const matcher = { test: createFileTypeMatcher(test) };
 
@@ -170,6 +175,10 @@ function deriveContextWithMatch(context, matcher) {
     });
 }
 
-function filterDuplicates(array) {
-    return array.filter((item, index) => array.indexOf(item) === index);
+function filterDuplicates(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) === index);
+}
+
+function filterNotFunction(arr) {
+    return arr.filter(item => isFunction(item));
 }
