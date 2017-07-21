@@ -15,11 +15,13 @@ const assets = require('@jyb/jfet-build-block-assets');
 
 // preset
 createConfig(context, [
-    core.match(/\.png$/, [assets.image(options)])
+    core.match(/\.png$/, [assets.url(options)])
 ]);
 ```
 
 ## 默认选项
+
+因为`image-webpack-loader`对构建性能影响比较大，所以建议本地开发的时候可以关闭
 
 ### image
 

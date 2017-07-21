@@ -39,8 +39,8 @@ const preset = {};
 preset.run = (core, context) => {
     const { configuration, env } = context;
     const isProduction = env !== 'watch';
-    const jsFileName = isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js';
-    const cssFileName = isProduction ? 'css/[name].[hash:8].css' : 'css/[name].css';
+    const jsFileName = isProduction ? 'js/[name].[chunkhash:8].js' : 'js/[name].js';
+    const cssFileName = isProduction ? 'css/[name].[chunkhash:8].css' : 'css/[name].css';
 
     // plugin
     const plugins = [
@@ -124,7 +124,7 @@ preset.run = (core, context) => {
                 name: 'image/[name].[hash:8].[ext]',
                 limit: 10000
             }, configuration.image)),
-            assets.image(configuration.imageLoader || {})
+            configuration.imageLoader ? assets.image(configuration.imageLoader || {}) : ''
         ]),
         core.match(/\.svg(\?.*)?$/, [
             assets.url(Object.assign({
