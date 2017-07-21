@@ -33,16 +33,17 @@ class Server {
     }
 
     init() {
+        const currentPath = path.join(process.cwd(), this.cwd);
         // body parser
         this.app.use(bodyParser());
 
         // ssi
         if (this.ssi) {
-            this.app.use(koaSSI(this.config.ssi));
+            this.app.use(koaSSI(currentPath, this.config.ssi));
         }
 
         // static serve
-        this.app.use(serve(path.join(process.cwd(), this.cwd)));
+        this.app.use(serve(currentPath));
     }
 
     browserSync(options) {
@@ -111,6 +112,8 @@ class Server {
         // livereload
         if (this.livereload) {
             this.browserSync({ proxy: opnURL });
+        } else {
+            opn(opnURL);
         }
     }
 }
