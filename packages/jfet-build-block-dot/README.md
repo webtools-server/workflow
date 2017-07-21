@@ -15,7 +15,10 @@ const dot = require('@jyb/jfet-build-block-dot');
 
 // preset
 createConfig(context, [
-    dot(options)
+    dot({
+        htmlResourceRoot: '',
+        dotSettings: {}
+    })
 ]);
 ```
 
