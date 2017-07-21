@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-block-assets",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "assets build block for jfet",
   "main": "lib/index.js",
   "scripts": {
