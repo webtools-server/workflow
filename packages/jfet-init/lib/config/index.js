@@ -2,8 +2,8 @@
  * 公用配置
  */
 
-// gitlab group http://git.jtjr.com/api/v3/groups/noop
-const gitlabGroup = 'http://git.jtjr.com/groups/noop';
+// gitlab group http://git.jtjr.com/api/v3/groups/h5_webtools_grp
+const gitlabGroup = 'http://git.jtjr.com/groups/h5_webtools_grp';
 
 // userAgent
 const userAgent = 'jfet-init';
