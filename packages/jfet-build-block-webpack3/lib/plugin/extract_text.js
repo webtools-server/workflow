@@ -7,40 +7,87 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 /**
- * @param {string}    outputFilePattern
+ * @param {String} outputFilePattern
+ * @param {Object} options
+ * @param {Regex} options.test
+ * @param {Object} options.extract
  * @return {Function}
  */
-function extractText(outputFilePattern = 'css/[name].[contenthash:8].css') {
+function extractText(outputFilePattern = 'css/[name].[contenthash:8].css', type, options = {}) {
     const plugin = new ExtractTextPlugin(outputFilePattern);
 
-    const postHook = (context, util) => (prevConfig) => {
-        let nextConfig = prevConfig;
+    const hookHandle = {
+        normal(context, util, prevConfig) {
+            let nextConfig = prevConfig;
 
-        // Only apply to loaders in the same `match()` group or css loaders if there is no `match()`
-        const ruleToMatch = context.match || { test: /\.css$/ };
-        const matchingLoaderRules = getMatchingLoaderRules(ruleToMatch, prevConfig);
+            // Only apply to loaders in the same `match()` group or css loaders if there is no `match()`
+            const ruleToMatch = context.match || { test: /\.css$/ };
+            const matchingLoaderRules = getMatchingLoaderRules(ruleToMatch, prevConfig);
 
-        if (matchingLoaderRules.length === 0) {
-            throw new Error(`extractText(): No loaders found to extract contents from. Looking for loaders matching ${ruleToMatch.test}`);
-        }
+            if (matchingLoaderRules.length === 0) {
+                throw new Error(`extractText(): No loaders found to extract contents from. Looking for loaders matching ${ruleToMatch.test}`);
+            }
 
-        const [fallbackLoaders, nonFallbackLoaders] = splitFallbackRule(matchingLoaderRules);
+            const [fallbackLoaders, nonFallbackLoaders] = splitFallbackRule(matchingLoaderRules);
 
-        const newLoaderDef = Object.assign({}, ruleToMatch, {
-            use: plugin.extract({
+            const newLoaderDef = Object.assign({}, ruleToMatch, {
+                use: plugin.extract({
+                    fallback: fallbackLoaders,
+                    use: nonFallbackLoaders
+                })
+            });
+
+            for (const ruleToRemove of matchingLoaderRules) {
+                nextConfig = removeLoaderRule(ruleToRemove)(nextConfig);
+            }
+
+            nextConfig = util.addPlugin(plugin)(nextConfig);
+            nextConfig = util.addLoader(newLoaderDef)(nextConfig);
+
+            return nextConfig;
+        },
+        vue(context, util, prevConfig) {
+            let nextConfig = prevConfig;
+
+            // Only apply to loaders in the same `match()` group or css loaders if there is no `match()`
+            const ruleToMatch = context.match || { test: /\.vue$/ };
+            const matchingLoaderRules = getMatchingLoaderRules(ruleToMatch, prevConfig);
+            const matchingStyleLoader = getMatchingLoaderRules({ test: options.test }, prevConfig);
+
+            if (matchingLoaderRules.length === 0) {
+                throw new Error(`extractText(): No loaders found to extract contents from. Looking for loaders matching ${ruleToMatch.test}`);
+            }
+
+            if (matchingStyleLoader.length === 0) {
+                throw new Error(`extractText(): No loaders found to extract contents from. Looking for loaders matching ${options.test}`);
+            }
+
+            const [fallbackLoaders, nonFallbackLoaders] = splitFallbackRule(matchingStyleLoader);
+            const vueOptions = matchingLoaderRules[0].options;
+            const optionsLoaders = vueOptions.loaders || {};
+
+            optionsLoaders[options.name] = plugin.extract(Object.assign({
                 fallback: fallbackLoaders,
                 use: nonFallbackLoaders
-            })
-        });
+            }, options.extract));
 
-        for (const ruleToRemove of matchingLoaderRules) {
-            nextConfig = removeLoaderRule(ruleToRemove)(nextConfig);
+            const newLoaderDef = Object.assign({}, matchingLoaderRules[0], {
+                options: Object.assign(vueOptions, { loaders: optionsLoaders })
+            });
+
+            for (const ruleToRemove of matchingLoaderRules) {
+                nextConfig = removeLoaderRule(ruleToRemove)(nextConfig);
+            }
+
+            nextConfig = util.addPlugin(plugin)(nextConfig);
+            nextConfig = util.addLoader(newLoaderDef)(nextConfig);
+
+            return nextConfig;
         }
+    };
 
-        nextConfig = util.addPlugin(plugin)(nextConfig);
-        nextConfig = util.addLoader(newLoaderDef)(nextConfig);
-
-        return nextConfig;
+    const postHook = (context, util) => (prevConfig) => {
+        return hookHandle[type || 'normal'](context, util, prevConfig);
     };
 
     return Object.assign(

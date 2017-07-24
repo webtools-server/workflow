@@ -12,10 +12,8 @@ function vue(options = {}) {
     return (context, util) => util.addLoader(
         Object.assign({
             test: /\.vue$/,
-            use: [{
-                loader: require.resolve('vue-loader'),
-                options
-            }]
+            loader: require.resolve('vue-loader'),
+            options
         }, context.match)
     );
 }
