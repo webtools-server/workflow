@@ -4,6 +4,8 @@
  * @see https://github.com/babel/babel-loader
  */
 
+const babelLoader = require.resolve('babel-loader');
+
 /**
  * @param {object} [options]
  * @param {bool}                    [options.cacheDirectory]  Use cache directory. Defaults to true.
@@ -32,12 +34,14 @@ function babel(options = {}) {
     return Object.assign(setter, { post: postConfig });
 }
 
+babel.loader = babelLoader;
+
 function postConfig(context, util) {
     const ruleConfig = Object.assign({
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: [
-            { loader: require.resolve('babel-loader'), options: context.babel }
+            { loader: babelLoader, options: context.babel }
         ]
     }, context.match);
 

@@ -108,7 +108,11 @@ preset.run = (core, context) => {
             sass(true, Object.assign({
                 minimize: isProduction
             }, configuration.sass)),
-            vue(configuration.vue),
+            vue(Object.assign({
+                loaders: {
+                    js: babel.loader
+                }
+            }, configuration.vue)),
             extractText(configuration.extractTextVue || vueStyleFileName, 'vue', {
                 name: 'scss',
                 test: /\.scss$/,
