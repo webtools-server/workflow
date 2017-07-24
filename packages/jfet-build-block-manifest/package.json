@@ -1,0 +1,23 @@
+{
+  "name": "@jyb/jfet-build-block-manifest",
+  "version": "1.0.3",
+  "description": "manifest build block for jfet",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "manifest",
+    "build",
+    "block",
+    "jfet"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^4.0.0"
+  }
+}
