@@ -5,6 +5,7 @@
 const EventEmitter = require('events');
 const co = require('co');
 const ora = require('ora');
+const stringifyObject = require('stringify-object');
 const core = require('./core');
 const constant = require('./constant');
 const getModule = require('./util/get_module');
@@ -51,7 +52,10 @@ class ContextBuild extends EventEmitter {
     createConfig(initialContext, configSetters) {
         configSetters = configSetters.concat(this.blocks);
         this.packConfig = core.createConfig(initialContext, configSetters);
-        this.emit('created', this.packConfig);
+        this.emit('created', stringifyObject(this.packConfig, {
+            indent: '  ',
+            singleQuotes: false
+        }));
         return this.packConfig;
     }
 
