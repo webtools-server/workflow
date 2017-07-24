@@ -4,7 +4,6 @@
 
 const path = require('path');
 const autoprefixer = require('autoprefixer');
-const ManifestPlugin = require('webpack-manifest-plugin');
 
 const webpack = require('@jyb/jfet-build-block-webpack3');
 const sass = require('@jyb/jfet-build-block-sass');
@@ -14,6 +13,7 @@ const assets = require('@jyb/jfet-build-block-assets');
 const dot = require('@jyb/jfet-build-block-dot');
 const vue = require('@jyb/jfet-build-block-vue');
 const assemble = require('@jyb/jfet-build-block-assemble');
+const manifest = require('@jyb/jfet-build-block-manifest');
 
 const {
     // config
@@ -39,8 +39,10 @@ const preset = {};
 preset.run = (core, context) => {
     const { configuration, env } = context;
     const isProduction = env !== 'watch';
-    const jsFileName = isProduction ? 'js/[name].[chunkhash:8].js' : 'js/[name].js';
-    const cssFileName = isProduction ? 'css/[name].[chunkhash:8].css' : 'css/[name].css';
+    const jsFileName = isProduction ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js';
+    const scssStyleFileName = isProduction ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css';
+    const lessStyleFileName = isProduction ? 'css/[name].less-[chunkhash:8].css' : 'css/[name].less.css';
+    const vueStyleFileName = isProduction ? 'css/[name].vue-[chunkhash:8].css' : 'css/[name].vue.css';
 
     // plugin
     const plugins = [
@@ -59,10 +61,7 @@ preset.run = (core, context) => {
                     })
                 ],
             },
-        }),
-        new ManifestPlugin(Object.assign({ // see https://www.npmjs.com/package/webpack-manifest-plugin
-            fileName: 'mainfest.json'
-        }, configuration.manifestPlugin))
+        })
     ];
 
     if (isProduction) {
@@ -99,44 +98,57 @@ preset.run = (core, context) => {
         babel(Object.assign({
             babelrc: false,
             presets: [
-                require.resolve('babel-preset-es2015'),
+                [require.resolve('babel-preset-es2015'), { modules: false }],
                 require.resolve('babel-preset-stage-0'),
             ],
             cacheDirectory: true
         }, configuration.babel)),
         dot(configuration.dot),
-        vue(configuration.vue),
-        assemble(configuration.assemble),
-        core.match(['*.less'], [
-            less(true, Object.assign({
-                minimize: isProduction
-            }, configuration.less)),
-            extractText(configuration.extractText || cssFileName)
-        ]),
-        core.match(['*.scss'], [
+        core.match(/\.vue$/, [
             sass(true, Object.assign({
                 minimize: isProduction
             }, configuration.sass)),
-            extractText(configuration.extractText || cssFileName)
+            vue(configuration.vue),
+            extractText(configuration.extractTextVue || vueStyleFileName, 'vue', {
+                name: 'scss',
+                test: /\.scss$/,
+                extract: {
+                    fallback: require.resolve('vue-style-loader')
+                }
+            })
+        ]),
+        assemble(configuration.assemble),
+        core.match(/\.less$/, [
+            less(true, Object.assign({
+                minimize: isProduction
+            }, configuration.less)),
+            extractText(configuration.extractTextLess || lessStyleFileName)
+        ]),
+        core.match(/\.scss$/, [
+            sass(true, Object.assign({
+                minimize: isProduction
+            }, configuration.sass)),
+            extractText(configuration.extractTextScss || scssStyleFileName)
         ]),
         core.match(/\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i, [
             assets.url(Object.assign({
-                name: 'image/[name].[hash:8].[ext]',
+                name: 'image/[name]-[hash:8].[ext]',
                 limit: 10000
             }, configuration.image)),
             configuration.imageLoader ? assets.image(configuration.imageLoader || {}) : ''
         ]),
         core.match(/\.svg(\?.*)?$/, [
             assets.url(Object.assign({
-                name: 'image/[name].[hash:8].[ext]',
+                name: 'image/[name]-[hash:8].[ext]',
                 minetype: 'image/svg+xml'
             }, configuration.svg))
         ]),
         core.match(/\.(woff|woff2|ttf|eot)(\?.*)?$/, [
             assets.file(Object.assign({
-                name: 'font/[name].[hash:8].[ext]'
+                name: 'font/[name]-[hash:8].[ext]'
             }, configuration.font))
         ]),
+        manifest(configuration.manifestPlugin),
         addPlugins(plugins)
     ];
 

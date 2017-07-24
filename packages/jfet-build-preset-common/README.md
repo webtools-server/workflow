@@ -35,10 +35,17 @@ module.exports = {
 - Default:
 
 ```javascript
-{ fileName: 'mainfest.json' }
+{
+    assetsPath: '',
+    output: path.join(compiler.outputPath, 'manifest.json'),
+    sep: '-',
+    include: ['.js', '.css'],
+    appName: stats.publicPath,
+    cache: {}
+}
 ```
 
-使用[webpack-manifest-plugin](https://www.npmjs.com/package/webpack-manifest-plugin)，生成静态资源表
+使用[jfet-build-block-manifest](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-manifest)
 
 ### uglifyJsPlugin
 - Type: `Object`
@@ -195,11 +202,24 @@ module.exports = {
 
 使用[jfet-build-block-sass](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-sass)
 
-### extractText
+### extractTextVue
 - Type: `Object`
-- Default: isProduction ? 'css/[name].[hash:8].css' : 'css/[name].css'
+- Default: isProduction ? 'css/[name].vue.[chunkhash:8].css' : 'css/[name].vue.css'
 
 使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+
+### extractTextLess
+- Type: `Object`
+- Default: isProduction ? 'css/[name].less.[chunkhash:8].css' : 'css/[name].less.css'
+
+使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+
+### extractTextScss
+- Type: `Object`
+- Default: isProduction ? 'css/[name].scss.[chunkhash:8].css' : 'css/[name].scss.css'
+
+使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+
 
 ### image
 - Type: `Object`
