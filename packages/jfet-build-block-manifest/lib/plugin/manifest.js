@@ -17,7 +17,7 @@ class ManifestPlugin {
         const assetsPath = options.assetsPath || '';
         const output = options.output;
         const sep = options.sep || '-';
-        const include = options.include || ['.js', '.css'];
+        const include = (typeof options.include === 'undefined') ? ['.js', '.css'] : options.include;
 
         compiler.plugin('emit', (compilation, compileCallback) => {
             const stats = compilation.getStats().toJson();
@@ -32,7 +32,7 @@ class ManifestPlugin {
                 const finalHashName = name;
                 const extname = path.extname(name);
 
-                if (include.indexOf(extname) === -1) {
+                if (Array.isArray(include) && include.indexOf(extname) === -1) {
                     return;
                 }
 
