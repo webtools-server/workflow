@@ -44,9 +44,8 @@ function generate(templateName, cloneURL, outputPath, isForce) {
                     let content = fse.readFileSync(file, 'utf-8');
 
                     for (const k in answers) {
-                        content = content.replace(/\{\{=([A-Za-z0-9]+)\}\}/, (m, $1) => {
-                            return ($1 === k) ? answers[k] : '';
-                        });
+                        const regex = new RegExp(`{{=${k}}}`, 'g');
+                        content = content.replace(regex, answers[k]);
                     }
 
                     fse.outputFileSync(file, content);
