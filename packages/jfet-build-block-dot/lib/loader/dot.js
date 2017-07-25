@@ -22,7 +22,7 @@ function dotLoader() {
             const urlRequest = loaderUtils.urlToRequest(s1, htmlResourceRoot);
             code = `';out+='src="';out+=require(${JSON.stringify(urlRequest)});out+='"`;
         } else {
-            code = JSON.stringify(m);
+            code = m;
         }
 
         return code;
