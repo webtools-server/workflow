@@ -17,7 +17,7 @@ class ManifestPlugin {
     const assetsPath = options.assetsPath || '';
     const output = options.output;
     const sep = options.sep || '-';
-    const include = (typeof options.include === 'undefined') ? ['.js', '.css'] : options.include;
+    const include = options.include; // example: ['.js', '.css']
 
     compiler.plugin('emit', (compilation, compileCallback) => {
       const stats = compilation.getStats().toJson();
