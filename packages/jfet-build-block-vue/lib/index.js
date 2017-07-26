@@ -9,15 +9,13 @@
  * @return {Function}
  */
 function vue(options = {}) {
-    return (context, util) => util.addLoader(
-        Object.assign({
-            test: /\.vue$/,
-            use: [{
-                loader: require.resolve('vue-loader'),
-                options
-            }]
-        }, context.match)
-    );
+  return (context, util) => util.addLoader(
+    Object.assign({
+      test: /\.vue$/,
+      loader: require.resolve('vue-loader'),
+      options
+    }, context.match)
+  );
 }
 
 module.exports = vue;

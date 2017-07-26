@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-preset-common",
-  "version": "1.0.4",
+  "version": "1.0.11",
   "description": "common build preset for jfet",
   "main": "lib/index.js",
   "scripts": {
@@ -18,18 +18,19 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
-    "@jyb/jfet-build-block-assemble": "^1.0.3",
-    "@jyb/jfet-build-block-assets": "^1.0.3",
-    "@jyb/jfet-build-block-babel6": "^1.0.0",
-    "@jyb/jfet-build-block-dot": "^1.0.4",
-    "@jyb/jfet-build-block-less": "^1.0.0",
-    "@jyb/jfet-build-block-sass": "^1.0.0",
-    "@jyb/jfet-build-block-vue": "^1.0.0",
-    "@jyb/jfet-build-block-webpack3": "^1.0.0",
+    "@jyb/jfet-build-block-assemble": "^1.0.11",
+    "@jyb/jfet-build-block-assets": "^1.0.11",
+    "@jyb/jfet-build-block-babel6": "^1.0.11",
+    "@jyb/jfet-build-block-dot": "^1.0.11",
+    "@jyb/jfet-build-block-less": "^1.0.11",
+    "@jyb/jfet-build-block-manifest": "^1.0.11",
+    "@jyb/jfet-build-block-sass": "^1.0.11",
+    "@jyb/jfet-build-block-vue": "^1.0.11",
+    "@jyb/jfet-build-block-webpack3": "^1.0.11",
     "autoprefixer": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chalk": "^2.0.1",
-    "webpack-manifest-plugin": "^1.1.2"
+    "vue-style-loader": "^3.0.1"
   }
 }

@@ -5,24 +5,24 @@
 const toStr = Object.prototype.toString;
 
 function isPromise(p) {
-    return toStr.call(p) === '[object Promise]';
+  return toStr.call(p) === '[object Promise]';
 }
 
 function isFunction(fn) {
-    return typeof fn === 'function';
+  return typeof fn === 'function';
 }
 
 function isString(str) {
-    return typeof str === 'string';
+  return typeof str === 'string';
 }
 
 function isObject(obj) {
-    return toStr.call(obj) === '[object Object]';
+  return toStr.call(obj) === '[object Object]';
 }
 
 module.exports = {
-    isPromise,
-    isString,
-    isObject,
-    isFunction
+  isPromise,
+  isString,
+  isObject,
+  isFunction
 };

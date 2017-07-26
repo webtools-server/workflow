@@ -10,11 +10,11 @@ const fse = require('fs-extra');
  * @return {Boolean}
  */
 function fileExists(filePath) {
-    try {
-        return fse.statSync(filePath).isFile();
-    } catch (e) {
-        return false;
-    }
+  try {
+    return fse.statSync(filePath).isFile();
+  } catch (e) {
+    return false;
+  }
 }
 
 /**
@@ -23,14 +23,14 @@ function fileExists(filePath) {
  * @return {String}
  */
 function readFile(filePath) {
-    try {
-        return fse.readFileSync(filePath);
-    } catch (e) {
-        return '';
-    }
+  try {
+    return fse.readFileSync(filePath);
+  } catch (e) {
+    return '';
+  }
 }
 
 module.exports = {
-    fileExists,
-    readFile
+  fileExists,
+  readFile
 };

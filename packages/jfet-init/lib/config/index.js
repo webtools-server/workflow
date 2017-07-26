@@ -2,8 +2,8 @@
  * 公用配置
  */
 
-// gitlab group http://git.jtjr.com/api/v3/groups/noop
-const gitlabGroup = 'http://git.jtjr.com/groups/noop';
+// gitlab group http://git.jtjr.com/api/v3/groups/h5_webtools_grp
+const gitlabGroup = 'http://git.jtjr.com/groups/h5_webtools_grp';
 
 // userAgent
 const userAgent = 'jfet-init';
@@ -22,17 +22,17 @@ const templatePath = 'template';
 
 // 配置问答
 const questions = [{
-    type: 'input',
-    name: 'privateToken',
-    message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
+  type: 'input',
+  name: 'privateToken',
+  message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
 }];
 
 module.exports = {
-    gitlabGroup,
-    userAgent,
-    templatePrefix,
-    configFile,
-    templatePath,
-    globSearchFiles,
-    questions
+  gitlabGroup,
+  userAgent,
+  templatePrefix,
+  configFile,
+  templatePath,
+  globSearchFiles,
+  questions
 };

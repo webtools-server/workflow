@@ -12,7 +12,7 @@ const arraySlice = Array.prototype.slice;
  * @return {String}
  */
 function getType(variable) {
-    return toStr.call(variable).replace(/\[object\s+(\w*)\]/, (m, $1) => $1);
+  return toStr.call(variable).replace(/\[object\s+(\w*)\]/, (m, $1) => $1);
 }
 
 /**
@@ -21,7 +21,7 @@ function getType(variable) {
  * @return {Boolean}
  */
 function isString(str) {
-    return getType(str) === 'String';
+  return getType(str) === 'String';
 }
 
 /**
@@ -30,7 +30,7 @@ function isString(str) {
  * @return {Boolean}
  */
 function isArray(arr) {
-    return Array.isArray(arr);
+  return Array.isArray(arr);
 }
 
 /**
@@ -39,7 +39,7 @@ function isArray(arr) {
  * @return {Boolean}
  */
 function isFunction(fn) {
-    return typeof fn === 'function';
+  return typeof fn === 'function';
 }
 
 /**
@@ -48,7 +48,7 @@ function isFunction(fn) {
  * @return {Boolean}
  */
 function isBoolean(bool) {
-    return typeof bool === 'boolean';
+  return typeof bool === 'boolean';
 }
 
 /**
@@ -57,7 +57,7 @@ function isBoolean(bool) {
  * @return {Boolean}
  */
 function isObject(obj) {
-    return getType(obj) === 'Object';
+  return getType(obj) === 'Object';
 }
 
 /**
@@ -66,17 +66,17 @@ function isObject(obj) {
  * @return {String}
  */
 function firstUpperCase(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 module.exports = {
-    hasOwn,
-    arraySlice,
-    getType,
-    isString,
-    isObject,
-    isArray,
-    isFunction,
-    isBoolean,
-    firstUpperCase
+  hasOwn,
+  arraySlice,
+  getType,
+  isString,
+  isObject,
+  isArray,
+  isFunction,
+  isBoolean,
+  firstUpperCase
 };

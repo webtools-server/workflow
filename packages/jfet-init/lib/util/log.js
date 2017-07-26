@@ -11,7 +11,7 @@ const logger = console.log;
  * @param {*} msg 
  */
 function info(msg) {
-    logger(chalk.green(msg));
+  logger(chalk.green(msg));
 }
 
 /**
@@ -19,7 +19,7 @@ function info(msg) {
  * @param {*} msg 
  */
 function warn(msg) {
-    logger(chalk.yellow(msg));
+  logger(chalk.yellow(msg));
 }
 
 /**
@@ -27,11 +27,11 @@ function warn(msg) {
  * @param {*} msg 
  */
 function error(msg) {
-    logger(chalk.red(msg));
+  logger(chalk.red(msg));
 }
 
 module.exports = {
-    info,
-    warn,
-    error
+  info,
+  warn,
+  error
 };

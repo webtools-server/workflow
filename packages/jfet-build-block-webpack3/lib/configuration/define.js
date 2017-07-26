@@ -14,28 +14,29 @@
  * @return {Function}
  */
 function defineConstants(constants) {
-    const setter = context => (prevConfig) => {
-        context.defineConstants = Object.assign({}, context.defineConstants, constants);
-        return prevConfig;
-    };
+  const setter = context => (prevConfig) => {
+    context.defineConstants = Object.assign({}, context.defineConstants, constants);
+    return prevConfig;
+  };
 
-    return Object.assign(setter, { post: addDefinePlugin });
+  return Object.assign(setter, { post: addDefinePlugin });
 }
 
 function addDefinePlugin(context, util) {
-    const stringify = value => JSON.stringify(value, null, 2);
-    const stringifiedConstants = mapProps(context.defineConstants, stringify);
+  const stringify = value => JSON.stringify(value, null, 2);
+  const stringifiedConstants = mapProps(context.defineConstants, stringify);
 
-    return util.addPlugin(
-        new context.webpack.DefinePlugin(stringifiedConstants)
-    );
+  return util.addPlugin(
+    new context.webpack.DefinePlugin(stringifiedConstants)
+  );
 }
 
 function mapProps(object, valueMapper) {
-    return Object.keys(object)
-        .map(propKey => ({
-            [propKey]: valueMapper(object[propKey]) }))
-        .reduce((newObject, partial) => Object.assign(newObject, partial), {});
+  return Object.keys(object)
+    .map(propKey => ({
+      [propKey]: valueMapper(object[propKey])
+    }))
+    .reduce((newObject, partial) => Object.assign(newObject, partial), {});
 }
 
 module.exports = defineConstants;

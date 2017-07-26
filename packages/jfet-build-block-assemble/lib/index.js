@@ -11,9 +11,9 @@ const AssemblePlugin = require('./plugin/assemble');
  * @return {Function}
  */
 function assemble(options = {}) {
-    return (context, util) => util.addPlugin(
-        new AssemblePlugin(options)
-    );
+  return (context, util) => util.addPlugin(
+    new AssemblePlugin(options)
+  );
 }
 
 module.exports = assemble;

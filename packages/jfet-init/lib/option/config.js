@@ -16,29 +16,29 @@ const optionConfig = {};
  * 配置
  */
 optionConfig.run = () => {
-    co(function* () {
-        try {
-            const answers = yield configPrompt();
-            fse.outputFileSync(CONFIG_URL, JSON.stringify(answers, null, 4));
-            utilLog.info('配置写入成功');
-        } catch (e) {
-            utilLog.error('配置写入失败');
-        }
-    }).catch((err) => {
-        utilLog.error(err);
-        process.exit(1);
-    });
+  co(function* () {
+    try {
+      const answers = yield configPrompt();
+      fse.outputFileSync(CONFIG_URL, JSON.stringify(answers, null, 2));
+      utilLog.info('配置写入成功');
+    } catch (e) {
+      utilLog.error('配置写入失败');
+    }
+  }).catch((err) => {
+    utilLog.error(err);
+    process.exit(1);
+  });
 };
 
 /**
  * 配置引导
  */
 function configPrompt() {
-    return new Promise((resolve) => {
-        inquirer.prompt(config.questions).then((answers) => {
-            resolve(answers);
-        });
+  return new Promise((resolve) => {
+    inquirer.prompt(config.questions).then((answers) => {
+      resolve(answers);
     });
+  });
 }
 
 module.exports = optionConfig;
