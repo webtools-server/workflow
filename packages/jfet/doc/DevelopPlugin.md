@@ -47,7 +47,10 @@ module.exports = {
 
 ## 调试
 
-如果当前目录下的`package.json`中有`jfetOptions`字段，并且存在`commandPlugin`，则优先查找`jfetOptions.commandPlugin`作为插件入口
+如果当前目录下的`package.json`中有`jfetOptions`字段，并有两个字段：
+
+- `commandPlugin`，优先查找`jfetOptions.commandPlugin`作为插件入口
+- `configFilePath`，优先查找`jfetOptions.configFilePath`作为配置文件路径
 
 ```javascript
 "jfetOptions": {
