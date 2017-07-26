@@ -10,44 +10,43 @@
  * @see https://webpack.github.io/docs/configuration.html#entry
  */
 function entryPoint(entry) {
-    return (context, util) => util.merge({
-        entry: normalizeEntry(entry)
-    });
+  return (context, util) => util.merge({
+    entry: normalizeEntry(entry)
+  });
 }
 
 function scanEntry(options) {
-    return (context, util) => {
-        const scanResult = util.scan(options);
+  return (context, util) => {
+    const scanResult = util.scan(options);
 
-        return util.merge({
-            entry: scanResult
-        });
-    };
+    return util.merge({
+      entry: scanResult
+    });
+  };
 }
 
 function normalizeEntry(entry) {
-    if (Array.isArray(entry)) {
-        return {
-            main: entry
-        };
-    } else if (typeof entry === 'string') {
-        return {
-            main: [entry]
-        };
-    } else if (typeof entry === 'object') {
-        Object.keys(entry).forEach((entryName) => {
-            if (!Array.isArray(entry[entryName])) {
-                entry[entryName] = [entry[entryName]];
-            }
-        });
-        return entry;
-    }
+  if (Array.isArray(entry)) {
+    return {
+      main: entry
+    };
+  } else if (typeof entry === 'string') {
+    return {
+      main: [entry]
+    };
+  } else if (typeof entry === 'object') {
+    Object.keys(entry).forEach((entryName) => {
+      if (!Array.isArray(entry[entryName])) {
+        entry[entryName] = [entry[entryName]];
+      }
+    });
+    return entry;
+  }
 
-    return {};
+  return {};
 }
 
 module.exports = {
-    entryPoint,
-    scanEntry
+  entryPoint,
+  scanEntry
 };
-

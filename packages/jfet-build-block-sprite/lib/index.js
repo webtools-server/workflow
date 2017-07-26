@@ -11,9 +11,9 @@ const SpritesmithPlugin = require('webpack-spritesmith');
  * @return {Function}
  */
 function sprite(options = {}) {
-    return (context, util) => util.addPlugin(
-        new SpritesmithPlugin(options)
-    );
+  return (context, util) => util.addPlugin(
+    new SpritesmithPlugin(options)
+  );
 }
 
 module.exports = sprite;

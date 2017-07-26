@@ -11,9 +11,9 @@ const ManifestPlugin = require('./plugin/manifest');
  * @return {Function}
  */
 function manifest(options = {}) {
-    return (context, util) => util.addPlugin(
-        new ManifestPlugin(options)
-    );
+  return (context, util) => util.addPlugin(
+    new ManifestPlugin(options)
+  );
 }
 
 module.exports = manifest;

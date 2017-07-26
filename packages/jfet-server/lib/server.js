@@ -16,106 +16,106 @@ const util = require('./util');
 const koaSSI = require('./middleware/ssi');
 
 class Server {
-    constructor(cwd, port, ssi, livereload) {
-        this.cwd = cwd;
-        this.port = port;
-        this.ssi = ssi;
-        this.livereload = livereload;
+  constructor(cwd, port, ssi, livereload) {
+    this.cwd = cwd;
+    this.port = port;
+    this.ssi = ssi;
+    this.livereload = livereload;
 
-        this.app = new Koa();
+    this.app = new Koa();
 
-        // ssi/livereload config
-        this.config = {};
+    // ssi/livereload config
+    this.config = {};
 
-        // router && proxy
-        this.routerStore = [];
-        this.proxy = koaProxy;
+    // router && proxy
+    this.routerStore = [];
+    this.proxy = koaProxy;
+  }
+
+  init() {
+    const currentPath = path.join(process.cwd(), this.cwd);
+    // body parser
+    this.app.use(bodyParser());
+
+    // ssi
+    if (this.ssi) {
+      this.app.use(koaSSI(currentPath, this.config.ssi));
     }
 
-    init() {
-        const currentPath = path.join(process.cwd(), this.cwd);
-        // body parser
-        this.app.use(bodyParser());
+    // static serve
+    this.app.use(serve(currentPath));
+  }
 
-        // ssi
-        if (this.ssi) {
-            this.app.use(koaSSI(currentPath, this.config.ssi));
-        }
+  browserSync(options) {
+    const liveReloadConfig = this.config.livereload || {};
+    const bs = browserSync.create();
 
-        // static serve
-        this.app.use(serve(currentPath));
+    bs.init(Object.assign({
+      open: 'external',
+      port: 8097,
+      notify: false,
+      proxy: options.proxy
+    }, liveReloadConfig.init));
+    bs.watch(liveReloadConfig.watch, {
+      interval: 1000
+    }).on('change', bs.reload);
+  }
+
+  setConfig(options) {
+    if (!util.isObject(options)) {
+      throw new Error('Config type error.');
+    }
+    Object.assign(this.config, options);
+  }
+
+  setLiveReloadConfig(options) {
+    Object.assign(this.liveReloadConfig, options);
+  }
+
+  registerRouter(method, rpath, middlewares) {
+    if (arguments.length !== 3) {
+      throw new Error('registerRouter params error.');
     }
 
-    browserSync(options) {
-        const liveReloadConfig = this.config.livereload || {};
-        const bs = browserSync.create();
+    this.routerStore.push({
+      path: rpath,
+      method,
+      middlewares
+    });
+  }
 
-        bs.init(Object.assign({
-            open: 'external',
-            port: 8097,
-            notify: false,
-            proxy: options.proxy
-        }, liveReloadConfig.init));
-        bs.watch(liveReloadConfig.watch, {
-            interval: 1000
-        }).on('change', bs.reload);
+  start() {
+    // init
+    this.init();
+    // router
+    const router = new Router();
+    const routerStore = this.routerStore;
+
+    routerStore.forEach((rs) => {
+      let middlewares = rs.middlewares;
+
+      if (!Array.isArray(middlewares)) {
+        middlewares = [middlewares];
+      }
+
+      router[rs.method](rs.path, ...middlewares);
+    });
+    this.app.use(router.routes()).use(router.allowedMethods());
+
+    // listen
+    const port = parseInt(this.port, 10);
+    const opnURL = `http://${util.getIPAddress}:${port}`;
+
+    this.app.listen(port);
+    console.log(chalk.green(`server listening on ${opnURL}`));
+
+    // livereload
+    if (this.livereload) {
+      this.browserSync({ proxy: opnURL });
+    } else {
+      opn(opnURL);
     }
-
-    setConfig(options) {
-        if (!util.isObject(options)) {
-            throw new Error('Config type error.');
-        }
-        Object.assign(this.config, options);
-    }
-
-    setLiveReloadConfig(options) {
-        Object.assign(this.liveReloadConfig, options);
-    }
-
-    registerRouter(method, rpath, middlewares) {
-        if (arguments.length !== 3) {
-            throw new Error('registerRouter params error.');
-        }
-
-        this.routerStore.push({
-            path: rpath,
-            method,
-            middlewares
-        });
-    }
-
-    start() {
-        // init
-        this.init();
-        // router
-        const router = new Router();
-        const routerStore = this.routerStore;
-
-        routerStore.forEach((rs) => {
-            let middlewares = rs.middlewares;
-
-            if (!Array.isArray(middlewares)) {
-                middlewares = [middlewares];
-            }
-
-            router[rs.method](rs.path, ...middlewares);
-        });
-        this.app.use(router.routes()).use(router.allowedMethods());
-
-        // listen
-        const port = parseInt(this.port, 10);
-        const opnURL = `http://${util.getIPAddress}:${port}`;
-
-        this.app.listen(port);
-        console.log(chalk.green(`server listening on ${opnURL}`));
-
-        // livereload
-        if (this.livereload) {
-            this.browserSync({ proxy: opnURL });
-        } else {
-            opn(opnURL);
-        }
-    }
+  }
 }
 
 module.exports = Server;

@@ -8,19 +8,19 @@
  * @return {Boolean}
  */
 function isArrayOfFunc(params) {
-    if (!Array.isArray(params)) {
-        return false;
-    }
+  if (!Array.isArray(params)) {
+    return false;
+  }
 
-    for (let i = 0, l = params.length; i < l; i++) {
-        if (typeof params[i] !== 'function') {
-            return false;
-        }
+  for (let i = 0, l = params.length; i < l; i++) {
+    if (typeof params[i] !== 'function') {
+      return false;
     }
+  }
 
-    return true;
+  return true;
 }
 
 module.exports = {
-    isArrayOfFunc
+  isArrayOfFunc
 };

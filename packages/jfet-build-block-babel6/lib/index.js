@@ -14,38 +14,38 @@ const babelLoader = require.resolve('babel-loader');
  * @return {Function}
  */
 function babel(options = {}) {
-    options = Object.assign({
-        cacheDirectory: true
-    }, options);
+  options = Object.assign({
+    cacheDirectory: true
+  }, options);
 
-    const setter = context => (prevConfig) => {
-        context.babel = context.babel || {};
+  const setter = context => (prevConfig) => {
+    context.babel = context.babel || {};
 
-        // Merge babel config into the one stored in context
-        context.babel = Object.assign({},
-            context.babel,
-            options,
-            options.plugins ? { plugins: (context.babel.plugins || []).concat(options.plugins) } : {},
-            options.presets ? { presets: (context.babel.presets || []).concat(options.presets) } : {}
-        );
-        return prevConfig;
-    };
+    // Merge babel config into the one stored in context
+    context.babel = Object.assign({},
+      context.babel,
+      options,
+      options.plugins ? { plugins: (context.babel.plugins || []).concat(options.plugins) } : {},
+      options.presets ? { presets: (context.babel.presets || []).concat(options.presets) } : {}
+    );
+    return prevConfig;
+  };
 
-    return Object.assign(setter, { post: postConfig });
+  return Object.assign(setter, { post: postConfig });
 }
 
 babel.loader = babelLoader;
 
 function postConfig(context, util) {
-    const ruleConfig = Object.assign({
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: [
-            { loader: babelLoader, options: context.babel }
-        ]
-    }, context.match);
+  const ruleConfig = Object.assign({
+    test: /\.(js|jsx)$/,
+    exclude: /node_modules/,
+    use: [
+      { loader: babelLoader, options: context.babel }
+    ]
+  }, context.match);
 
-    return util.addLoader(ruleConfig);
+  return util.addLoader(ruleConfig);
 }
 
 module.exports = babel;

@@ -16,13 +16,13 @@ const URL_REGEX = /^(http|https):\/\//;
  * @param {Boolean} force 是否先清空输出路径
  */
 optionTemplate.run = (opts) => {
-    const { template, output, force } = opts;
+  const { template, output, force } = opts;
 
-    if (URL_REGEX.test(template)) {
-        generate(template, template, output, force);
-    } else {
-        utilLog.error('URL format error.');
-    }
+  if (URL_REGEX.test(template)) {
+    generate(template, template, output, force);
+  } else {
+    utilLog.error('URL format error.');
+  }
 };
 
 module.exports = optionTemplate;

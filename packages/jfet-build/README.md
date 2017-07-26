@@ -28,7 +28,7 @@ jfet build --help
 
 ```javascript
 module.exports = {
-    build(context) {
+    build(abc, context) {
         // 环境 watch,build
         context.env
         // 构建方案

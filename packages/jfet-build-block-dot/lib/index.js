@@ -9,15 +9,15 @@
  * @return {Function}
  */
 function dot(options = {}) {
-    return (context, util) => util.addLoader(
-        Object.assign({
-            test: /\.dot$/,
-            use: [{
-                loader: require.resolve('./loader/dot'),
-                options
-            }]
-        }, context.match)
-    );
+  return (context, util) => util.addLoader(
+    Object.assign({
+      test: /\.dot$/,
+      use: [{
+        loader: require.resolve('./loader/dot'),
+        options
+      }]
+    }, context.match)
+  );
 }
 
 module.exports = dot;

@@ -33,7 +33,7 @@ jfet server --help
 
 ```javascript
 module.exports = {
-    server(context) {
+    server(abc, context) {
         const proxy = context.proxy;
 
         // ssi/livereload configuration

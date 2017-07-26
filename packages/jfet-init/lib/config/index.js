@@ -22,17 +22,17 @@ const templatePath = 'template';
 
 // 配置问答
 const questions = [{
-    type: 'input',
-    name: 'privateToken',
-    message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
+  type: 'input',
+  name: 'privateToken',
+  message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
 }];
 
 module.exports = {
-    gitlabGroup,
-    userAgent,
-    templatePrefix,
-    configFile,
-    templatePath,
-    globSearchFiles,
-    questions
+  gitlabGroup,
+  userAgent,
+  templatePrefix,
+  configFile,
+  templatePath,
+  globSearchFiles,
+  questions
 };
