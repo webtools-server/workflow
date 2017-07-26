@@ -15,5 +15,21 @@
     "lib"
   ],
   "author": "canye.wu@jyblife.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^2.0.0",
+    "chalk": "^2.0.1",
+    "co": "^4.6.0",
+    "extend": "^3.0.1",
+    "fs-extra": "^4.0.0",
+    "glob": "^7.1.2",
+    "md5": "^2.2.1",
+    "node-ssi": "^0.3.2",
+    "url-regex": "^4.1.1",
+    "xml": "^1.0.1"
+  },
+  "jfetOptions": {
+    "commandPlugin": "./lib/index.js",
+    "configFilePath": "demo"
+  }
 }
