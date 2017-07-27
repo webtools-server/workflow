@@ -14,6 +14,7 @@ const xml = require('xml');
 const archiver = require('archiver');
 const extend = require('extend');
 const urlModule = require('url');
+const inquirer = require('inquirer');
 const util = require('./util');
 
 const cwd = process.cwd();
@@ -40,7 +41,7 @@ const defaultOptions = {
     entry: '', // 业务包入口
     name: '', // 业务包名称
     desc: '', // 业务包介绍
-    login: true, // 是否需要登录
+    login: false, // 是否需要登录
     versionFormat: '1.0.0' // 包版本号
   }
 };
@@ -79,7 +80,7 @@ class Pack {
       manifest,
       zipUrl
     } = this.configuration;
-    const uid = appInfo.uid;
+    const uid = String(appInfo.uid) || '';
 
     if (!rootPath) {
       return console.log(chalk.red('File path is required.'));
@@ -92,7 +93,16 @@ class Pack {
     const tempPath = path.join(__dirname, `pack${Date.now()}`);
     co(function* () {
       try {
-        const realPath = path.join(tempPath, outputPath);
+        // 版本号设置
+        const pkgFile = path.join(cwd, 'package.json');
+        const pkg = util.tryRequire(pkgFile);
+
+        if (!pkg) {
+          throw new Error('Please add package.json file in current path.');
+        }
+
+        const versionFormat = yield that.versionPrompt(pkg.version);
+        const realPath = path.join(tempPath, uid, outputPath);
         const ssi = new SSI(Object.assign({
           baseDir: '.',
           ext: '.html'
@@ -132,7 +142,7 @@ class Pack {
         });
 
         // 打包
-        const releaseZipPath = path.join(releasePath, String(uid));
+        const releaseZipPath = path.join(releasePath, uid);
         const newManifest = util.tryRequire(path.join(manifest.filepath, manifest.name));
         const oldManifest = util.tryRequire(path.join(releaseZipPath, manifest.name));
         let releaseZipFile = path.join(releaseZipPath, `${uid}.zip`);
@@ -147,11 +157,14 @@ class Pack {
           releaseZipFile = path.join(releaseZipPath, `${uid}_patch.zip`);
           that.removeFiles(realPath, publicPath, that.getNotModifiedFiles(newManifest, oldManifest));
           console.log(chalk.green('Pack incremental package'));
+        } else {
+          // 只有第一次全量包的时候才生成manifest文件到发布目录
+          fse.outputFileSync(path.join(releaseZipPath, manifest.name), JSON.stringify(newManifest, null, 2));
+          console.log(chalk.green('Output manifest file'));
         }
 
         // 生成zip包
         yield that.createZip(releaseZipFile, tempPath);
-        fse.outputFileSync(path.join(releaseZipPath, manifest.name), JSON.stringify(newManifest, null, 2));
 
         // 生成xml文件
         const settings = {
@@ -160,7 +173,7 @@ class Pack {
             name: appInfo.name,
             descriptor: appInfo.desc,
             login: appInfo.login,
-            version: appInfo.versionFormat,
+            version: versionFormat,
             md5: md5(fse.readFileSync(releaseZipFile)),
             zip: `${zipUrl}/${uid}/${uid}.zip`,
             patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
@@ -178,6 +191,9 @@ class Pack {
 
         // 删除temp目录
         fse.removeSync(tempPath);
+        // 设置下当前目录的package.json的版本
+        pkg.version = versionFormat;
+        fse.outputFileSync(pkgFile, JSON.stringify(pkg, null, 2));
         console.log(chalk.green('Pack success'));
       } catch (e) {
         console.log(chalk.red(e));
@@ -225,6 +241,21 @@ class Pack {
   }
 
   /**
+   * 输入版本
+   */
+  versionPrompt(currentVersion) {
+    return new Promise((resolve) => {
+      inquirer.prompt([{
+        type: 'input',
+        name: 'version',
+        message: `请输入版本号（当前版本:${currentVersion}）：`
+      }]).then((answers) => {
+        resolve(answers.version || currentVersion || '1.0.0');
+      });
+    });
+  }
+
+  /**
    * 检查配置是否正确
    * @param {Object} data 数据
    * @return {Boolean}
@@ -232,7 +263,7 @@ class Pack {
   checkSetting(data) {
     const rules = [{
       name: 'uid',
-      type: 'Number'
+      type: 'String'
     }, {
       name: 'name',
       type: 'String'
