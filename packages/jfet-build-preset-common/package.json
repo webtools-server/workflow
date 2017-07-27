@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-preset-common",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "common build preset for jfet",
   "main": "lib/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "@jyb/jfet-build-block-babel6": "^1.0.11",
     "@jyb/jfet-build-block-dot": "^1.0.11",
     "@jyb/jfet-build-block-less": "^1.0.11",
-    "@jyb/jfet-build-block-manifest": "^1.0.11",
+    "@jyb/jfet-build-block-manifest": "^1.0.12",
     "@jyb/jfet-build-block-sass": "^1.0.11",
     "@jyb/jfet-build-block-vue": "^1.0.11",
     "@jyb/jfet-build-block-webpack3": "^1.0.11",

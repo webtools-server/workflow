@@ -90,6 +90,7 @@ class Server {
     // router
     const router = new Router();
     const routerStore = this.routerStore;
+    const opnPath = this.config.opnPath || '';
 
     routerStore.forEach((rs) => {
       let middlewares = rs.middlewares;
@@ -104,10 +105,11 @@ class Server {
 
     // listen
     const port = parseInt(this.port, 10);
-    const opnURL = `http://${util.getIPAddress}:${port}`;
+    const listenURL = `http://${util.getIPAddress}:${port}`;
+    const opnURL = `${listenURL}${opnPath}`;
 
     this.app.listen(port);
-    console.log(chalk.green(`server listening on ${opnURL}`));
+    console.log(chalk.green(`server listening on ${listenURL}`));
 
     // livereload
     if (this.livereload) {

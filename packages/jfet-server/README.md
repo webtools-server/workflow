@@ -40,6 +40,7 @@ module.exports = {
         // see https://github.com/yanni4night/node-ssi
         // see https://www.browsersync.io/docs/api
         context.setConfig({
+            opnPath: '/public/pages/index.html', // 自动打开地址
             ssi: {
                 baseDir: '..',
                 ext: '.html'
