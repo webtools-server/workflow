@@ -42,7 +42,6 @@ const defaultOptions = {
     name: '', // 业务包名称
     desc: '', // 业务包介绍
     login: false, // 是否需要登录
-    versionFormat: '1.0.0' // 包版本号
   }
 };
 
