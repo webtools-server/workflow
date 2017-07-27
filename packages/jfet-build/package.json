@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "build command plugin for jfet.",
   "main": "lib/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
-    "@jyb/jfet-build-preset-common": "^1.0.11",
+    "@jyb/jfet-build-preset-common": "^1.0.12",
     "chalk": "^2.0.1",
     "co": "^4.6.0",
     "glob": "^7.1.2",
