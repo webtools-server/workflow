@@ -11,43 +11,18 @@ const chalk = require('chalk');
 const glob = require('glob');
 const urlRegex = require('url-regex');
 const xml = require('xml');
-const archiver = require('archiver');
 const extend = require('extend');
 const urlModule = require('url');
-const inquirer = require('inquirer');
 const util = require('./util');
+const helper = require('./helper');
+const defaultOptions = require('./options');
 
 const cwd = process.cwd();
-const defaultOptions = {
-  root: path.join(cwd, 'public'), // 打包的文件根目录
-  ssiPattern: 'pages/*.html', // 相对root
-  ssi: { // ssi配置
-    baseDir: cwd // sinclude目录
-  },
-  fullLink: { // 用于增加//形式加载资源的协议头部
-    pattern: '**/*.{js,css,html}', // 相对root
-    protocol: 'https' // 替换的协议
-  },
-  outputPath: '', // 输出路径，指的是压缩包内路径
-  releasePath: path.join(cwd, 'h5zip'), // 发布路径
-  publicPath: '../', // 跟webpack publicPath一致
-  manifest: {
-    filepath: path.join(cwd, 'public'), // manifest路径
-    name: 'manifest.json' // manifest文件名字
-  },
-  zipUrl: '', // 包地址前缀，例如：http://example.com
-  app: { // 应用设置
-    uid: '', // 业务包UID，该ID需要用于app跳转链接的入口配置
-    entry: '', // 业务包入口
-    name: '', // 业务包名称
-    desc: '', // 业务包介绍
-    login: false, // 是否需要登录
-  }
-};
 
 class Pack {
   constructor(argv) {
-    this.configuration = Object.assign({}, argv);
+    this.argv = argv;
+    this.configuration = {};
   }
 
   /**
@@ -68,16 +43,12 @@ class Pack {
   start() {
     const that = this;
     let rootPath = this.configuration.root;
-    const ssiOptions = this.configuration.ssi;
     const appInfo = this.configuration.app;
     const {
-      ssiPattern,
-      fullLink,
       outputPath,
       releasePath,
       publicPath,
-      manifest,
-      zipUrl
+      manifest
     } = this.configuration;
     const uid = String(appInfo.uid) || '';
 
@@ -92,107 +63,67 @@ class Pack {
     const tempPath = path.join(__dirname, `pack${Date.now()}`);
     co(function* () {
       try {
-        // 版本号设置
-        const pkgFile = path.join(cwd, 'package.json');
-        const pkg = util.tryRequire(pkgFile);
+        const xmlFile = path.join(releasePath, `${uid}.xml`);
+        // 获取版本号
+        const versionFormat = that.getVersion(xmlFile);
 
-        if (!pkg) {
-          throw new Error('Please add package.json file in current path.');
-        }
-
-        const versionFormat = yield that.versionPrompt(pkg.version);
+        // 真实路径，离线包内容要求在名称为uid的目录下
         const realPath = path.join(tempPath, uid, outputPath);
-        const ssi = new SSI(Object.assign({
-          baseDir: '.',
-          ext: '.html'
-        }, ssiOptions));
 
         // 复制文件到realPath
         fse.copySync(rootPath, realPath);
         console.log(chalk.green(`Copy files from "${rootPath}"`));
 
         // 解析sinclude的路径
-        const ssiFiles = glob.sync(path.join(realPath, ssiPattern), { nodir: true });
-
-        if (Array.isArray(ssiFiles)) {
-          for (let i = 0, l = ssiFiles.length; i < l; i++) {
-            const currentSSIFile = ssiFiles[i];
-            fse.outputFileSync(currentSSIFile, yield that.compileFile(ssi, currentSSIFile));
-            console.log(chalk.green(`Parse sinclude the path from "${currentSSIFile}"`));
-          }
-        }
+        yield that.parseSinclude(realPath);
 
         // 增加fullLink
-        glob.sync(
-          path.join(realPath, fullLink.pattern), { nodir: true }
-        ).forEach((sfs) => {
-          let content = fse.readFileSync(sfs, 'utf-8');
-          const urlMatch = content.match(urlRegex());
-
-          if (Array.isArray(urlMatch)) {
-            util.uniqueArray(
-              urlMatch.filter(m => /^\/\//.test(m)).map(m => urlModule.parse(m).pathname)
-            ).forEach((m) => {
-              content = content.replace(new RegExp(m, 'g'), `${fullLink.protocol}:${m}`);
-              console.log(chalk.green(`Add protocol "${m}" from "${sfs}"`));
-            });
-            fse.outputFileSync(sfs, content);
-          }
-        });
+        that.replaceFullLink(realPath);
 
         // 打包
+        let useFull = that.argv.full;
         const releaseZipPath = path.join(releasePath, uid);
         const newManifest = util.tryRequire(path.join(manifest.filepath, manifest.name));
         const oldManifest = util.tryRequire(path.join(releaseZipPath, manifest.name));
-        let releaseZipFile = path.join(releaseZipPath, `${uid}.zip`);
+        const releaseFullZipFile = path.join(releaseZipPath, `${uid}.zip`);
+        const releaseIncrementalZipFile = path.join(releaseZipPath, `${uid}_patch.zip`);
 
         fse.ensureDirSync(releaseZipPath);
         if (!newManifest) {
           throw new Error(`${manifest.name} not found`);
         }
 
-        // 增量包
-        if (oldManifest) {
-          releaseZipFile = path.join(releaseZipPath, `${uid}_patch.zip`);
-          that.removeFiles(realPath, publicPath, that.getNotModifiedFiles(newManifest, oldManifest));
-          console.log(chalk.green('Pack incremental package'));
-        } else {
-          // 只有第一次全量包的时候才生成manifest文件到发布目录
-          fse.outputFileSync(path.join(releaseZipPath, manifest.name), JSON.stringify(newManifest, null, 2));
-          console.log(chalk.green('Output manifest file'));
-        }
+        // 生成全量包
+        yield helper.createZip(releaseFullZipFile, tempPath);
+        console.log(chalk.green('Pack full package'));
 
-        // 生成zip包
-        yield that.createZip(releaseZipFile, tempPath);
+        // 判断是否生成增量包
+        if (oldManifest) {
+          // 如果增量包的大小 > 全量包的大小，应该使用全量包
+          if (util.getFileSize(releaseIncrementalZipFile) > util.getFileSize(releaseFullZipFile)) {
+            useFull = true;
+          }
+
+          if (!useFull) {
+            helper.removeFiles(realPath, publicPath, helper.getNotModifiedFiles(newManifest, oldManifest));
+          }
+        }
+        yield helper.createZip(releaseIncrementalZipFile, tempPath);
+        console.log(chalk.green('Pack incremental package'));
+
+        // 这个版本，是否使用全量包
+        useFull = useFull || !oldManifest;
+        if (useFull) {
+          fse.outputFileSync(path.join(releaseZipPath, manifest.name), JSON.stringify(newManifest, null, 2));
+          console.log(chalk.yellow('This version will use full package'));
+          console.log(chalk.yellow('Output manifest file'));
+        }
 
         // 生成xml文件
-        const settings = {
-          package: {
-            uid,
-            name: appInfo.name,
-            descriptor: appInfo.desc,
-            login: appInfo.login,
-            version: versionFormat,
-            md5: md5(fse.readFileSync(releaseZipFile)),
-            zip: `${zipUrl}/${uid}/${uid}.zip`,
-            patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
-            entry: appInfo.entry
-          }
-        };
-        if (that.checkSetting(settings.package)) {
-          const xmlFile = path.join(releasePath, `${uid}.xml`);
-          fse.outputFileSync(
-            xmlFile,
-            xml([that.transformXMLData(settings)], { declaration: true, indent: '  ' })
-          );
-          console.log(chalk.green(`Create xml file, ${xmlFile}`));
-        }
+        that.createXMLFile(xmlFile, versionFormat, uid, appInfo, releaseFullZipFile);
 
         // 删除temp目录
         fse.removeSync(tempPath);
-        // 设置下当前目录的package.json的版本
-        pkg.version = versionFormat;
-        fse.outputFileSync(pkgFile, JSON.stringify(pkg, null, 2));
         console.log(chalk.green('Pack success'));
       } catch (e) {
         console.log(chalk.red(e));
@@ -202,181 +133,110 @@ class Pack {
   }
 
   /**
-   * 创建zip
-   * @param {String} zipFile zip文件
-   * @param {String} outputPath 输出路径
-   * @return {Promise}
+   * 获取版本
+   * @param {String} xmlFile xml文件
+   * @return {String}
    */
-  createZip(zipFile, outputPath) {
-    return new Promise((resolve, reject) => {
-      const outputZip = fse.createWriteStream(zipFile);
-      const archive = archiver('zip', {
-        zlib: { level: 9 }
-      });
+  getVersion(xmlFile) {
+    const pkgFile = path.join(cwd, 'package.json');
+    const pkg = util.tryRequire(pkgFile);
+    let versionFormat = '';
 
-      outputZip.on('close', () => {
-        console.log(chalk.green(`Zip: ${zipFile}`));
-        console.log(chalk.green(`${Math.round(archive.pointer() / 1024)} total kb`));
-        console.log(chalk.green('Archiver has been finalized and the output file descriptor has closed.'));
-        resolve();
-      });
+    // 当前目录没有package.json
+    if (!pkg) {
+      throw new Error('Please add package.json file in current path');
+    }
 
-      archive.on('warning', (err) => {
-        if (err.code === 'ENOENT') {
-          console.log(chalk.yellow(err));
-        } else {
-          reject(err);
-        }
-      });
+    // package.json没有设置version
+    versionFormat = pkg.version;
+    if (!versionFormat) {
+      throw new Error('Please add version in package.json');
+    }
 
-      archive.on('error', (err) => {
-        reject(err);
-      });
-
-      archive.pipe(outputZip);
-      archive.directory(outputPath, false);
-      archive.finalize();
-    });
-  }
-
-  /**
-   * 输入版本
-   */
-  versionPrompt(currentVersion) {
-    return new Promise((resolve) => {
-      inquirer.prompt([{
-        type: 'input',
-        name: 'version',
-        message: `请输入版本号（当前版本:${currentVersion}）：`
-      }]).then((answers) => {
-        resolve(answers.version || currentVersion || '1.0.0');
-      });
-    });
-  }
-
-  /**
-   * 检查配置是否正确
-   * @param {Object} data 数据
-   * @return {Boolean}
-   */
-  checkSetting(data) {
-    const rules = [{
-      name: 'uid',
-      type: 'String'
-    }, {
-      name: 'name',
-      type: 'String'
-    }, {
-      name: 'descriptor',
-      type: 'String'
-    }, {
-      name: 'login',
-      type: 'Boolean'
-    }, {
-      name: 'version',
-      type: 'String'
-    }, {
-      name: 'md5',
-      type: 'String'
-    }, {
-      name: 'zip',
-      type: 'String'
-    }, {
-      name: 'patch',
-      type: 'String'
-    }, {
-      name: 'entry',
-      type: 'String'
-    }];
-    const err = [];
-
-    rules.forEach((r) => {
-      const current = data[r.name];
-
-      if (util.getType(current) !== r.type) {
-        err.push(`${r.name} type must be ${r.type}`);
+    // 跟前一个版本号判断是否一致，如果一致需要先修改
+    if (util.fileExists(xmlFile)) {
+      const xmlContent = fse.readFileSync(xmlFile, 'utf-8');
+      const xmlMatch = xmlContent.match(/<version>(.*)<\/version>/);
+      if (xmlMatch && versionFormat === xmlMatch[1]) {
+        throw new Error(`Please modify the version, current version is ${versionFormat}`);
       }
-    });
-
-    if (err.length > 0) {
-      throw new Error(err.join('\n'));
-    }
-    return !err.length;
-  }
-
-  /**
-   * 转换为xml配置需要的格式
-   * @param {Object} data 数据
-   * @return {Object}
-   */
-  transformXMLData(data) {
-    const result = {};
-    const resPackage = [];
-
-    for (const k in data.package) {
-      resPackage.push({
-        [k]: data.package[k]
-      });
-    }
-    result.package = resPackage;
-    return result;
-  }
-
-  /**
-   * 获取没有修改的文件
-   * @param {Object} newFiles 新文件列表
-   * @param {Object} oldFiles 旧文件列表
-   * @return {String[]}
-   */
-  getNotModifiedFiles(newFiles, oldFiles) {
-    if (!util.isObject(newFiles) || !util.isObject(oldFiles)) {
-      throw new Error('manifest format error.');
     }
 
-    const notModified = [];
-    const newArrFiles = Object.keys(newFiles);
-
-    newArrFiles.forEach((file) => {
-      if (newFiles[file] === oldFiles[file]) {
-        notModified.push(newFiles[file]);
-      }
-    });
-
-    return notModified;
-  }
-
-  /**
-   * 删除文件
-   * @param {String} realPath 真实路径
-   * @param {String} publicPath 公共路径，跟webpack publicPath一致
-   * @param {String[]} files 文件路径
-   */
-  removeFiles(realPath, publicPath, files) {
-    files.forEach((f) => {
-      fse.removeSync(path.join(realPath, f.replace(publicPath, '')));
-    });
+    return versionFormat;
   }
 
   /**
    * 解析sinclude
-   * @param {Object} ssi SSI对象
-   * @param {String} filePath 文件路径
-   * @return {Promise}
+   * @param {String} realPath
+   * @return {Promise[]}
    */
-  compileFile(ssi, filePath) {
-    return new Promise((resolve, reject) => {
-      ssi.compileFile(filePath, (err, content) => {
-        if (err) {
-          if (err.code === 'ENOENT' && err.path === filePath) {
-            return reject(err);
-          }
+  parseSinclude(realPath) {
+    const { ssi, ssiPattern } = this.configuration;
+    const ssiObj = new SSI(Object.assign({
+      baseDir: '.',
+      ext: '.html'
+    }, ssi));
 
-          return reject(err);
-        }
-
-        resolve(content);
+    return glob.sync(path.join(realPath, ssiPattern), { nodir: true }).map((sfile) => {
+      return new Promise((resolve, reject) => {
+        helper.compileFile(ssiObj, sfile).then((content) => {
+          fse.outputFileSync(sfile, content);
+          console.log(chalk.green(`Parse sinclude the path from "${sfile}"`));
+          resolve();
+        }).catch((err) => {
+          reject(err);
+        });
       });
     });
+  }
+
+  /**
+   * 增加fullLink
+   * @param {String} realPath 
+   */
+  replaceFullLink(realPath) {
+    const { fullLink } = this.configuration;
+
+    glob.sync(
+      path.join(realPath, fullLink.pattern), { nodir: true }
+    ).forEach((sfs) => {
+      let content = fse.readFileSync(sfs, 'utf-8');
+      const urlMatch = content.match(urlRegex());
+
+      if (Array.isArray(urlMatch)) {
+        util.uniqueArray(
+          urlMatch.filter(m => /^\/\//.test(m)).map(m => urlModule.parse(m).pathname)
+        ).forEach((m) => {
+          content = content.replace(new RegExp(m, 'g'), `${fullLink.protocol}:${m}`);
+          console.log(chalk.green(`Add protocol "${m}" from "${sfs}"`));
+        });
+        fse.outputFileSync(sfs, content);
+      }
+    });
+  }
+
+  createXMLFile(xmlFile, versionFormat, uid, appInfo, zipFile) {
+    const { zipUrl } = this.configuration;
+    const settings = {
+      package: {
+        uid,
+        name: appInfo.name,
+        descriptor: appInfo.desc,
+        login: appInfo.login,
+        version: versionFormat,
+        md5: md5(fse.readFileSync(zipFile)),
+        zip: `${zipUrl}/${uid}/${uid}.zip`,
+        patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
+        entry: appInfo.entry
+      }
+    };
+    if (helper.checkSetting(settings.package)) {
+      fse.outputFileSync(
+        xmlFile,
+        xml([helper.transformXMLData(settings)], { declaration: true, indent: '  ' })
+      );
+      console.log(chalk.green(`Create xml file, ${xmlFile}`));
+    }
   }
 }
 

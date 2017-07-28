@@ -2,6 +2,8 @@
  * util
  */
 
+const fse = require('fs-extra');
+
 const toStr = Object.prototype.toString;
 
 /**
@@ -69,10 +71,38 @@ function uniqueArray(arr) {
   return ret;
 }
 
+/**
+ * 判断文件是否存在
+ * @param {String} filePath 文件路径
+ * @return {Boolean}
+ */
+function fileExists(filePath) {
+  try {
+    return fse.statSync(filePath).isFile();
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * 获取文件大小，byte
+ * @param {String} filePath 文件路径
+ * @return {Number}
+ */
+function getFileSize(filePath) {
+  try {
+    return fse.statSync(filePath).size;
+  } catch (e) {
+    return 0;
+  }
+}
+
 module.exports = {
   isObject,
   getType,
   resolvePath,
   uniqueArray,
-  tryRequire
+  tryRequire,
+  fileExists,
+  getFileSize
 };

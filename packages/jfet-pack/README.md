@@ -20,6 +20,7 @@ npm i @jyb/jfet-pack -g
 
 ```shell
 jfet pack
+jfet pack --full/-f // 使用全量包
 jfet pack --version
 jfet pack --help
 ```
