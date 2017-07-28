@@ -21,7 +21,12 @@ plugin.describe = 'pack command for jfet';
 
 // builder
 plugin.builder = {
-
+  full: {
+    type: 'boolean',
+    alias: 'f',
+    describe: 'Pack full package',
+    default: false
+  }
 };
 
 // handler
