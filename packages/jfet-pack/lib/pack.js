@@ -21,7 +21,7 @@ const cwd = process.cwd();
 
 class Pack {
   constructor(argv) {
-    this.argv = argv;
+    this.argv = argv || {};
     this.configuration = {};
   }
 

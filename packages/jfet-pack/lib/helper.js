@@ -22,10 +22,11 @@ function createZip(zipFile, outputPath) {
     });
 
     outputZip.on('close', () => {
+      const size = archive.pointer();
       console.log(chalk.green(`Zip: ${zipFile}`));
-      console.log(chalk.green(`${Math.round(archive.pointer() / 1024)} total kb`));
+      console.log(chalk.green(`${Math.round(size / 1024)} total kb`));
       console.log(chalk.green('Archiver has been finalized and the output file descriptor has closed.'));
-      resolve();
+      resolve(size);
     });
 
     archive.on('warning', (err) => {
