@@ -11,6 +11,7 @@
     "should": "^11.2.1"
   },
   "scripts": {
+    "publish": "lerna publish",
     "test": "mocha --recursive packages/**/test"
   },
   "repository": {
