@@ -10,6 +10,8 @@ function defaultPrefixFilter(name) { return name; }
 
 /**
  * 配置合并
+ * @param {Object} configSnippet 配置片段
+ * @return {Function}
  */
 function merge(configSnippet) {
   return prevConfig => webpackMerge.smart(prevConfig, configSnippet);
@@ -17,6 +19,8 @@ function merge(configSnippet) {
 
 /**
  * 添加loader
+ * @param {Object} loaderDef loader配置
+ * @return {Function}
  */
 function addLoader(loaderDef) {
   const cleanedLoaderDef = omitBy(loaderDef, v => typeof v === 'undefined');
@@ -29,6 +33,8 @@ function addLoader(loaderDef) {
 
 /**
  * 添加插件
+ * @param {Array|Object} plugin
+ * @return {Function}
  */
 function addPlugin(plugin) {
   return prevConfig => Object.assign({},
@@ -38,6 +44,10 @@ function addPlugin(plugin) {
 
 /**
  * 查找入口
+ * @param {Object} options
+ * @param {String} options.pattern glob like `*.css` or `{*.js, *.jsx}`
+ * @param {Function} options.prefixFilter 过滤函数
+ * @return {Object}
  */
 function scan(options = {}) {
   if (!options.pattern) {
