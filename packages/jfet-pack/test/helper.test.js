@@ -61,4 +61,31 @@ describe('lib/helper.js', () => {
 
     should(result[0]).be.equal(newFile['css/index.css']);
   });
+
+  it('should get remove files', () => {
+    const realPath = path.join(__dirname, 'temp');
+    const publicPath = '../';
+    const files = ['../js/home.js', '../css/home.css'];
+
+    // 创建文件
+    files.forEach((f) => {
+      f = f.replace(publicPath, '');
+      fse.outputFileSync(path.join(realPath, f));
+    });
+
+    helper.removeFiles(realPath, publicPath, files);
+
+    // 文件是否存在
+    const result = files.map((f) => {
+      f = f.replace(publicPath, '');
+      try {
+        return fse.statSync(path.join(realPath, f)).isFile();
+      } catch (e) {
+        return false;
+      }
+    }).every(r => r === false);
+
+    should(result).be.equal(true);
+    fse.removeSync(realPath);
+  });
 });
