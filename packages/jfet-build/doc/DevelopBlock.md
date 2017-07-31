@@ -25,6 +25,25 @@ function blockDemo(options = {}) {
 }
 ```
 
+## 执行过程
+
+每一个功能块都会经过3个过程，预处理（pre）-> 处理中（config）-> 后处理（post）
+
+```javascript
+function blockDemo(options = {}) {
+  const setter = context => (prevConfig) => {
+    return prevConfig;
+  };
+
+  return Object.assign(setter, {
+    pre(context) {}
+    post(context, util) {
+      return util.addLoader(config);
+    }
+  });
+}
+```
+
 ## 开发
 
 ```javascript
