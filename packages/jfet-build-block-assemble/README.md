@@ -10,14 +10,16 @@ npm i @jyb/jfet-build-block-assemble --save
 
 ## 使用
 
+更多用法见`jfet-build`的`开发构建功能块`[文档](http://git.jtjr.com/h5_webtools_grp/workflow/blob/master/packages/jfet-build/doc/DevelopBlock.md)
+
 ```javascript
 const assemble = require('@jyb/jfet-build-block-assemble');
 
 // jfet.config.js
 module.exports = {
-    build(context) {
-        context.addBlock(assemble(options));
-    }
+  build(context) {
+    context.addBlock(assemble(options));
+  }
 }
 ```
 
@@ -31,7 +33,7 @@ layouts路径
 
 ```javascript
 {
-    layouts: path.join(process.cwd(), 'development/act_914/pages/layout/*.hbs')
+  layouts: path.join(process.cwd(), 'development/act_914/pages/layout/*.hbs')
 }
 ```
 
@@ -43,7 +45,7 @@ partials路径
 
 ```javascript
 {
-    partials: path.join(process.cwd(), 'development/act_914/pages/partials/*.hbs')
+  partials: path.join(process.cwd(), 'development/act_914/pages/partials/*.hbs')
 }
 ```
 
@@ -55,7 +57,7 @@ pages路径
 
 ```javascript
 {
-    pages: path.join(process.cwd(), 'development/act_914/pages/**/index.hbs')
+  pages: path.join(process.cwd(), 'development/act_914/pages/**/index.hbs')
 }
 ```
 
@@ -79,7 +81,7 @@ helper，默认支持`require`，用于处理静态资源路径
 
 ```javascript
 {
-    mapPath: path.join(cwd, 'development/act_914/public/mainfest.json'),
+  mapPath: path.join(cwd, 'development/act_914/public/mainfest.json'),
 }
 ```
 
@@ -91,9 +93,9 @@ assemble实例处理函数，可以自由操作
 
 ```javascript
 {
-    assembleApp(app) {
-        app.helper('moment', moment);
-    }
+  assembleApp(app) {
+    app.helper('moment', moment);
+  }
 }
 ```
 
@@ -105,15 +107,15 @@ assemble实例处理函数，可以自由操作
 
 ```javascript
 {
-    renameFunc(file) {
-        // file为文件的路径
-        const arrPath = path.dirname(file.key).split(path.sep);
-        const outputPath = path.join(process.cwd(), 'development/act_914/public');
+  renameFunc(file) {
+    // file为文件的路径
+    const arrPath = path.dirname(file.key).split(path.sep);
+    const outputPath = path.join(process.cwd(), 'development/act_914/public');
 
-        file.dirname = outputPath;
-        file.filename = arrPath.pop();
-        file.extname = '.html';
-        return outputPath;
-    }
+    file.dirname = outputPath;
+    file.filename = arrPath.pop();
+    file.extname = '.html';
+    return outputPath;
+  }
 }
 ```

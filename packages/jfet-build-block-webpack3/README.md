@@ -10,12 +10,14 @@ npm i @jyb/jfet-build-block-webpack3 --save
 
 ## 使用
 
+更多用法见`jfet-build`的`开发构建功能块`[文档](http://git.jtjr.com/h5_webtools_grp/workflow/blob/master/packages/jfet-build/doc/DevelopBlock.md)
+
 ```javascript
 const { scanEntry } = require('@jyb/jfet-build-block-webpack3');
 
 // preset
 createConfig(context, [
-    scanEntry()
+  scanEntry()
 ]);
 ```
 
@@ -63,10 +65,10 @@ createConfig(context, [
 
 ```javascript
 scanEntry({
-    pattern: '', // glob
-    prefixFilter(item) {
-        return item;
-    }
+  pattern: '', // glob
+  prefixFilter(item) {
+    return item;
+  }
 });
 ```
 
@@ -92,11 +94,11 @@ extractText('css/[name].[contenthash:8].css');
 
 ```javascript
 htmlPlugin({
-    scan: {}, // 参考scanEntry
-    setConfig(k, curr) {
-        // k - 扫描结果的key
-        // curr - 扫描结果的value
-    }
+  scan: {}, // 参考scanEntry
+  setConfig(k, curr) {
+    // k - 扫描结果的key
+    // curr - 扫描结果的value
+  }
 })
 ```
 
@@ -125,11 +127,11 @@ new webpackCore.optimize.UglifyJsPlugin()
 
 ```javascript
 customConfig({
-    entry: './entry.js',
-    output: {
-        path: __dirname,
-        filename: 'bundle.js'
-    }
+  entry: './entry.js',
+  output: {
+    path: __dirname,
+    filename: 'bundle.js'
+  }
 });
 ```
 

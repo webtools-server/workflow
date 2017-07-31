@@ -12,7 +12,7 @@
   },
   "scripts": {
     "publish": "lerna publish",
-    "test": "mocha --recursive packages/**/test"
+    "test": "mocha --recursive packages/**/test --watch"
   },
   "repository": {
     "type": "git",

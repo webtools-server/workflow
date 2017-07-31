@@ -22,9 +22,9 @@ npm i @jyb/jfet-build-preset-common --save
 ```javascript
 // jfet.config.js
 module.exports = {
-    build(context) {
-        context.setPreset('common');
-    }
+  build(context) {
+    context.setPreset('common');
+  }
 };
 ```
 
@@ -36,12 +36,12 @@ module.exports = {
 
 ```javascript
 {
-    assetsPath: '',
-    output: path.join(compiler.outputPath, 'manifest.json'),
-    sep: '-',
-    include: ['.js', '.css'],
-    appName: stats.publicPath,
-    cache: {}
+  assetsPath: '',
+  output: path.join(compiler.outputPath, 'manifest.json'),
+  sep: '-',
+  include: ['.js', '.css'],
+  appName: stats.publicPath,
+  cache: {}
 }
 ```
 
@@ -53,14 +53,14 @@ module.exports = {
 
 ```javscript
 {
-    compress: {
-        warnings: false
-    },
-    output: {
-        comments: false
-    },
-    screwIe8: true,
-    sourceMap: false
+  compress: {
+    warnings: false
+  },
+  output: {
+    comments: false
+  },
+  screwIe8: true,
+  sourceMap: false
 }
 ```
 
@@ -72,8 +72,8 @@ module.exports = {
 
 ```javscript
 {
-    name: 'vendor',
-    filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
+  name: 'vendor',
+  filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js',
 }
 ```
 
@@ -85,17 +85,17 @@ module.exports = {
 
 ```javscript
 {
-    prefixFilter(name) {
-        const arrPath = path.dirname(name).split(path.sep);
-        const ext = path.extname(name);
-        const newName = arrPath.pop();
+  prefixFilter(name) {
+    const arrPath = path.dirname(name).split(path.sep);
+    const ext = path.extname(name);
+    const newName = arrPath.pop();
 
-        if (ext === '.html') {
-            return newName ? newName + ext : name;
-        }
-
-        return newName || name;
+    if (ext === '.html') {
+      return newName ? newName + ext : name;
     }
+
+    return newName || name;
+  }
 }
 ```
 
@@ -113,7 +113,7 @@ module.exports = {
 
 ```javascript
 {
-    filename: isProduction ? 'js/[name].[hash:8].js' : 'js/[name].js'
+  filename: isProduction ? 'js/[name]-[hash:8].js' : 'js/[name].js'
 }
 ```
 
@@ -149,12 +149,12 @@ module.exports = {
 
 ```javascript
 {
-    babelrc: false,
-    presets: [
-        require.resolve('babel-preset-es2015'),
-        require.resolve('babel-preset-stage-0'),
-    ],
-    cacheDirectory: true
+  babelrc: false,
+  presets: [
+    require.resolve('babel-preset-es2015'),
+    require.resolve('babel-preset-stage-0'),
+  ],
+  cacheDirectory: true
 }
 ```
 
@@ -184,7 +184,7 @@ module.exports = {
 
 ```javascript
 {
-    minimize: isProduction
+  minimize: isProduction
 }
 ```
 
@@ -196,7 +196,7 @@ module.exports = {
 
 ```javascript
 {
-    minimize: isProduction
+  minimize: isProduction
 }
 ```
 
@@ -227,8 +227,8 @@ module.exports = {
 
 ```javascript
 {
-    name: 'image/[name].[hash:8].[ext]',
-    limit: 10000
+  name: 'image/[name]-[hash:8].[ext]',
+  limit: 10000
 }
 ```
 
@@ -246,8 +246,8 @@ module.exports = {
 
 ```javascript
 {
-    name: 'image/[name].[hash:8].[ext]',
-    minetype: 'image/svg+xml'
+  name: 'image/[name]-[hash:8].[ext]',
+  minetype: 'image/svg+xml'
 }
 ```
 
@@ -259,7 +259,7 @@ module.exports = {
 
 ```javascript
 {
-    name: 'font/[name].[hash:8].[ext]'
+    name: 'font/[name]-[hash:8].[ext]'
 }
 ```
 
