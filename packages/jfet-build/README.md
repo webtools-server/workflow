@@ -2,9 +2,16 @@
 
 构建命令插件
 
+## 文档
+
+- 核心API，`doc/CoreAPI.md`
+- 开发构建功能块，`doc/DevelopBlock.md`
+- 开发构建预置方案，`doc/DevelopPreset.md`
+
 ## 功能
 
-- 构建
+- 内置构建方案jfet-build-preset-common
+- 支持watch/build两种模式
 
 ## 安装
 
@@ -18,7 +25,8 @@ npm i @jyb/jfet-build -g
 ## 使用
 
 ```shell
-jfet build --watch/-w
+jfet build // 启动构建，process.env.JFET_ENV为build
+jfet build --watch/-w // 监听文件，process.env.JFET_ENV为watch
 
 jfet build --version
 jfet build --help
@@ -28,34 +36,36 @@ jfet build --help
 
 ```javascript
 module.exports = {
-    build(abc, context) {
-        // 环境 watch,build
-        context.env
-        // 构建方案
-        context.preset
-        // 构建方案配置
-        context.configuration
+  build(abc, context) {
+    // 环境 watch,build
+    context.env
+    // 构建方案
+    context.preset
+    // 构建方案配置
+    context.configuration
 
-        // 修改预置构建方案，支持传入string或者object
-        context.setPreset('react');
+    // 修改预置构建方案，支持传入string或者object
+    context.setPreset('react');
 
-        // 修改预置构建方案的配置
-        context.setConfig({
-            outputPath: '',
-            publicPath: ''
-        });
+    // 修改预置构建方案的配置
+    context.setConfig({
+        outputPath: '',
+        publicPath: ''
+    });
 
-        // 添加构建功能块
-        context.addBlock();
+    // 添加构建功能块
+    context.addBlock();
 
-        // 构建前
-        context.on('before', () => {});
-        // 生成打包配置
-        context.on('created', (packConfig) => {});
-        // 构建后
-        context.on('after', () => {});
-        // 错误
-        context.on('error', (e) => {});
-    }
+    // 构建前
+    context.on('before', () => {});
+    // 生成打包配置
+    context.on('created', (packConfig) => {
+      // packConfig为进行构建的webpack配置
+    });
+    // 构建后
+    context.on('after', () => {});
+    // 错误
+    context.on('error', (e) => {});
+  }
 };
 ```

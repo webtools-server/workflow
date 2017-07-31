@@ -73,15 +73,15 @@ jfet init -t http://git.jtjr.com/noop/template-activity.git
 
 ```javascript
 {
-    "questions": [{
-        "type": "input",
-        "name": "name",
-        "message": "请输入项目名字："
-    }, {
-        "type": "input",
-        "name": "version",
-        "message": "请输入项目版本："
-    }]
+  "questions": [{
+    "type": "input",
+    "name": "name",
+    "message": "请输入项目名字："
+  }, {
+    "type": "input",
+    "name": "version",
+    "message": "请输入项目版本："
+  }]
 }
 ```
 
