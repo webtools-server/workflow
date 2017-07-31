@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-block-sass",
-  "version": "1.0.11",
+  "version": "1.0.15",
   "description": "sass build block for jfet",
   "main": "lib/index.js",
   "scripts": {
