@@ -31,6 +31,8 @@ jfet init --help
 
 ### 配置
 
+内置有一个公共账号的privateToken，可以根据需要修改
+
 根据提示输入privateToken，[查看privateToken](http://git.jtjr.com/profile/account)
 
 ```shell
