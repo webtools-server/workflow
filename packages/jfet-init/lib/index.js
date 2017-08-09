@@ -74,6 +74,11 @@ plugin.handler = (configFunc, argv) => {
       force: argv.force
     });
   }
+
+  optionLS.run({
+    output: argv.output,
+    force: argv.force
+  });
 };
 
 module.exports = plugin;
