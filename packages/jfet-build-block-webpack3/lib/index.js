@@ -73,7 +73,6 @@ function commonDoneHandler(isWatch, resolve, err, stats) {
   const { errors, time } = stats.toJson();
   if (errors && errors.length) {
     console.log(chalk.red(errors));
-    process.exit(1);
   }
 
   if (!isWatch || stats.hasErrors()) {
