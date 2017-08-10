@@ -6,6 +6,7 @@
 
 const webpack = require('webpack');
 const chalk = require('chalk');
+const notifier = require('node-notifier');
 const version = require('./version');
 const _ = require('./util');
 const entry = require('./configuration/entry');
@@ -72,6 +73,10 @@ function commonDoneHandler(isWatch, resolve, err, stats) {
 
   const { errors, time } = stats.toJson();
   if (errors && errors.length) {
+    notifier.notify({
+      title: 'Error',
+      message: chalk.red(errors),
+    });
     console.log(chalk.red(errors));
   }
 
