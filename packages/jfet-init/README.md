@@ -96,3 +96,5 @@ README.md
 
 version: {{=version}}
 ```
+
+如果需要增加日期或者时间，可以添加`{{=global.date}}`或者`{{=global.time}}`

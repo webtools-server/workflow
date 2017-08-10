@@ -2,6 +2,8 @@
  * 公用配置
  */
 
+const util = require('../util');
+
 // gitlab group http://git.jtjr.com/api/v3/groups/h5_webtools_grp
 const gitlabGroup = 'http://git.jtjr.com/groups/h5_webtools_grp';
 
@@ -27,6 +29,12 @@ const questions = [{
   message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
 }];
 
+// 全局变量，给模板生成使用
+const globalVariable = {
+  date: util.getDate,
+  time: util.getTime
+};
+
 module.exports = {
   gitlabGroup,
   userAgent,
@@ -34,5 +42,6 @@ module.exports = {
   configFile,
   templatePath,
   globSearchFiles,
-  questions
+  questions,
+  globalVariable
 };
