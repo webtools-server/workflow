@@ -10,6 +10,8 @@ const exec = require('child_process').exec;
 const utilLog = require('../util/log');
 const config = require('../config');
 
+function emptyStr() { return ''; }
+
 /**
  * 生成模板
  * @param {String} templateName 模板名字
@@ -43,10 +45,16 @@ function generate(templateName, cloneURL, outputPath, isForce) {
         replaceFiles.forEach((file) => {
           let content = fse.readFileSync(file, 'utf-8');
 
+          // 根据用户输入的内容进行替换
           for (const k in answers) {
             const regex = new RegExp(`{{=${k}}}`, 'g');
             content = content.replace(regex, answers[k]);
           }
+
+          // 替换全局定义的变量
+          content = content.replace(/\{\{=global\.([^}]+)\}\}/g, (m, $1) => {
+            return (config.globalVariable[$1] || emptyStr)();
+          });
 
           fse.outputFileSync(file, content);
         });
