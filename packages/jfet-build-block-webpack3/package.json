@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-block-webpack3",
-  "version": "1.0.15",
+  "version": "1.0.17",
   "description": "webpack3 build block for jfet",
   "main": "lib/index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "chalk": "^2.0.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "html-webpack-plugin": "^2.29.0",
+    "node-notifier": "^5.1.2",
     "webpack": "^3.2.0"
   }
 }

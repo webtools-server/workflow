@@ -12,6 +12,7 @@
   },
   "scripts": {
     "publish": "lerna publish",
+    "postinstall": "lerna bootstrap",
     "test": "mocha --recursive packages/**/test --watch"
   },
   "repository": {
