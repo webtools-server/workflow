@@ -34,8 +34,6 @@ class Server {
 
   init() {
     const currentPath = path.join(process.cwd(), this.cwd);
-    // body parser
-    this.app.use(bodyParser());
 
     // ssi
     if (this.ssi) {
@@ -102,6 +100,9 @@ class Server {
       router[rs.method](rs.path, ...middlewares);
     });
     this.app.use(router.routes()).use(router.allowedMethods());
+
+    // body parser
+    this.app.use(bodyParser());
 
     // listen
     const port = parseInt(this.port, 10);
