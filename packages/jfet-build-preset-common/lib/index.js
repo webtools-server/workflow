@@ -169,9 +169,9 @@ preset.run = (core, context) => {
 };
 
 function prefixFilter(name) {
-  const arrPath = path.dirname(name).split(path.sep);
-  const ext = path.extname(name);
-  const newName = arrPath.pop();
+  const pathObj = path.parse(name);
+  const newName = path.basename(pathObj.dir);
+  const ext = pathObj.ext;
 
   if (ext === '.html') {
     return newName ? newName + ext : name;
