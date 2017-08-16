@@ -138,8 +138,7 @@ preset.run = (core, context) => {
       assets.url(Object.assign({
         name: 'image/[name]-[hash:8].[ext]',
         limit: 10000
-      }, configuration.image)),
-      configuration.imageLoader ? assets.image(configuration.imageLoader || {}) : ''
+      }, configuration.image))
     ]),
     core.match(/\.svg(\?.*)?$/, [
       assets.url(Object.assign({
