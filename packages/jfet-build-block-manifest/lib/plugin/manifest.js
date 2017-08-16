@@ -51,11 +51,13 @@ class ManifestPlugin {
       const webpackOutputFile = path.join(compiler.outputPath, 'manifest.json');
       const outputFile = output ? path.resolve(cwd, output) : webpackOutputFile;
       const outputDir = path.dirname(outputFile);
+      const SEP_REGEX = new RegExp(`\\${path.sep}`, 'g');
+
       fs.mkdirsSync(outputDir);
       Object.assign(cache, map);
 
       Object.keys(cache).sort().forEach((key) => {
-        json[key] = cache[key];
+        json[key.replace(SEP_REGEX, '/')] = cache[key].replace(SEP_REGEX, '/');
       });
 
       fs.writeFileSync(outputFile, JSON.stringify(json, null, 2));

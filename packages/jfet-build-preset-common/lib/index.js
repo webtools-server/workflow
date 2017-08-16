@@ -138,8 +138,7 @@ preset.run = (core, context) => {
       assets.url(Object.assign({
         name: 'image/[name]-[hash:8].[ext]',
         limit: 10000
-      }, configuration.image)),
-      configuration.imageLoader ? assets.image(configuration.imageLoader || {}) : ''
+      }, configuration.image))
     ]),
     core.match(/\.svg(\?.*)?$/, [
       assets.url(Object.assign({
@@ -169,9 +168,9 @@ preset.run = (core, context) => {
 };
 
 function prefixFilter(name) {
-  const arrPath = path.dirname(name).split(path.sep);
-  const ext = path.extname(name);
-  const newName = arrPath.pop();
+  const pathObj = path.parse(name);
+  const newName = path.basename(pathObj.dir);
+  const ext = pathObj.ext;
 
   if (ext === '.html') {
     return newName ? newName + ext : name;
