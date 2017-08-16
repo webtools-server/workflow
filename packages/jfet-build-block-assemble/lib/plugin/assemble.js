@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const assemble = require('assemble');
 const watch = require('base-watch');
 const path = require('path');
+const glob = require('glob');
 
 const hasOwn = Object.prototype.hasOwnProperty;
 let resourceMap = {};
@@ -41,8 +42,8 @@ class AssemblePlugin {
     app.use(watch());
 
     // page
-    app.layouts(options.layouts);
-    app.partials(options.partials);
+    app.layouts(reduceObjs(options.layouts));
+    app.partials(reduceObjs(options.partials));
     app.pages(options.pages);
 
     // helper
@@ -104,6 +105,15 @@ function requireHelper(resource) {
   }
 
   return resource;
+}
+
+function reduceObjs(objs) {
+  return glob.sync(objs).reduce((obj, val) => {
+    obj[path.basename(val)] = {
+      path: val
+    };
+    return obj;
+  }, {});
 }
 
 module.exports = AssemblePlugin;
