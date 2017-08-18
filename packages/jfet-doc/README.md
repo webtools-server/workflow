@@ -2,10 +2,6 @@
 
 生成gitbook文档
 
-## 文档
-
-- 快速开始，`doc/QuickStart.md`
-
 ## 功能
 
 - 支持生成gitbook文档
@@ -35,19 +31,12 @@ jfet doc --help
 
 ```javascript
 module.export = {
-  doc: {
-    name: '',
-    token: '21232F297A57A5A743894A0E4A801FC3',
-    uploadUrl: 'http://127.0.0.1:7001/api/upload'
-  }
-  /* 同时支持函数
   doc() {
     return {
-      name: '',
+      name: '', // 文档名
       token: '21232F297A57A5A743894A0E4A801FC3',
-      uploadUrl: 'http://127.0.0.1:7001/api/upload'
+      uploadUrl: 'http://fe.doc.jyb.com//api/upload'
     }
   }
-  */
 }
 ```
