@@ -1,0 +1,5 @@
+{
+  "gitbook": "3.2.2",
+  "title": "加油宝前端开发工具",
+  "plugins": ["toggle-chapters"]
+}

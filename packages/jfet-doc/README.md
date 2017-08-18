@@ -19,9 +19,10 @@ npm i @jyb/jfet-doc -g
 ## 使用
 
 ```shell
-jfet doc // 生成发布文档
-jfet doc --serve/-s // gitbook文档服务
-jfet doc --init/-i // 初始化gitbook文档
+jfet doc --build // 生成发布文档
+jfet doc --serve // gitbook文档服务
+jfet doc --init // 初始化gitbook文档
+jfet doc --install // 安装gitbook插件
 
 jfet doc --version
 jfet doc --help
