@@ -17,6 +17,12 @@
 
 需要全局安装，如果已经安装过，可以跳过
 
+因为涉及到`node-sass`的安装，可以修改`.npmrc`文件，增加下面内容：
+
+```text
+sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+```
+
 ```shell
 npm i @jyb/jfet -g
 npm i @jyb/jfet-build -g
