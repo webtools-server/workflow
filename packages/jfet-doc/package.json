@@ -23,7 +23,6 @@
     "execa": "^0.8.0",
     "formstream": "^1.1.0",
     "fs-extra": "^4.0.1",
-    "get-stream": "^3.0.0",
     "gitbook-cli": "^2.3.2",
     "gitbook-plugin-toggle-chapters": "^0.0.3",
     "urllib": "^2.24.0"
