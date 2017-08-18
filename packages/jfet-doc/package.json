@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-doc",
-  "version": "0.1.0",
+  "version": "1.1.2",
   "description": "生成gitbook文档",
   "main": "lib/index.js",
   "scripts": {
