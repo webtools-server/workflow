@@ -14,6 +14,7 @@ const dot = require('@jyb/jfet-build-block-dot');
 const vue = require('@jyb/jfet-build-block-vue');
 const assemble = require('@jyb/jfet-build-block-assemble');
 const manifest = require('@jyb/jfet-build-block-manifest');
+const util = require('./util');
 
 const {
   // config
@@ -35,6 +36,8 @@ const {
   commonDoneHandler
 } = webpack;
 const preset = {};
+const { LoaderOptionsPlugin } = webpackCore;
+const { UglifyJsPlugin, CommonsChunkPlugin } = webpackCore.optimize;
 
 preset.run = (core, context) => {
   const { configuration, env } = context;
@@ -43,10 +46,11 @@ preset.run = (core, context) => {
   const scssStyleFileName = isProduction ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css';
   const lessStyleFileName = isProduction ? 'css/[name].less-[chunkhash:8].css' : 'css/[name].less.css';
   const vueStyleFileName = isProduction ? 'css/[name].vue-[chunkhash:8].css' : 'css/[name].vue.css';
+  const commonsChunkPluginConfig = configuration.commonsChunkPlugin;
 
   // plugin
-  const plugins = [
-    new webpackCore.LoaderOptionsPlugin({
+  let plugins = [
+    new LoaderOptionsPlugin({
       options: {
         context: __dirname,
         minimize: true,
@@ -64,8 +68,9 @@ preset.run = (core, context) => {
     })
   ];
 
+  // 压缩混淆代码
   if (isProduction) {
-    plugins.push(new webpackCore.optimize.UglifyJsPlugin(Object.assign({
+    plugins.push(new UglifyJsPlugin(Object.assign({
       compress: {
         warnings: false
       },
@@ -77,11 +82,26 @@ preset.run = (core, context) => {
     }, configuration.uglifyJsPlugin)));
   }
 
-  if (configuration.commonsChunkPlugin) {
-    plugins.push(new webpackCore.optimize.CommonsChunkPlugin(Object.assign({
-      name: 'vendor',
-      filename: jsFileName,
-    }, configuration.commonsChunkPlugin)));
+  // 公共插件
+  if (commonsChunkPluginConfig) {
+    let commonsChunkPluginCfgs = [];
+
+    if (Array.isArray(commonsChunkPluginConfig)) {
+      commonsChunkPluginCfgs = commonsChunkPluginConfig.map((cfg, i) => {
+        cfg = Object.assign({
+          name: `vendor${i}`,
+          filename: jsFileName
+        }, cfg);
+        return new CommonsChunkPlugin(cfg);
+      });
+    } else if (util.isObject(commonsChunkPluginConfig)) {
+      commonsChunkPluginCfgs = new CommonsChunkPlugin(Object.assign({
+        name: 'vendor',
+        filename: jsFileName
+      }, commonsChunkPluginConfig));
+    }
+
+    plugins = plugins.concat(commonsChunkPluginCfgs);
   }
 
   // setter

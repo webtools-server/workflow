@@ -67,7 +67,7 @@ module.exports = {
 使用[webpack.optimize.UglifyJsPlugin](https://webpack.js.org/guides/production/#minification)
 
 ### commonsChunkPlugin
-- Type: `Object`
+- Type: `Object|Array`
 - Default:
 
 ```javscript

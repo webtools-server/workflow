@@ -10,6 +10,7 @@ const co = require('co');
 const FormStream = require('formstream');
 const urllib = require('urllib');
 const util = require('./util');
+const defaultOptions = require('./options');
 const pkg = require('../package.json');
 
 const root = path.join(__dirname, '..');
@@ -50,13 +51,23 @@ plugin.builder = {
     type: 'boolean',
     describe: 'gitbook build',
     default: false
+  },
+  name: {
+    type: 'string',
+    describe: 'book name',
+    default: ''
+  },
+  token: {
+    type: 'string',
+    describe: 'docs-server token',
+    default: ''
   }
 };
 
 // handler
 plugin.handler = (configuration, argv) => {
   // 得到配置
-  const cfg = getConfiguration(configuration);
+  const cfg = Object.assign({}, defaultOptions, getConfiguration(configuration, argv));
   let stream = null;
 
   co(function* () {
@@ -169,17 +180,28 @@ function getStream(stream) {
 
 /**
  * 获取配置
- * @param {Object} cfg
- * @return {Object}
+ * @param {Object} cfg 配置文件的配置
+ * @param {Object} config 命令行配置
+ * @return {Object} 真实配置
  */
-function getConfiguration(cfg = {}) {
+function getConfiguration(cfg = {}, config = {}) {
   let configuration = cfg;
 
   if (typeof cfg === 'function') {
     configuration = cfg();
   }
 
-  return configuration || {};
+  if (!configuration) {
+    configuration = {};
+  }
+
+  for (const k in config) {
+    if (config[k]) {
+      configuration[k] = config[k];
+    }
+  }
+
+  return configuration;
 }
 
 module.exports = plugin;

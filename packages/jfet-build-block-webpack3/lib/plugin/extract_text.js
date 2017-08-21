@@ -6,16 +6,27 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const defaultOptions = {
+  filename: 'css/[name].[contenthash:8].css',
+  allChunks: true,
+  disable: false
+};
+
 /**
- * @param {String} outputFilePattern
+ * @param {Object|String} extractOptions
  * @param {Object} options
  * @param {Regex} options.test
  * @param {Object} options.extract
  * @return {Function}
  */
-function extractText(outputFilePattern = 'css/[name].[contenthash:8].css', type, options = {}) {
-  const plugin = new ExtractTextPlugin(outputFilePattern);
+function extractText(extractOptions = {}, type, options = {}) {
+  if (typeof extractOptions === 'string') {
+    extractOptions = {
+      filename: extractOptions
+    };
+  }
 
+  const plugin = new ExtractTextPlugin(Object.assign({}, defaultOptions, extractOptions));
   const hookHandle = {
     normal(context, util, prevConfig) {
       let nextConfig = prevConfig;

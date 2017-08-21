@@ -24,6 +24,7 @@ jfet doc --serve // gitbook文档服务
 jfet doc --init // 初始化gitbook文档
 jfet doc --install // 安装gitbook插件
 
+jfet doc --name '' --token ''
 jfet doc --version
 jfet doc --help
 ```
