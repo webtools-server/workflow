@@ -110,6 +110,7 @@ preset.run = (core, context) => {
     entryPoint(configuration.entryPoint),
     setOutput(Object.assign({
       filename: jsFileName,
+      chunkFilename: jsFileName
     }, configuration.setOutput)),
     defineConstants(configuration.defineConstants),
     resolveAliases(configuration.resolveAliases),
