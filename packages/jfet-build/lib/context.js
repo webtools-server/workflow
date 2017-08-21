@@ -56,6 +56,8 @@ class ContextBuild extends EventEmitter {
       indent: '  ',
       singleQuotes: false
     }));
+    utilLog.info('entry：');
+    utilLog.info(JSON.stringify(this.packConfig.entry, null, 2));
     return this.packConfig;
   }
 
