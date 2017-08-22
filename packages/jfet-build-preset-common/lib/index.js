@@ -117,7 +117,6 @@ preset.run = (core, context) => {
     setContext(configuration.setContext),
     setDevTool(configuration.setDevTool),
     babel(Object.assign({
-      babelrc: false,
       presets: [
         [require.resolve('babel-preset-es2015'), { modules: false }],
         require.resolve('babel-preset-stage-0'),
