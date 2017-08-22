@@ -1,0 +1,25 @@
+{
+  "name": "@jyb/jfet-image",
+  "version": "0.1.0",
+  "description": "图片处理插件",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "jfet",
+    "command",
+    "plugin"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    
+  },
+  "jfetOptions": {
+    "commandPlugin": "./lib/index.js"
+  }
+}
