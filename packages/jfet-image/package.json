@@ -17,7 +17,11 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
-    
+    "co": "^4.6.0",
+    "fs-extra": "^4.0.1",
+    "glob": "^7.1.2",
+    "imagemin": "^5.3.1",
+    "imagemin-webp": "^4.0.0"
   },
   "jfetOptions": {
     "commandPlugin": "./lib/index.js"

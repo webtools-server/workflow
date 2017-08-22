@@ -2,6 +2,9 @@
  * 图片处理插件
  */
 
+const path = require('path');
+const webp = require('./builder/webp');
+
 const pkg = require('../package.json');
 
 const plugin = {};
@@ -20,17 +23,20 @@ plugin.describe = 'image command for jfet';
 
 // builder
 plugin.builder = {
-  watch: {
+  webp: {
     type: 'boolean',
-    alias: 'w',
-    describe: 'Watch file changes and rebuild',
+    describe: 'Create webp image',
     default: false
   }
 };
 
 // handler
 plugin.handler = (configFunc, argv) => {
-  if (argv.watch) {
+  if (argv.webp) {
+    webp({
+      pattern: path.join(process.cwd(), 'demo/*.{jpg,png}'),
+      output: path.join(process.cwd(), 'demo')
+    });
     console.log('watch mode.');
   } else {
     console.log('normal mode.');
