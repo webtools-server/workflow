@@ -40,6 +40,9 @@ cli.run = (option) => {
   const command = new Command(option);
   // 加载插件
   const commandPlugin = command.loadPlugin();
+  if (!commandPlugin) {
+    return utilLog.error('Load plugin error.');
+  }
   // 检验命令所需字段
   const validResult = command.validPlugin();
 

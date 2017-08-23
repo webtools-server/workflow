@@ -67,10 +67,8 @@ class Command {
     }
 
     // 获取到的插件名称和输入名称一致
-    if (plugin.name === name) {
+    if (plugin && plugin.name === name) {
       this.plugin = plugin;
-    } else {
-      throw new Error('插件名称不一致');
     }
 
     return this.plugin;
