@@ -9,8 +9,6 @@ const utilLang = require('./util/lang');
 const constant = require('./constant');
 
 const cwd = process.cwd();
-const currPkgFile = path.join(cwd, 'package.json');
-const currAbcFile = path.join(cwd, 'abc.json');
 const PLUGIN_NAME_REGEX = /^[a-z0-9]+$/;
 const { COMMAND_PREFIX } = constant;
 
@@ -25,76 +23,63 @@ class Command {
       throw new Error('Name is required and string type.');
     }
 
-    this.pkgOptions = {}; // configFilePath,commandPlugin
-    this.abcOptions = {}; // abc.json
+    this.jfetOptions = {}; // jfet选项配置
+    this.abcOptions = {}; // abc.json选项配置
     this.name = name;
-  }
+    this.plugin = null;
 
-  getPkgOptions() {
-    // 当前目录存在package.json文件，获取jfetOptions字段
-    if (utilFs.fileExists(currPkgFile)) {
-      const currPkg = require(currPkgFile);
-      this.pkgOptions = currPkg.jfetOptions || {};
-    }
-
-    // 当前目录存在abc.json文件
-    if (utilFs.fileExists(currAbcFile)) {
-      this.abcOptions = require(currAbcFile);
-    }
+    // 获取工具选项
+    this.getJfetOptions();
   }
 
   /**
-   * 加载命名
+   * 获取选项
+   */
+  getJfetOptions() {
+    const pkgOptions = utilFs.tryRequire(path.join(cwd, 'package.json')) || {};
+    const abcOptions = utilFs.tryRequire(path.join(cwd, 'abc.json')) || {};
+
+    this.abcOptions = abcOptions;
+    this.jfetOptions = Object.assign({}, pkgOptions.jfetOptions, abcOptions.jfetOptions);
+    return this.jfetOptions;
+  }
+
+  /**
+   * 加载插件
    * @param {String} name
    * @return {Object|Null}
    */
-  load() {
-    this.getPkgOptions();
-
-    const jfetOptions = this.abcOptions.jfetOptions || this.pkgOptions;
+  loadPlugin() {
+    let plugin = null;
+    const jfetOptions = this.jfetOptions;
     const name = this.name;
 
-    // check name
+    // 校验插件名称
     if (!PLUGIN_NAME_REGEX.test(name)) {
       return utilLog.error('Plugin name error. It should be a-z and 0-9.', true);
     }
 
+    // 如果存在commandPlugin选项，优先加载该路径的插件
     if (jfetOptions.commandPlugin) {
-      const plugin = this.requireFile([path.join(cwd, jfetOptions.commandPlugin)]);
-      return (plugin.name === this.name) ? plugin : null;
+      plugin = loadPackage(path.join(cwd, jfetOptions.commandPlugin));
+    } else {
+      plugin = loadPackage(COMMAND_PREFIX.map(c => `${c}${name}`));
     }
 
-    return this.requireFile(COMMAND_PREFIX.map(c => `${c}${name}`));
-  }
-
-  /**
-   * 加载资源
-   * @param {Array} resources 
-   * @return {Object|Null}
-   */
-  requireFile(resources) {
-    const err = [];
-    let result = null;
-
-    for (let i = 0, l = resources.length; i < l; i++) {
-      try {
-        result = require(resources[i]);
-        return result;
-      } catch (e) {
-        err.push(e);
-      }
+    // 获取到的插件名称和输入名称一致
+    if (plugin && plugin.name === name) {
+      this.plugin = plugin;
     }
 
-    utilLog.error(err.join('\n'));
-    return result;
+    return this.plugin;
   }
 
   /**
    * 检测命令字段
-   * @param {Object} obj 
    * @return {Object}
    */
-  valid(obj) {
+  validPlugin() {
+    const obj = this.plugin || {};
     const validError = [];
     const rules = {
       name: {
@@ -154,6 +139,32 @@ class Command {
       error: validError
     };
   }
+}
+
+/**
+ * 加载npm包
+ * @param {Array} resources
+ * @return {Object|Null}
+ */
+function loadPackage(resources = []) {
+  if (!Array.isArray(resources)) {
+    resources = [resources];
+  }
+
+  const err = [];
+  let result = null;
+
+  for (let i = 0, l = resources.length; i < l; i++) {
+    try {
+      /* eslint-disable import/no-dynamic-require */
+      result = require(resources[i]);
+      return result;
+    } catch (e) {
+      err.push(e);
+    }
+  }
+  utilLog.error(err.join('\n'));
+  return result;
 }
 
 module.exports = Command;

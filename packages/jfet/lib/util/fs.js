@@ -18,6 +18,22 @@ function fileExists(filePath) {
 }
 
 /**
+ * require文件
+ * @param {String} file
+ * @return {Any}
+ */
+function tryRequire(file) {
+  let fileContent = null;
+
+  if (fileExists(file)) {
+    /* eslint-disable import/no-dynamic-require */
+    fileContent = require(file);
+  }
+
+  return fileContent;
+}
+
+/**
  * 读取文件内容
  * @param {String} filePath 文件路径
  * @return {String}
@@ -32,5 +48,6 @@ function readFile(filePath) {
 
 module.exports = {
   fileExists,
-  readFile
+  readFile,
+  tryRequire
 };
