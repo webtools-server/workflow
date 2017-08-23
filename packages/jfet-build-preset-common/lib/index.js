@@ -104,6 +104,15 @@ preset.run = (core, context) => {
     plugins = plugins.concat(commonsChunkPluginCfgs);
   }
 
+  // babel配置
+  const babelOptions = {
+    presets: [
+      [require.resolve('babel-preset-es2015'), { modules: false }],
+      require.resolve('babel-preset-stage-0'),
+    ],
+    cacheDirectory: true
+  };
+
   // setter
   const configSetters = [
     scanEntry(Object.assign({ prefixFilter }, configuration.scanEntry)),
@@ -116,13 +125,7 @@ preset.run = (core, context) => {
     resolveAliases(configuration.resolveAliases),
     setContext(configuration.setContext),
     setDevTool(configuration.setDevTool),
-    babel(Object.assign({
-      presets: [
-        [require.resolve('babel-preset-es2015'), { modules: false }],
-        require.resolve('babel-preset-stage-0'),
-      ],
-      cacheDirectory: true
-    }, configuration.babel)),
+    babel(Object.assign(babelOptions, configuration.babel)),
     dot(configuration.dot),
     core.match(/\.vue$/, [
       sass(true, Object.assign({
@@ -130,7 +133,10 @@ preset.run = (core, context) => {
       }, configuration.sass)),
       vue(Object.assign({
         loaders: {
-          js: babel.loader
+          js: {
+            loader: babel.loader,
+            options: babelOptions
+          }
         }
       }, configuration.vue)),
       extractText(configuration.extractTextVue || vueStyleFileName, 'vue', {
