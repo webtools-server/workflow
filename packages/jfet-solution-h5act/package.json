@@ -1,0 +1,25 @@
+{
+  "name": "@jyb/jfet-solution-h5act",
+  "version": "0.1.0",
+  "description": "加油宝h5活动前端开发方案",
+  "main": "index.js",
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "../../node_modules/.bin/mocha ./test/**/*.test.js"
+  },
+  "keywords": [
+    "front-end",
+    "solution"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+
+  }
+}
