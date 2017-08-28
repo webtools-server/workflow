@@ -60,7 +60,7 @@ function checkSetting(data) {
     name: 'name',
     type: 'String'
   }, {
-    name: 'descriptor',
+    name: 'description',
     type: 'String'
   }, {
     name: 'login',
@@ -69,13 +69,16 @@ function checkSetting(data) {
     name: 'version',
     type: 'String'
   }, {
-    name: 'md5',
+    name: 'zipMD5',
     type: 'String'
   }, {
     name: 'zip',
     type: 'String'
   }, {
     name: 'patch',
+    type: 'String'
+  }, {
+    name: 'patchMD5',
     type: 'String'
   }, {
     name: 'entry',
@@ -95,24 +98,6 @@ function checkSetting(data) {
     throw new Error(err.join('\n'));
   }
   return !err.length;
-}
-
-/**
- * 转换为xml配置需要的格式
- * @param {Object} data 数据
- * @return {Object}
- */
-function transformXMLData(data) {
-  const result = {};
-  const resPackage = [];
-
-  for (const k in data.package) {
-    resPackage.push({
-      [k]: data.package[k]
-    });
-  }
-  result.package = resPackage;
-  return result;
 }
 
 /**
@@ -175,7 +160,6 @@ function compileFile(ssi, filePath) {
 module.exports = {
   createZip,
   checkSetting,
-  transformXMLData,
   getNotModifiedFiles,
   removeFiles,
   compileFile
