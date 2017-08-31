@@ -10,7 +10,6 @@ const fse = require('fs-extra');
 const chalk = require('chalk');
 const glob = require('glob');
 const urlRegex = require('url-regex');
-const xml = require('xml');
 const extend = require('extend');
 const urlModule = require('url');
 const util = require('./util');
@@ -63,9 +62,9 @@ class Pack {
     const tempPath = path.join(__dirname, `pack${Date.now()}`);
     co(function* () {
       try {
-        const xmlFile = path.join(releasePath, `${uid}.xml`);
+        const jsonFile = path.join(releasePath, `${uid}.json`);
         // 获取版本号
-        const versionFormat = that.getVersion(xmlFile);
+        const versionFormat = that.getVersion(jsonFile);
 
         // 真实路径，离线包内容要求在名称为uid的目录下
         const realPath = path.join(tempPath, uid, outputPath);
@@ -119,8 +118,8 @@ class Pack {
           console.log(chalk.yellow('Output manifest file'));
         }
 
-        // 生成xml文件
-        that.createXMLFile(xmlFile, versionFormat, uid, appInfo, releaseFullZipFile);
+        // 生成json配置文件
+        that.createJSONFile(jsonFile, versionFormat, uid, appInfo, releaseFullZipFile, releaseIncrementalZipFile);
 
         // 删除temp目录
         fse.removeSync(tempPath);
@@ -134,10 +133,10 @@ class Pack {
 
   /**
    * 获取版本
-   * @param {String} xmlFile xml文件
+   * @param {String} jsonFile json文件
    * @return {String}
    */
-  getVersion(xmlFile) {
+  getVersion(jsonFile) {
     const pkgFile = path.join(cwd, 'package.json');
     const pkg = util.tryRequire(pkgFile);
     let versionFormat = '';
@@ -154,10 +153,9 @@ class Pack {
     }
 
     // 跟前一个版本号判断是否一致，如果一致需要先修改
-    if (util.fileExists(xmlFile)) {
-      const xmlContent = fse.readFileSync(xmlFile, 'utf-8');
-      const xmlMatch = xmlContent.match(/<version>(.*)<\/version>/);
-      if (xmlMatch && versionFormat === xmlMatch[1]) {
+    if (util.fileExists(jsonFile)) {
+      const jsonContent = util.tryRequire(jsonFile);
+      if (versionFormat === jsonContent.version) {
         throw new Error(`Please modify the version, current version is ${versionFormat}`);
       }
     }
@@ -192,7 +190,7 @@ class Pack {
 
   /**
    * 增加fullLink
-   * @param {String} realPath 
+   * @param {String} realPath
    */
   replaceFullLink(realPath) {
     const { fullLink } = this.configuration;
@@ -215,27 +213,27 @@ class Pack {
     });
   }
 
-  createXMLFile(xmlFile, versionFormat, uid, appInfo, zipFile) {
+  createJSONFile(jsonFile, versionFormat, uid, appInfo, zipFullFile, zipIncrementalFile) {
     const { zipUrl } = this.configuration;
     const settings = {
-      package: {
-        uid,
-        name: appInfo.name,
-        descriptor: appInfo.desc,
-        login: appInfo.login,
-        version: versionFormat,
-        md5: md5(fse.readFileSync(zipFile)),
-        zip: `${zipUrl}/${uid}/${uid}.zip`,
-        patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
-        entry: appInfo.entry
-      }
+      uid,
+      name: appInfo.name,
+      version: versionFormat,
+      description: appInfo.desc,
+      login: appInfo.login,
+      zip: `${zipUrl}/${uid}/${uid}.zip`,
+      zipMD5: md5(fse.readFileSync(zipFullFile)),
+      patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
+      patchMD5: md5(fse.readFileSync(zipIncrementalFile)),
+      entry: appInfo.entry
     };
-    if (helper.checkSetting(settings.package)) {
+
+    if (helper.checkSetting(settings)) {
       fse.outputFileSync(
-        xmlFile,
-        xml([helper.transformXMLData(settings)], { declaration: true, indent: '  ' })
+        jsonFile,
+        JSON.stringify(settings, null, 2)
       );
-      console.log(chalk.green(`Create xml file, ${xmlFile}`));
+      console.log(chalk.green(`Create json file, ${jsonFile}`));
     }
   }
 }

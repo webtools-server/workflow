@@ -2,8 +2,8 @@
  * 图片处理插件
  */
 
-const path = require('path');
-const webp = require('./builder/webp');
+const webpBuilder = require('./builder/webp');
+const minBuilder = require('./builder/min');
 
 const pkg = require('../package.json');
 
@@ -27,23 +27,28 @@ plugin.builder = {
     type: 'boolean',
     describe: 'Create webp image',
     default: false
+  },
+  min: {
+    type: 'boolean',
+    describe: 'Minify images',
+    default: false
   }
 };
 
 // handler
 plugin.handler = (configFunc, argv) => {
-  if (argv.webp) {
-    webp({
-      pattern: path.join(process.cwd(), 'demo/*.{jpg,png}'),
-      output: path.join(process.cwd(), 'demo')
-    });
-    console.log('watch mode.');
-  } else {
-    console.log('normal mode.');
+  const cfg = configFunc.getConfig() || {};
+
+  if (argv.min) {
+    minBuilder(cfg.min);
   }
 
-  // 执行配置函数
-  configFunc({});
+  if (argv.webp) {
+    // webpBuilder({
+    //   pattern: path.join(process.cwd(), 'demo/*.{jpg,png}'),
+    //   output: path.join(process.cwd(), 'demo')
+    // });
+  }
 };
 
 module.exports = plugin;

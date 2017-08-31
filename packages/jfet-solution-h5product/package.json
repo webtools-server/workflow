@@ -1,10 +1,7 @@
 {
-  "name": "@jyb/jfet",
+  "name": "@jyb/jfet-solution-h5product",
   "version": "1.1.11",
-  "description": "jyb front-end tookit.",
-  "bin": {
-    "jfet": "./bin/jfet"
-  },
+  "description": "加油宝h5产品前端开发方案",
   "main": "index.js",
   "files": [
     "bin",
@@ -18,14 +15,8 @@
   },
   "keywords": [
     "front-end",
-    "tookit"
+    "solution"
   ],
   "author": "canye.wu@jyblife.com",
-  "license": "MIT",
-  "dependencies": {
-    "chalk": "^2.0.1",
-    "figlet": "^1.2.0",
-    "fs-extra": "^3.0.1",
-    "yargs": "^8.0.2"
-  }
+  "license": "MIT"
 }
