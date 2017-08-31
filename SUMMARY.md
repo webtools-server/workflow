@@ -19,7 +19,6 @@
 * [jfet-build-preset-common](/packages/jfet-build-preset-common/README.md)
 * [jfet-doc](/packages/jfet-doc/README.md)
 * [jfet-image](/packages/jfet-image/README.md)
-  * [快速开始](/packages/jfet-image/doc/QuickStart.md)
 * [jfet-init](/packages/jfet-init/README.md)
 * [jfet-pack](/packages/jfet-pack/README.md)
 * [jfet-server](/packages/jfet-server/README.md)
