@@ -92,7 +92,7 @@ cli.run = (option) => {
  * @param {Function} func
  */
 function installConfigurationAPI(func) {
-  let params = null;
+  let params = [];
   let config = null;
 
   // 设置参数
