@@ -2,6 +2,7 @@
 * [主页](/README.md)
 * [jfet](/packages/jfet/README.md)
   * [开发命令插件](/packages/jfet/doc/DevelopPlugin.md)
+  * [开发解决方案](/packages/jfet/doc/DevelopSolution.md)
 * [jfet-build](/packages/jfet-build/README.md)
   * [核心API](/packages/jfet-build/doc/CoreAPI.md)
   * [开发构建功能块](/packages/jfet-build/doc/DevelopBlock.md)

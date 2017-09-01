@@ -6,10 +6,10 @@ const utilLog = require('./log');
 
 /**
  * 加载npm包
- * @param {Array} resources
+ * @param {Array|String} resources
  * @return {Object|Null}
  */
-function loadPackage(resources = []) {
+function loadPackage(resources = [], showLog = true) {
   if (!Array.isArray(resources)) {
     resources = [resources];
   }
@@ -26,7 +26,11 @@ function loadPackage(resources = []) {
       err.push(e);
     }
   }
-  utilLog.error(err.join('\n'));
+
+  if (showLog) {
+    utilLog.error(err.join('\n'));
+  }
+
   return result;
 }
 

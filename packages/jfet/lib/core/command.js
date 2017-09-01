@@ -3,11 +3,11 @@
  */
 
 const path = require('path');
-const utilFs = require('./util/fs');
-const utilLog = require('./util/log');
-const utilLang = require('./util/lang');
-const util = require('./util');
-const constant = require('./constant');
+const utilFs = require('../util/fs');
+const utilLog = require('../util/log');
+const utilLang = require('../util/lang');
+const util = require('../util');
+const constant = require('../constant');
 
 const cwd = process.cwd();
 const PLUGIN_NAME_REGEX = /^[a-z0-9]+$/;

@@ -3,8 +3,8 @@
  */
 
 const path = require('path');
-const util = require('./util');
-const constant = require('./constant');
+const util = require('../util');
+const constant = require('../constant');
 
 const { SOLUTION_PREFIX } = constant;
 

@@ -11,8 +11,9 @@ const utilFs = require('./util/fs');
 const utilLog = require('./util/log');
 const utilLang = require('./util/lang');
 
-const Command = require('./command');
-const Solution = require('./solution');
+const npmPackage = require('./core/package');
+const Command = require('./core/command');
+const Solution = require('./core/solution');
 const constant = require('./constant');
 const pkg = require('../package.json');
 
@@ -30,6 +31,12 @@ cli.run = (option) => {
   if (option === '-v' || option === '--version') {
     showText();
     return utilLog.info(pkg.version);
+  }
+
+  // update
+  if (option === '-u' || option === '--update') {
+    npmPackage();
+    return;
   }
 
   // help
