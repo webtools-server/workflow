@@ -2,7 +2,7 @@
  * npm包管理
  */
 
-const execSync = require('child_process').execSync;
+const exec = require('child_process').exec;
 const chalk = require('chalk');
 const urllib = require('urllib');
 const util = require('../util');
@@ -92,7 +92,14 @@ function npmPackage() {
           info.push(`${pkg.name}: latestVersion: ${pkg.latestVersion}, oldVersion: ${pkg.oldVersion}`);
         });
         console.log(chalk.green(info.join('\n')));
-        execSync(`npm i -g ${updatePkg.join(' ')}`);
+        exec(`npm i -g ${updatePkg.join(' ')}`, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+          }
+          console.log(`stdout: ${stdout}`);
+          console.log(`stderr: ${stderr}`);
+        });
       } else {
         console.log(chalk.green('没有找到需要更新的模块'));
       }
