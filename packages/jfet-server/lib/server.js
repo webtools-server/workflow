@@ -2,6 +2,7 @@
  * main
  */
 
+const fs = require('fs');
 const opn = require('opn');
 const chalk = require('chalk');
 const Koa = require('koa');
@@ -103,6 +104,10 @@ class Server {
 
     // body parser
     this.app.use(bodyParser());
+    this.app.use(function* (next) {
+      yield next;
+      this.body = fs.readFileSync(path.join(__dirname, 'web/404.html'), 'utf-8');
+    });
 
     // listen
     const port = parseInt(this.port, 10);
