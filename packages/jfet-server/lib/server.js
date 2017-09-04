@@ -43,10 +43,6 @@ class Server {
 
     // static serve
     this.app.use(serve(currentPath));
-    this.app.use(function* (next) {
-      yield next;
-      this.body = fs.readFileSync(path.join(__dirname, 'web/404.html'), 'utf-8');
-    });
   }
 
   browserSync(options) {
@@ -108,6 +104,10 @@ class Server {
 
     // body parser
     this.app.use(bodyParser());
+    this.app.use(function* (next) {
+      yield next;
+      this.body = fs.readFileSync(path.join(__dirname, 'web/404.html'), 'utf-8');
+    });
 
     // listen
     const port = parseInt(this.port, 10);
