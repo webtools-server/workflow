@@ -5,12 +5,14 @@
   "main": "lib/index.js",
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "scripts"
   ],
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "postinstall": "node scripts/install.js",
     "test": "../../node_modules/.bin/mocha ./test/**/*.test.js"
   },
   "keywords": [
