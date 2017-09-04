@@ -29,22 +29,34 @@ const command = {
     }
   },
   handler: (configFunc, argv) => {
-    // configFunc对应于jfet.config.js配置中的命令函数
+    // 设置jfet.config.js配置中的命令函数的参数
+    configFunc.setParameter(context);
+    // 获取用户插件配置，如果配置是Object类型，则返回该对象；如果是Function类型，则为该函数的返回值
+    const cfgs = configFunc.getConfig();
     // argv为参数的值
+    if (argv.watch) {
+      console.log('watch mode');
+    }
   }
 };
 
 module.exports = command;
 ```
 
-新增配置文件`jfet.config.js`
+新增配置文件`jfet.config.js`，用户插件配置支持`Object`,`Function`类型
 
 ```javascript
+// Function类型
 module.exports = {
   build(abc, context) {
     // 假如插件名为build，abc应该为abc.json文件中的build字段的值
-    // context为configFunc传入的值
+    // context为configFunc.setParameter设置的值
   }
+};
+
+// Object类型
+module.exports = {
+  build: {}
 };
 ```
 

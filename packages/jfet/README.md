@@ -11,13 +11,10 @@ npm i @jyb/jfet -g
 ## 使用
 
 ```shell
-jfet -v
-jfet -h
+jfet -u/--update // 更新插件和解决方案
+jfet -v/--version // 显示版本
+jfet -h/--help // 显示帮助
 ```
-
-## 文档
-
-- 开发命令插件，`doc/DevelopPlugin.md`
 
 ## 配置
 
@@ -29,7 +26,7 @@ jfet -h
 module.exports = {
   build(abc, context) {
     // 假如插件名为build，abc应该为abc.json文件中的build字段的值
-    // context为configFunc（jfet.config.js配置中的命令函数）传入的值，context可以看对应的命令插件的文档
+    // context为configFunc.setParameter设置的值，context可以看对应的命令插件的文档
   },
   server(abc, context) {},
   pack(abc, context) {}
@@ -38,7 +35,7 @@ module.exports = {
 
 ### abc.json
 
-子配置，执行命令的时候会读取，并且把跟当前命令同名的字段的值，作为jfet.config.js配置中同名的函数的第一个参数注入，一般用于一个项目有多个子项目的情况
+子配置，执行命令的时候会读取，并且把跟当前命令同名的字段的值，作为jfet.config.js配置中同名的函数的第一个参数注入，一般用于一个项目有多个子项目的情况，利用这个特性，可以封装为解决方案
 
 ```javascript
 {

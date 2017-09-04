@@ -3,10 +3,11 @@
  */
 
 const path = require('path');
-const utilFs = require('./util/fs');
-const utilLog = require('./util/log');
-const utilLang = require('./util/lang');
-const constant = require('./constant');
+const utilFs = require('../util/fs');
+const utilLog = require('../util/log');
+const utilLang = require('../util/lang');
+const util = require('../util');
+const constant = require('../constant');
 
 const cwd = process.cwd();
 const PLUGIN_NAME_REGEX = /^[a-z0-9]+$/;
@@ -61,9 +62,9 @@ class Command {
 
     // 如果存在commandPlugin选项，优先加载该路径的插件
     if (jfetOptions.commandPlugin) {
-      plugin = loadPackage(path.join(cwd, jfetOptions.commandPlugin));
+      plugin = util.loadPackage(path.join(cwd, jfetOptions.commandPlugin));
     } else {
-      plugin = loadPackage(COMMAND_PREFIX.map(c => `${c}${name}`));
+      plugin = util.loadPackage(COMMAND_PREFIX.map(c => `${c}${name}`));
     }
 
     // 获取到的插件名称和输入名称一致
@@ -121,10 +122,8 @@ class Command {
           continue;
         }
 
-        const curr = obj[k];
-        const currFieldRule = rules[k];
-        const currFieldRuleType = currFieldRule.type;
-        const currRuleType = utilLang.getType(curr);
+        const currFieldRuleType = rules[k].type;
+        const currRuleType = utilLang.getType(obj[k]);
         const isArr = utilLang.isArray(currFieldRuleType);
 
         if ((isArr && (currFieldRuleType.indexOf(currRuleType) === -1)) ||
@@ -139,32 +138,6 @@ class Command {
       error: validError
     };
   }
-}
-
-/**
- * 加载npm包
- * @param {Array} resources
- * @return {Object|Null}
- */
-function loadPackage(resources = []) {
-  if (!Array.isArray(resources)) {
-    resources = [resources];
-  }
-
-  const err = [];
-  let result = null;
-
-  for (let i = 0, l = resources.length; i < l; i++) {
-    try {
-      /* eslint-disable import/no-dynamic-require */
-      result = require(resources[i]);
-      return result;
-    } catch (e) {
-      err.push(e);
-    }
-  }
-  utilLog.error(err.join('\n'));
-  return result;
 }
 
 module.exports = Command;

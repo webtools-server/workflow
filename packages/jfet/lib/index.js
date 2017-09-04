@@ -11,7 +11,9 @@ const utilFs = require('./util/fs');
 const utilLog = require('./util/log');
 const utilLang = require('./util/lang');
 
-const Command = require('./command');
+const npmPackage = require('./core/package');
+const Command = require('./core/command');
+const Solution = require('./core/solution');
 const constant = require('./constant');
 const pkg = require('../package.json');
 
@@ -29,6 +31,12 @@ cli.run = (option) => {
   if (option === '-v' || option === '--version') {
     showText();
     return utilLog.info(pkg.version);
+  }
+
+  // update
+  if (option === '-u' || option === '--update') {
+    npmPackage();
+    return;
   }
 
   // help
@@ -51,11 +59,29 @@ cli.run = (option) => {
     return utilLog.error(validResult.error.join('\n'));
   }
 
-  // 读取配置文件
-  const configuration = utilFs.tryRequire(path.join(cwd, command.jfetOptions.configFilePath || '', CONFIG_FILES));
+  let configuration = {};
   let configurationFunc = noop; // 初始配置函数
   let newConfigurationFunc = noop; // 新的配置函数
+  const solution = new Solution(command.jfetOptions);
+  // 如果使用解决方案
+  if (solution.entry) {
+    const checkResult = solution.checkPlugins();
+    const checkResultArr = Object.keys(checkResult);
 
+    configuration = solution.entry;
+    utilLog.info(`solution：${solution.name}`);
+    utilLog.info(`plugin required: ${checkResultArr.join(',')}`);
+    checkResultArr.forEach((res) => {
+      if (!checkResult[res].installed) {
+        utilLog.warn(`${res} plugin not installed`);
+      }
+    });
+  } else {
+    // 读取配置文件
+    configuration = utilFs.tryRequire(path.join(cwd, command.jfetOptions.configFilePath || '', CONFIG_FILES));
+  }
+
+  // 配置类型为Object
   if (utilLang.isObject(configuration)) {
     const currentCommandConfig = configuration[option];
 
@@ -69,7 +95,7 @@ cli.run = (option) => {
 
   // module.exports = { command(abc, context) {}  }
   // module.exports = { command: {} }
-  newConfigurationFunc = configurationFunc.bind(null, command.abcOptions[commandPlugin.name]);
+  newConfigurationFunc = configurationFunc.bind(null, command.abcOptions[commandPlugin.name] || {});
   installConfigurationAPI(newConfigurationFunc);
 
   /* eslint-disable no-unused-expressions */
