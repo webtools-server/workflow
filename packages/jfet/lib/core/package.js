@@ -46,10 +46,10 @@ function npmPackage() {
       packages.command = result.filter(res => COMMAND_REGEX.test(res.name));
       return result;
     })
-    .then((result) => { // solution包
-      packages.solution = result.filter(res => SOLUTION_REGEX.test(res.name));
-      return result;
-    })
+    // .then((result) => { // solution包
+    //   packages.solution = result.filter(res => SOLUTION_REGEX.test(res.name));
+    //   return result;
+    // })
     .then(() => { // 获取本地已经安装的command和solution
       return [].concat(
         packages.tool,
