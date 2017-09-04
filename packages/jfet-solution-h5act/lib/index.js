@@ -10,8 +10,7 @@ const buildConfig = {
   mock: require('./config/config.mock'),
   local: require('./config/config.local'),
   test: require('./config/config.test'),
-  prod: require('./config/config.prod'),
-  pack: require('./config/config.pack')
+  prod: require('./config/config.prod')
 };
 
 const cwd = process.cwd();
@@ -50,7 +49,7 @@ module.exports = {
     context.setConfig({
       opnPath: abc.opnPath[serverEnv] || '',
       ssi: { // ssi
-        baseDir: path.join(__dirname),
+        baseDir: path.join(cwd, '..', '..'),
         ext: '.html'
       },
       livereload: { // livereload
@@ -63,9 +62,9 @@ module.exports = {
       context.registerRouter(p.method, p.route, proxy(p.options));
     });
   },
-  doc() {
-    const summaryFile = path.join(__dirname, 'SUMMARY.md');
-    const developmentDir = path.join(__dirname, 'development');
+  doc(abc) {
+    const summaryFile = path.join(cwd, 'SUMMARY.md');
+    const developmentDir = path.join(cwd, 'development');
     const summaryContent = [];
     const dir = fse.readdirSync(developmentDir);
 
@@ -96,9 +95,19 @@ module.exports = {
     fse.outputFileSync(summaryFile, summaryContent.join('\n'));
 
     return {
-      name: 'h5-act', // 文档名
-      token: '21232F297A57A5A743894A0E4A801FC3',
-      uploadUrl: 'http://172.16.1.10:7001/api/upload'
+      name: abc.name, // 文档名
+      token: abc.token,
+      uploadUrl: abc.uploadUrl
+    };
+  },
+  image(abc) {
+    const minOptions = {
+      input: [path.join(cwd, abc.input || 'public/image/*.{jpg,png,gif}')], // 输入
+      output: path.join(cwd, abc.output || 'public/image'), // 输出目录
+    };
+
+    return {
+      min: minOptions
     };
   }
 };
