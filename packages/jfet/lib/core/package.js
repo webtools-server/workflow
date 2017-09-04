@@ -4,6 +4,7 @@
 
 const exec = require('child_process').exec;
 const chalk = require('chalk');
+const ora = require('ora');
 const urllib = require('urllib');
 const util = require('../util');
 const pkgJson = require('../../package.json');
@@ -86,19 +87,20 @@ function npmPackage() {
         const info = [];
         const updatePkg = [];
 
-        console.log(chalk.green('正在更新：'));
         pkgArr.forEach((pkg) => {
           updatePkg.push(pkg.name);
           info.push(`${pkg.name}: latestVersion: ${pkg.latestVersion}, oldVersion: ${pkg.oldVersion}`);
         });
         console.log(chalk.green(info.join('\n')));
-        exec(`npm i -g ${updatePkg.join(' ')}`, (error, stdout, stderr) => {
+
+        const spinner = ora('正在更新...').start();
+        exec(`npm i -g ${updatePkg.join(' ')}`, (error, stdout) => {
           if (error) {
             console.error(`exec error: ${error}`);
             return;
           }
-          console.log(`stdout: ${stdout}`);
-          console.log(`stderr: ${stderr}`);
+          console.log(stdout);
+          spinner.stop();
         });
       } else {
         console.log(chalk.green('没有找到需要更新的模块'));

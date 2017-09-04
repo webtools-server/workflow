@@ -66,6 +66,8 @@ cli.run = (option) => {
   // 如果使用解决方案
   if (solution.entry) {
     configuration = solution.entry;
+    utilLog.info(`solution：${solution.name}`);
+    utilLog.info(`plugin required: ${Object.keys(configuration).join(',')}`);
   } else {
     // 读取配置文件
     configuration = utilFs.tryRequire(path.join(cwd, command.jfetOptions.configFilePath || '', CONFIG_FILES));

@@ -15,6 +15,7 @@ const defaultOptions = {
 
 class Solution {
   constructor(options) {
+    this.name = '';
     this.entry = null;
     this.opts = Object.assign({}, defaultOptions, options);
     this.init();
@@ -38,6 +39,7 @@ class Solution {
     if (!path.isAbsolute(solutionEntry)) {
       solutionEntry = path.join(process.cwd(), solutionEntry);
     }
+    this.name = solutionEntry;
     this.entry = util.loadPackage(solutionEntry);
   }
 
@@ -47,6 +49,7 @@ class Solution {
   loadSolutionByName() {
     const { solution } = this.opts;
     if (!solution) return;
+    this.name = solution;
     this.entry = util.loadPackage(SOLUTION_PREFIX.map(s => `${s}${solution}`));
   }
 }
