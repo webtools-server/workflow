@@ -65,9 +65,17 @@ cli.run = (option) => {
   const solution = new Solution(command.jfetOptions);
   // 如果使用解决方案
   if (solution.entry) {
+    const checkResult = solution.checkPlugins();
+    const checkResultArr = Object.keys(checkResult);
+
     configuration = solution.entry;
     utilLog.info(`solution：${solution.name}`);
-    utilLog.info(`plugin required: ${Object.keys(configuration).join(',')}`);
+    utilLog.info(`plugin required: ${checkResultArr.join(',')}`);
+    checkResultArr.forEach((res) => {
+      if (!checkResult[res].installed) {
+        utilLog.warn(`${res} plugin not installed`);
+      }
+    });
   } else {
     // 读取配置文件
     configuration = utilFs.tryRequire(path.join(cwd, command.jfetOptions.configFilePath || '', CONFIG_FILES));

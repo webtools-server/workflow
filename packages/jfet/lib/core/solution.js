@@ -6,7 +6,7 @@ const path = require('path');
 const util = require('../util');
 const constant = require('../constant');
 
-const { SOLUTION_PREFIX } = constant;
+const { SOLUTION_PREFIX, COMMAND_PREFIX } = constant;
 
 const defaultOptions = {
   solution: '', // 解决方案名称
@@ -51,6 +51,24 @@ class Solution {
     if (!solution) return;
     this.name = solution;
     this.entry = util.loadPackage(SOLUTION_PREFIX.map(s => `${s}${solution}`));
+  }
+
+  /**
+   * 检查插件
+   */
+  checkPlugins() {
+    let result = {};
+    const ctxEntry = this.entry;
+
+    if (ctxEntry) {
+      result = Object.keys(ctxEntry).reduce((entries, entry) => {
+        entries[entry] = {
+          installed: !!util.loadPackage(COMMAND_PREFIX.map(c => `${c}${entry}`), false)
+        };
+        return entries;
+      }, {});
+    }
+    return result;
   }
 }
 
