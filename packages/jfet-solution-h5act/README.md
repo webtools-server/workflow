@@ -4,13 +4,10 @@
 
 ## 安装
 
-依赖`@jyb/jfet-build @jyb/jfet-server @jyb/jfet-doc @jyb/jfet-image`插件
-
 全局安装，如果有安装，可以直接跳过
 
 ```shell
 $ npm i @jyb/jfet-solution-h5act -g
-$ npm i @jyb/jfet-build @jyb/jfet-server @jyb/jfet-doc @jyb/jfet-image -g
 ```
 
 ## 环境
