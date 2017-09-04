@@ -27,7 +27,7 @@ module.exports = {
 
     // 构建前
     context.on('before', () => {
-      fse.removeSync(currentPublic);
+      fse.emptyDirSync(currentPublic);
     });
 
     // 构建后
