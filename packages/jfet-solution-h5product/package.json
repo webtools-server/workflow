@@ -20,5 +20,8 @@
     "solution"
   ],
   "author": "canye.wu@jyblife.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^4.0.1"
+  }
 }
