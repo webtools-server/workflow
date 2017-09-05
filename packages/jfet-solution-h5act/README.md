@@ -24,7 +24,7 @@ $ npm i @jyb/jfet-solution-h5act -g
 ```json
 {
   "jfetOptions": { // jfet配置
-    "solution": "h5_act"
+    "solution": "h5act"
   },
   "build": { // build配置
     "entry": { // 自定义入口，如果设置了就会禁用自动扫描入口
@@ -72,8 +72,8 @@ $ npm i @jyb/jfet-solution-h5act -g
     "uploadUrl": "http://172.16.1.10:7001/api/upload" // 上传接口
   },
   "image": { // image配置
-    "input": "public/image/*.{jpg,png,gif}",
-    "output": "public/image"
+    "input": "../../release/act/199701/test/image/*.{jpg,png,gif}",
+    "output": "../../release/act/199701/test/image"
   }
 }
 ```
