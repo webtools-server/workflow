@@ -39,10 +39,12 @@ plugin.builder = {
 plugin.handler = (configFunc, argv) => {
   const cfg = configFunc.getConfig() || {};
 
+  // 图片压缩优化
   if (argv.min) {
     minBuilder(cfg.min);
   }
 
+  // webp方案
   if (argv.webp) {
     webpBuilder(cfg.webp);
   }
