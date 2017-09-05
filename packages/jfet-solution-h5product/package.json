@@ -2,15 +2,17 @@
   "name": "@jyb/jfet-solution-h5product",
   "version": "1.1.11",
   "description": "加油宝h5产品前端开发方案",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "scripts"
   ],
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "postinstall": "node scripts/install.js",
     "test": "../../node_modules/.bin/mocha ./test/**/*.test.js"
   },
   "keywords": [
