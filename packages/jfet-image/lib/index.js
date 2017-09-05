@@ -44,10 +44,7 @@ plugin.handler = (configFunc, argv) => {
   }
 
   if (argv.webp) {
-    // webpBuilder({
-    //   pattern: path.join(process.cwd(), 'demo/*.{jpg,png}'),
-    //   output: path.join(process.cwd(), 'demo')
-    // });
+    webpBuilder(cfg.webp);
   }
 };
 
