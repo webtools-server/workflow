@@ -8,10 +8,11 @@ const defaultConfig = require('./config.default');
 const cwd = process.cwd();
 
 module.exports = (config = {}) => {
+  const packEnv = process.env.PACK_ENV;
   const buildConfig = defaultConfig(config);
   const newBuildConfig = Object.assign(buildConfig, {
     defineConstants: Object.assign(buildConfig.defineConstants, {
-      'process.env.NODE_ENV': 'production'
+      'process.env.NODE_ENV': packEnv === 'prod' ? 'production' : 'test'
     })
   });
 

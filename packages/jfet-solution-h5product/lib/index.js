@@ -69,6 +69,8 @@ module.exports = {
     });
   },
   pack(abc, context) {
+    const packEnv = process.env.PACK_ENV;
+
     context.setConfig({
       root: path.join(cwd, 'public'), // 打包的文件根目录
       ssiPattern: 'pages/*.html', // 相对root
@@ -86,7 +88,7 @@ module.exports = {
         filepath: path.join(cwd, 'public'), // manifest路径
         name: 'manifest.json' // manifest文件名字
       },
-      zipUrl: abc.zipUrl || '', // 包地址前缀，例如：http://example.com
+      zipUrl: abc.zipUrl[packEnv] || '', // 包地址前缀，例如：http://example.com
       app: Object.assign({ // 应用设置
         uid: '', // 业务包UID，该ID需要用于app跳转链接的入口配置
         entry: '', // 业务包入口

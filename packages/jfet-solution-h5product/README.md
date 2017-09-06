@@ -18,7 +18,7 @@ $ npm i @jyb/jfet-solution-h5product -g
 - local环境，通过`BUILD_ENV=local`指定，`process.env.NODE_ENV`为`local`
 - test环境，通过`BUILD_ENV=test`指定，`process.env.NODE_ENV`为`test`
 - prod环境，通过`BUILD_ENV=prod`指定，`process.env.NODE_ENV`为`prod`
-- pack环境，通过`BUILD_ENV=pack`指定，`process.env.NODE_ENV`为`prod`
+- pack环境，通过`BUILD_ENV=pack`指定，当`PACK_ENV=prod`,`process.env.NODE_ENV`为`prod`；当`PACK_ENV=test`,`process.env.NODE_ENV`为`test`
 
 ## abc.json配置
 
@@ -72,7 +72,10 @@ $ npm i @jyb/jfet-solution-h5product -g
   "pack": { // 离线包配置
     "outputPath": "product/baina",
     "releasePath": "../../release/static/h5zip",
-    "zipUrl": "http://beta.branch.jtjr.com:8901/static/h5zip",
+    "zipUrl": {
+      "test": "http://beta.branch.jtjr.com:8901/static/h5zip",
+      "prod": "http://beta.branch.jtjr.com:8901/static/h5zip"
+    },
     "app": {
       "uid": 10000,
       "entry": "product/baina/pages/index.html", 
