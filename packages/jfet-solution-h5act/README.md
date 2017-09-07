@@ -48,7 +48,11 @@ $ npm i @jyb/jfet-solution-h5act -g
       "test": {
         "ACT_ENV": "test"
       }
-    }
+    },
+    "copy": [{ // 复制文件配置
+      "from": "",
+      "to": ""
+    }]
   },
   "server": { // server配置
     "opnPath": { // 定义server自动打开路径

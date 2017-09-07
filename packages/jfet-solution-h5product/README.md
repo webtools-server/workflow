@@ -14,6 +14,8 @@ $ npm i @jyb/jfet-solution-h5product -g
 
 一共分4个环境，`mock`,`local`,`test`,`prod`,`pack`
 
+每个环境对应有`process.env.BUILD_ENV`，值为`BUILD_ENV`设定的值
+
 - mock环境，通过`BUILD_ENV=mock`指定，`process.env.NODE_ENV`为`mock`
 - local环境，通过`BUILD_ENV=local`指定，`process.env.NODE_ENV`为`local`
 - test环境，通过`BUILD_ENV=test`指定，`process.env.NODE_ENV`为`test`
