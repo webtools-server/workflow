@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-solution-h5act",
-  "version": "1.1.21",
+  "version": "1.1.22",
   "description": "加油宝h5活动前端开发方案",
   "main": "lib/index.js",
   "files": [
