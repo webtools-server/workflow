@@ -27,6 +27,7 @@ module.exports = (config = {}) => {
   return {
     scanEntry: entry ? {} : { pattern: path.join(cwd, 'pages/**/index.js') },
     entryPoint,
+    noChunkHash: config.noChunkHash,
     setOutput: {
       path: path.join(cwd, 'public'),
       publicPath

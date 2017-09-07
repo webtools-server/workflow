@@ -41,11 +41,12 @@ const { UglifyJsPlugin, CommonsChunkPlugin } = webpackCore.optimize;
 
 preset.run = (core, context) => {
   const { configuration, env } = context;
+  const { noChunkHash } = configuration;
   const isProduction = env !== 'watch';
-  const jsFileName = isProduction ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js';
-  const scssStyleFileName = isProduction ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css';
-  const lessStyleFileName = isProduction ? 'css/[name].less-[chunkhash:8].css' : 'css/[name].less.css';
-  const vueStyleFileName = isProduction ? 'css/[name].vue-[chunkhash:8].css' : 'css/[name].vue.css';
+  const jsFileName = isProduction && !noChunkHash ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js';
+  const scssStyleFileName = isProduction && !noChunkHash ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css';
+  const lessStyleFileName = isProduction && !noChunkHash ? 'css/[name].less-[chunkhash:8].css' : 'css/[name].less.css';
+  const vueStyleFileName = isProduction && !noChunkHash ? 'css/[name].vue-[chunkhash:8].css' : 'css/[name].vue.css';
   const commonsChunkPluginConfig = configuration.commonsChunkPlugin;
 
   // plugin
