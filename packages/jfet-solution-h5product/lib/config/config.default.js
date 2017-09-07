@@ -8,7 +8,9 @@ const cwd = process.cwd();
 
 module.exports = (config = {}) => {
   const buildEnv = process.env.BUILD_ENV;
-  const defineConstants = (config.defineConstants || {})[buildEnv] || {};
+  const defineConstants = Object.assign({
+    'process.env.BUILD_ENV': buildEnv || ''
+  }, (config.defineConstants || {})[buildEnv]);
   const publicPath = config.publicPath[buildEnv] || '/public/';
   const entry = config.entry;
   const commonsChunkConfig = config.commonsChunk || {};
