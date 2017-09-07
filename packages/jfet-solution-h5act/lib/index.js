@@ -32,6 +32,7 @@ module.exports = {
 
     // 构建后
     context.on('after', () => {
+      (abc.copy || []).forEach(file => fse.copySync(path.join(cwd, file.from), path.join(cwd, file.to)));
       if (isBuildEnv && buildEnv !== 'pack') {
         const releasePath = path.join(cwd, abc.releasePath);
         fse.removeSync(releasePath);
