@@ -9,7 +9,6 @@ const path = require('path');
 const glob = require('glob');
 
 const hasOwn = Object.prototype.hasOwnProperty;
-let resourceMap = {};
 
 class AssemblePlugin {
   constructor(options = {}) {
@@ -25,6 +24,7 @@ class AssemblePlugin {
       renameFunc: null
     };
 
+    this.resourceMap = {};
     this.options = Object.assign({}, defaultOptions, options);
   }
 
@@ -47,7 +47,8 @@ class AssemblePlugin {
     app.pages(options.pages);
 
     // helper
-    app.helper('require', requireHelper);
+    app.helper('require', this.requireHelper.bind(this));
+    app.helper('manifest', this.manifestHelper.bind(this));
     for (const k in helper) {
       if (hasOwn.call(helper, k)) {
         app.helper(k, helper[k]);
@@ -84,7 +85,7 @@ class AssemblePlugin {
     // webpack compiler after emit
     compiler.plugin('after-emit', (compilation, callback) => {
       try {
-        resourceMap = require(options.mapPath);
+        this.resourceMap = require(options.mapPath);
       } catch (e) {
         console.log(chalk.red('Assemble can not found resource map'));
       }
@@ -97,14 +98,16 @@ class AssemblePlugin {
       });
     });
   }
-}
+  requireHelper(resource) {
+    if (hasOwn.call(this.resourceMap, resource)) {
+      return this.resourceMap[resource];
+    }
 
-function requireHelper(resource) {
-  if (hasOwn.call(resourceMap, resource)) {
-    return resourceMap[resource];
+    return resource;
   }
-
-  return resource;
+  manifestHelper() {
+    return JSON.stringify(this.resourceMap);
+  }
 }
 
 function reduceObjs(objs) {
