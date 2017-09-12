@@ -15,6 +15,7 @@ module.exports = {
 
     summaryContent.push('# 目录');
     summaryContent.push('* [主页](/README.md)');
+    summaryContent.push('* [常见问题](/tips.md)');
 
     dir.filter((d) => {
       try {

@@ -1,5 +1,6 @@
 # 目录
 * [主页](/README.md)
+* [常见问题](/tips.md)
 * [jfet](/packages/jfet/README.md)
   * [开发命令插件](/packages/jfet/doc/DevelopPlugin.md)
   * [开发解决方案](/packages/jfet/doc/DevelopSolution.md)
