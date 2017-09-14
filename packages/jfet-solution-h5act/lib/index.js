@@ -5,6 +5,10 @@
 const path = require('path');
 const fse = require('fs-extra');
 
+// plugin
+const buildPluginFtp = require('@jyb/jfet-build-plugin-ftp');
+const buildPluginCopy = require('./plugin/copy');
+
 const buildConfig = {
   default: require('./config/config.default'),
   mock: require('./config/config.mock'),
@@ -19,29 +23,21 @@ module.exports = {
   build(abc, context) {
     const env = context.env;
     const isBuildEnv = env === 'build';
-    const currentPublic = path.join(cwd, 'public');
     const buildEnv = process.env.BUILD_ENV;
 
     // 修改预置构建方案的配置
     context.setConfig(buildConfig[buildEnv || 'default'](abc));
 
-    // 构建前
-    context.on('before', () => {
-      fse.emptyDirSync(currentPublic);
-    });
-
-    // 构建后
-    context.on('after', () => {
-      (abc.copy || []).forEach(file => fse.copySync(path.join(cwd, file.from), path.join(cwd, file.to)));
-      if (isBuildEnv && buildEnv !== 'pack') {
-        const releasePath = path.join(cwd, abc.releasePath);
-        fse.removeSync(releasePath);
-        fse.copySync(currentPublic, releasePath);
-      }
-    });
-    context.on('error', (e) => {
-      console.error(e);
-    });
+    // use plugin
+    if (abc.sftp) {
+      context.usePlugin(buildPluginFtp(abc.sftp || {}));
+    }
+    context.usePlugin(buildPluginCopy({
+      copy: abc.copy || [],
+      isRelease: isBuildEnv && buildEnv !== 'pack',
+      copyFrom: path.join(cwd, 'public'),
+      copyTo: path.join(cwd, abc.releasePath)
+    }));
   },
   server(abc, context) {
     const proxy = context.proxy;
