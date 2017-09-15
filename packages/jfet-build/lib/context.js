@@ -8,11 +8,9 @@ const stringifyObject = require('stringify-object');
 const core = require('./core');
 const utilLog = require('./util/log');
 const _ = require('./util');
-const co = require('co');
-const constant = require('./constant');
-const getModule = require('./util/get_module');
 
-const { PRESET_PREFIX } = constant;
+// plugin
+const presetPlugin = require('./plugin/preset');
 
 class ContextBuild extends EventEmitter {
   constructor(env) {
@@ -89,6 +87,8 @@ class ContextBuild extends EventEmitter {
 
   start() {
     try {
+      this.usePlugin(presetPlugin({ preset: this.preset }));
+
       // spinner
       const spinner = ora('Build start: ');
       // spinner event
@@ -104,39 +104,10 @@ class ContextBuild extends EventEmitter {
       // emit before event
       this.emit('before-emit');
       this.dispatchPlugin();
-      this.startPreset();
       // emit after event
       this.emit('after-emit');
     } catch (e) {
       this.emit('error', e);
-    }
-  }
-
-  startPreset() {
-    const preset = this.preset;
-
-    if (preset && _.isString(preset)) {
-      const resources = PRESET_PREFIX.map(p => `${p}${preset}`);
-      this.runPreset(getModule(resources));
-    } else {
-      this.runPreset(preset);
-    }
-  }
-
-  runPreset(preset) {
-    const that = this;
-
-    if (preset && _.isFunction(preset.run)) {
-      co(function* () {
-        that.emit('spinner', 'Run preset...');
-        // preset run
-        that.emit('before');
-        yield preset.run(core, that);
-        that.emit('after');
-        that.emit('spinner', false);
-      });
-    } else {
-      utilLog.error('Preset must export run function.');
     }
   }
 }
