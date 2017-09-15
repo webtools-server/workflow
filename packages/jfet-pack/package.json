@@ -27,5 +27,9 @@
     "node-ssi": "^0.3.2",
     "url-regex": "^4.1.1",
     "xml": "^1.0.1"
+  },
+  "jfetOptions": {
+    "commandPlugin": "./lib/index.js",
+    "configFilePath": "demo"
   }
 }

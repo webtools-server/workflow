@@ -62,12 +62,13 @@ class Pack {
     const tempPath = path.join(__dirname, `pack${Date.now()}`);
     co(function* () {
       try {
-        const jsonFile = path.join(releasePath, `${uid}.json`);
-        // 获取版本号
-        const versionFormat = that.getVersion(jsonFile);
-
         // 真实路径，离线包内容要求在名称为uid的目录下
         const realPath = path.join(tempPath, uid, outputPath);
+        // json文件
+        const jsonFile = path.join(releasePath, `${uid}.json`);
+        const jsonFileToPack = path.join(tempPath, uid, `${uid}.json`);
+        // 获取版本号
+        const versionFormat = that.getVersion(jsonFile);
 
         // 复制文件到realPath
         fse.copySync(rootPath, realPath);
@@ -78,6 +79,9 @@ class Pack {
 
         // 增加fullLink
         that.replaceFullLink(realPath);
+
+        // json配置文件也放一份到压缩包里面，不过没有md5
+        that.createJSONFile(jsonFileToPack, versionFormat, uid, appInfo);
 
         // 打包
         let useFull = that.argv.full;
@@ -222,9 +226,9 @@ class Pack {
       description: appInfo.desc,
       login: appInfo.login,
       zip: `${zipUrl}/${uid}/${uid}.zip`,
-      zipMD5: md5(fse.readFileSync(zipFullFile)),
+      zipMD5: zipFullFile ? md5(fse.readFileSync(zipFullFile)) : '',
       patch: `${zipUrl}/${uid}/${uid}_patch.zip`,
-      patchMD5: md5(fse.readFileSync(zipIncrementalFile)),
+      patchMD5: zipIncrementalFile ? md5(fse.readFileSync(zipIncrementalFile)) : '',
       entry: appInfo.entry
     };
 
