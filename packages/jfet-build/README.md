@@ -6,6 +6,7 @@
 
 - 核心API，`doc/CoreAPI.md`
 - 开发构建功能块，`doc/DevelopBlock.md`
+- 开发构建预插件，`doc/DevelopPlugin.md`
 - 开发构建预置方案，`doc/DevelopPreset.md`
 
 ## 功能
@@ -36,6 +37,18 @@ jfet build --watch/-w // 监听文件，process.env.JFET_ENV为watch
 
 jfet build --version
 jfet build --help
+```
+
+## 事件
+
+```javascript
+// before-emit 执行插件前
+// after-emit 执行插件后
+// before preset执行前，可以认为是webpack编译前
+// after preset执行后，可以认为是webpack编译后
+// created webpack配置生成后
+// end 插件执行完成
+// error 错误
 ```
 
 ## 配置文件

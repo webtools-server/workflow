@@ -49,6 +49,9 @@ $ npm i @jyb/jfet-solution-h5act -g
         "ACT_ENV": "test"
       }
     },
+    "sftp": {
+      "prod": true // 也可以为对象类型，设置build-plugin-ftp的选项
+    },
     "copy": [{ // 复制文件配置
       "from": "",
       "to": ""
@@ -60,7 +63,7 @@ $ npm i @jyb/jfet-solution-h5act -g
       "build": "/act/199701/test/pages/index.html" // 发布访问路径
     },
     "livereload": {
-      "watch": "./public/*" // 监听目录，一般不需要修改
+      "watch": "./public/**/*" // 监听目录，一般不需要修改
     },
     "proxy": [{ // 代理配置
       "method": "post",
