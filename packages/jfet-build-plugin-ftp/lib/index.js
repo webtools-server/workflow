@@ -40,6 +40,7 @@ module.exports = function(options) {
               fse.removeSync(localDir);
             }
             console.log(`sftp successfully, local: ${localDir}; remote: ${opts.host}, ${remoteDir}`);
+            ssh.dispose();
           }, (error) => {
             throw new Error(error);
           });
