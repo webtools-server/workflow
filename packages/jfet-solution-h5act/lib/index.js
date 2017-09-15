@@ -9,6 +9,8 @@ const fse = require('fs-extra');
 const buildPluginFtp = require('@jyb/jfet-build-plugin-ftp');
 const buildPluginCopy = require('./plugin/copy');
 
+const abcJSON = require('./abc.json');
+
 const buildConfig = {
   default: require('./config/config.default'),
   mock: require('./config/config.mock'),
@@ -24,13 +26,14 @@ module.exports = {
     const env = context.env;
     const isBuildEnv = env === 'build';
     const buildEnv = process.env.BUILD_ENV;
+    const buildAbcJSON = abcJSON.build;
 
     // 修改预置构建方案的配置
     context.setConfig(buildConfig[buildEnv || 'default'](abc));
 
-    // use plugin
-    if (abc.sftp) {
-      context.usePlugin(buildPluginFtp(abc.sftp || {}));
+    // 当设置了sftp字段的prod，才会上传sourcemap文件，并且会合并配置
+    if (abc.sftp && abc.sftp[buildEnv]) {
+      context.usePlugin(buildPluginFtp(Object.assign(buildAbcJSON.sftp, abc.sftp[buildEnv])));
     }
     context.usePlugin(buildPluginCopy({
       copy: abc.copy || [],
