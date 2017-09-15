@@ -47,6 +47,7 @@ preset.run = (core, context) => {
   const scssStyleFileName = isProduction && !noChunkHash ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css';
   const lessStyleFileName = isProduction && !noChunkHash ? 'css/[name].less-[chunkhash:8].css' : 'css/[name].less.css';
   const vueStyleFileName = isProduction && !noChunkHash ? 'css/[name].vue-[chunkhash:8].css' : 'css/[name].vue.css';
+  const sourceMapFilename = 'map/[file].map';
   const commonsChunkPluginConfig = configuration.commonsChunkPlugin;
 
   // plugin
@@ -120,7 +121,8 @@ preset.run = (core, context) => {
     entryPoint(configuration.entryPoint),
     setOutput(Object.assign({
       filename: jsFileName,
-      chunkFilename: jsFileName
+      chunkFilename: jsFileName,
+      sourceMapFilename
     }, configuration.setOutput)),
     defineConstants(configuration.defineConstants),
     resolveAliases(configuration.resolveAliases),
