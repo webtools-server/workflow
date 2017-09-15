@@ -6,8 +6,6 @@ const exec = require('child_process').exec;
 const chalk = require('chalk');
 const ora = require('ora');
 const urllib = require('urllib');
-const util = require('../util');
-const pkgJson = require('../../package.json');
 const {
   TOOL_PREFIX,
   COMMAND_PREFIX,
@@ -46,27 +44,20 @@ function npmPackage() {
       packages.command = result.filter(res => COMMAND_REGEX.test(res.name));
       return result;
     })
-    // .then((result) => { // solution包
-    //   packages.solution = result.filter(res => SOLUTION_REGEX.test(res.name));
-    //   return result;
-    // })
+    .then((result) => { // solution包
+      packages.solution = result.filter(res => SOLUTION_REGEX.test(res.name));
+      return result;
+    })
     .then(() => { // 获取本地已经安装的command和solution
       return [].concat(
         packages.tool,
         packages.command,
         packages.solution
       ).reduce((pkgArr, pkg) => {
-        let packageEntry = null;
+        try {
+          /* eslint-disable import/no-dynamic-require */
+          const packageEntry = require(`${pkg.name}/package.json`);
 
-        // 如果是工具核心
-        if (TOOL_PREFIX.indexOf(pkg.name) > -1) {
-          pkgArr.push({
-            name: pkg.name,
-            latestVersion: pkg.version,
-            oldVersion: pkgJson.version
-          });
-        } else {
-          packageEntry = util.loadPackage(pkg.name, false);
           if (packageEntry) {
             pkgArr.push({
               name: pkg.name,
@@ -74,6 +65,8 @@ function npmPackage() {
               oldVersion: packageEntry.version
             });
           }
+        } catch (e) {
+          /* eslint-disable no-empty */
         }
 
         return pkgArr;
