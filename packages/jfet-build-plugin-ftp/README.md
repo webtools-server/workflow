@@ -19,7 +19,7 @@ this.usePlugin(ftpPlugin({
   port: 22,
   password: '',
   localDir: path.join(__dirname, 'map'), // 本地目录
-  remoteDir: '/data/www/tracker/map', // 远程目录
+  remoteDir: '/data/www/tracker/public/map', // 远程目录
   isDelete: false // 上传成功是否删除本地目录
 }));
 ```
