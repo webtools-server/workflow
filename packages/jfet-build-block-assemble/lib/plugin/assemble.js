@@ -2,6 +2,7 @@
  * webpack plugin
  */
 
+const fs = require('fs');
 const chalk = require('chalk');
 const assemble = require('assemble');
 const watch = require('base-watch');
@@ -20,6 +21,7 @@ class AssemblePlugin {
       helper: {},
       injectData: {},
       mapPath: '',
+      publicPath: 'public',
       assembleApp() {},
       renameFunc: null
     };
@@ -49,6 +51,7 @@ class AssemblePlugin {
     // helper
     app.helper('require', this.requireHelper.bind(this));
     app.helper('manifest', this.manifestHelper.bind(this));
+    app.helper('inline', this.inlineHelper.bind(this));
     for (const k in helper) {
       if (hasOwn.call(helper, k)) {
         app.helper(k, helper[k]);
@@ -107,6 +110,22 @@ class AssemblePlugin {
   }
   manifestHelper() {
     return JSON.stringify(this.resourceMap);
+  }
+  inlineHelper(resource) {
+    let relativePath = this.options.publicPath;
+    if (!path.isAbsolute(relativePath)) {
+      relativePath = path.join(process.cwd(), relativePath);
+    }
+
+    const mapName = this.resourceMap[resource];
+    if (!mapName) {
+      return '';
+    }
+
+    const name = resource.substring(0, resource.lastIndexOf('.'));
+    const newName = mapName.slice(mapName.lastIndexOf(name) - mapName.length);
+
+    return fs.readFileSync(path.join(relativePath, newName), 'utf-8');
   }
 }
 

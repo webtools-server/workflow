@@ -23,6 +23,12 @@ module.exports = {
 }
 ```
 
+## 内置helper
+
+- `require`，用于处理静态资源路径
+- `manifest`，输出静态资源信息
+- `inline`，内嵌资源
+
 ## 选项
 
 ### layouts
