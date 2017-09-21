@@ -17,7 +17,7 @@ $ npm i @jyb/jfet-solution-h5act -g
 - mock环境，通过`BUILD_ENV=mock`指定，`process.env.NODE_ENV`为`mock`
 - local环境，通过`BUILD_ENV=local`指定，`process.env.NODE_ENV`为`local`
 - test环境，通过`BUILD_ENV=test`指定，`process.env.NODE_ENV`为`test`
-- prod环境，通过`BUILD_ENV=prod`指定，`process.env.NODE_ENV`为`prod`
+- prod环境，通过`BUILD_ENV=prod`指定，`process.env.NODE_ENV`为`production`
 
 ## abc.json配置
 
