@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-solution-h5product",
-  "version": "1.1.22",
+  "version": "1.2.2",
   "description": "加油宝h5产品前端开发方案",
   "main": "lib/index.js",
   "files": [
@@ -22,8 +22,8 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
+    "@jyb/jfet-build-plugin-copy": "^1.2.2",
     "@jyb/jfet-build-plugin-ftp": "^1.2.0",
-    "@jyb/jfet-build-plugin-copy": "^1.2.0",
     "fs-extra": "^4.0.1"
   }
 }
