@@ -34,23 +34,24 @@ module.exports = {
     // 修改预置构建方案的配置
     context.setConfig(buildConfig[buildEnv || 'default'](abc));
 
-    // 当设置了sftp字段的prod，才会上传sourcemap文件，并且会合并配置
-    if (abc.sftp && abc.sftp[buildEnv]) {
-      context.usePlugin(buildPluginFtp(Object.assign(buildAbcJSON.sftp, abc.sftp[buildEnv])));
-    }
-    context.usePlugin(buildPluginCopy({
-      copy: abc.copy || [],
-      isRelease: isOnlyBuild,
-      copyFrom: currentPublic,
-      copyTo: path.join(cwd, abc.releasePath)
-    }));
-
     context.on('after', () => {
       // 只有build环境下，并且useShtml为true，才会
       if (isOnlyBuild && abc.useShtml) {
         util.copyShtml(currentPublic);
       }
     });
+
+    // 当设置了sftp字段的prod，才会上传sourcemap文件，并且会合并配置
+    if (abc.sftp && abc.sftp[buildEnv]) {
+      context.usePlugin(buildPluginFtp(Object.assign(buildAbcJSON.sftp, abc.sftp[buildEnv])));
+    }
+
+    context.usePlugin(buildPluginCopy({
+      copy: abc.copy || [],
+      isRelease: isOnlyBuild,
+      copyFrom: currentPublic,
+      copyTo: path.join(cwd, abc.releasePath)
+    }));
   },
   server(abc, context) {
     const proxy = context.proxy;
