@@ -19,6 +19,7 @@
 * [jfet-build-block-sprite](/packages/jfet-build-block-sprite/README.md)
 * [jfet-build-block-vue](/packages/jfet-build-block-vue/README.md)
 * [jfet-build-block-webpack3](/packages/jfet-build-block-webpack3/README.md)
+* [jfet-build-plugin-copy](/packages/jfet-build-plugin-copy/README.md)
 * [jfet-build-plugin-ftp](/packages/jfet-build-plugin-ftp/README.md)
 * [jfet-build-preset-common](/packages/jfet-build-preset-common/README.md)
 * [jfet-doc](/packages/jfet-doc/README.md)
