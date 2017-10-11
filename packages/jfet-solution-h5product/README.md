@@ -53,7 +53,14 @@ $ npm i @jyb/jfet-solution-h5product -g
       }
     },
     "inPages": true, // 生成的html是否放置在pages目录下
-    "useShtml": false // 是否生成shtml文件
+    "useShtml": false, // 是否生成shtml文件
+    "sftp": {
+      "prod": true // 也可以为对象类型，设置build-plugin-ftp的选项
+    },
+    "copy": [{ // 复制文件配置
+      "from": "",
+      "to": ""
+    }]
   },
   "server": { // server配置
     "opnPath": { // 定义server自动打开路径
