@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@jyb/jfet-build-plugin-ftp": "^1.2.0",
+    "@jyb/jfet-build-plugin-copy": "^1.2.0",
     "fs-extra": "^4.0.1"
   }
 }
