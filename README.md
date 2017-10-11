@@ -9,6 +9,7 @@
 - jfet-server 调试服务
 - jfet-pack 离线包
 - jfet-doc 生成发布文档
+- jfet-image 图片处理插件
 
 ## 发布
 
