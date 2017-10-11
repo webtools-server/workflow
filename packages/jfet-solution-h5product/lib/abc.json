@@ -1,0 +1,13 @@
+{
+  "build": {
+    "sftp": {
+      "host": "172.16.1.8",
+      "username": "root",
+      "port": 22,
+      "password": "123qwe",
+      "localDir": "./public/map",
+      "remoteDir": "/data/www/tracker/public/map",
+      "isDelete": false
+    }
+  }
+}

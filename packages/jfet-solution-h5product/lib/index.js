@@ -3,8 +3,13 @@
  */
 
 const path = require('path');
-const fse = require('fs-extra');
 const util = require('./utils/util');
+
+// plugin
+const buildPluginFtp = require('@jyb/jfet-build-plugin-ftp');
+const buildPluginCopy = require('@jyb/jfet-build-plugin-copy');
+
+const abcJSON = require('./abc.json');
 
 const buildConfig = {
   default: require('./config/config.default'),
@@ -21,31 +26,30 @@ module.exports = {
   build(abc, context) {
     const env = context.env;
     const isBuildEnv = env === 'build';
-    const currentPublic = path.join(cwd, 'public');
     const buildEnv = process.env.BUILD_ENV;
+    const buildAbcJSON = abcJSON.build;
+    const currentPublic = path.join(cwd, 'public');
+    const isOnlyBuild = isBuildEnv && buildEnv !== 'pack';
 
     // 修改预置构建方案的配置
     context.setConfig(buildConfig[buildEnv || 'default'](abc));
 
-    // 构建前
-    context.on('before', () => {
-      fse.emptyDirSync(currentPublic);
-    });
+    // 当设置了sftp字段的prod，才会上传sourcemap文件，并且会合并配置
+    if (abc.sftp && abc.sftp[buildEnv]) {
+      context.usePlugin(buildPluginFtp(Object.assign(buildAbcJSON.sftp, abc.sftp[buildEnv])));
+    }
+    context.usePlugin(buildPluginCopy({
+      copy: abc.copy || [],
+      isRelease: isOnlyBuild,
+      copyFrom: currentPublic,
+      copyTo: path.join(cwd, abc.releasePath)
+    }));
 
-    // 构建后
     context.on('after', () => {
-      if (isBuildEnv && buildEnv !== 'pack') {
-        if (abc.useShtml) {
-          util.copyShtml(currentPublic);
-        }
-
-        const releasePath = path.join(cwd, abc.releasePath);
-        fse.removeSync(releasePath);
-        fse.copySync(currentPublic, releasePath);
+      // 只有build环境下，并且useShtml为true，才会
+      if (isOnlyBuild && abc.useShtml) {
+        util.copyShtml(currentPublic);
       }
-    });
-    context.on('error', (e) => {
-      console.error(e);
     });
   },
   server(abc, context) {
