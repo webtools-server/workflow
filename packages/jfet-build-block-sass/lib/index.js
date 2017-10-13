@@ -24,9 +24,12 @@ function sass(isPostcss = false, options = {}) {
           minimize: Boolean(options.minimize)
         }
       },
+      require.resolve('resolve-url-loader'),
       {
         loader: require.resolve('sass-loader'),
-        options
+        options: Object.assign({
+          sourceMap: true
+        }, options)
       }
     ]
   };
