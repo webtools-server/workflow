@@ -36,7 +36,11 @@ module.exports = (config = {}) => {
       components: path.join(cwd, 'components'),
       services: path.join(cwd, 'services')
     },
-    defineConstants,
+    defineConstants: Object.keys(defineConstants).reduce((obj, item) => {
+      obj[item] = defineConstants[item];
+      obj[`process.env.${item}`] = defineConstants[item];
+      return obj;
+    }, {}),
     sass: {
       includePaths: ['node_modules']
     },
