@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-solution-h5product",
-  "version": "1.2.4",
+  "version": "1.2.7",
   "description": "加油宝h5产品前端开发方案",
   "main": "lib/index.js",
   "files": [
