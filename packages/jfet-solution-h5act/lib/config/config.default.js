@@ -22,6 +22,12 @@ module.exports = (config = {}) => {
     commonsChunkPlugin.push(Object.assign({ name: k }, currentCommon.options));
   }
 
+  // resolve.alias
+  const resolveAlias = Object.keys(config.resolveAlias || {}).reduce((alias, k) => {
+    alias[k] = path.resolve(cwd, config.resolveAlias[k]);
+    return alias;
+  }, {});
+
   return {
     scanEntry: entry ? {} : { pattern: path.join(cwd, 'pages/**/index.js') },
     entryPoint,
@@ -31,11 +37,11 @@ module.exports = (config = {}) => {
       publicPath,
       chunkFilename: 'js/[name]-[chunkhash:8].js'
     },
-    resolveAliases: {
+    resolveAliases: Object.assign({
       assets: path.join(cwd, 'assets'),
       components: path.join(cwd, 'components'),
       services: path.join(cwd, 'services')
-    },
+    }, resolveAlias),
     defineConstants: Object.keys(defineConstants).reduce((obj, item) => {
       obj[item] = defineConstants[item];
       obj[`process.env.${item}`] = defineConstants[item];

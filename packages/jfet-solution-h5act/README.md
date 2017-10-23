@@ -44,6 +44,9 @@ $ npm i @jyb/jfet-solution-h5act -g
       "prod": "/act/199701/test/",
       "pack": "../"
     },
+    "resolveAlias": { // resolve.alias，路径相对于该配置，内置有assets，components，services
+      "mock": "./mock"
+    },
     "defineConstants": { // 定义常量，环境有：local/mock/test/prod/pack
       "test": {
         "ACT_ENV": "test"

@@ -24,6 +24,12 @@ module.exports = (config = {}) => {
     commonsChunkPlugin.push(Object.assign({ name: k }, currentCommon.options));
   }
 
+  // resolve.alias
+  const resolveAlias = Object.keys(config.resolveAlias || {}).reduce((alias, k) => {
+    alias[k] = path.resolve(cwd, config.resolveAlias[k]);
+    return alias;
+  }, {});
+
   return {
     scanEntry: entry ? {} : { pattern: path.join(cwd, 'pages/**/index.js') },
     entryPoint,
@@ -32,11 +38,11 @@ module.exports = (config = {}) => {
       path: path.join(cwd, 'public'),
       publicPath
     },
-    resolveAliases: {
+    resolveAliases: Object.assign({
       assets: path.join(cwd, 'assets'),
       components: path.join(cwd, 'components'),
       services: path.join(cwd, 'services')
-    },
+    }, resolveAlias),
     defineConstants,
     sass: {
       includePaths: ['node_modules']
