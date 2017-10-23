@@ -52,6 +52,7 @@ $ npm i @jyb/jfet-solution-h5act -g
         "ACT_ENV": "test"
       }
     },
+    "imageLimit": 10000, // 图片limit，小于这个值，图片会使用base64
     "sftp": {
       "prod": true // 也可以为对象类型，设置build-plugin-ftp的选项
     },

@@ -55,6 +55,7 @@ $ npm i @jyb/jfet-solution-h5product -g
         "ACT_ENV": "test"
       }
     },
+    "imageLimit": 10000, // 图片limit，小于这个值，图片会使用base64
     "inPages": true, // 生成的html是否放置在pages目录下
     "useShtml": false, // 是否生成shtml文件
     "sftp": {

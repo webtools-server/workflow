@@ -47,6 +47,9 @@ module.exports = (config = {}) => {
     sass: {
       includePaths: ['node_modules']
     },
+    image: {
+      limit: (typeof config.imageLimit !== 'number') ? 10000 : config.imageLimit
+    },
     assemble: {
       layouts: path.join(cwd, 'pages/layouts/*.hbs'),
       partials: path.join(cwd, 'pages/partials/*.hbs'),
