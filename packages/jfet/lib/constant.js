@@ -18,5 +18,5 @@ module.exports = {
   // npm包信息接口
   NPM_PACKAGE_API: 'http://npm.jyb.com/',
   // npm搜索接口
-  NPM_SEARCH_API: 'http://npm.jyb.com/-/search/@jyb%2Fjfet',
+  NPM_SEARCH_API: 'http://npm.jyb.com/-/verdaccio/search/@jyb%2Fjfet',
 };
