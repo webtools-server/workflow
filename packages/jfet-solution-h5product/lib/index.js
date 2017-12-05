@@ -39,16 +39,16 @@ module.exports = {
       context.usePlugin(buildPluginFtp(Object.assign(buildAbcJSON.sftp, abc.sftp[buildEnv])));
     }
 
+    context.usePlugin(copyShtmlPlugin({
+      dir: currentPublic,
+      disabled: !(isOnlyBuild && abc.useShtml) // 只有build环境下，并且useShtml为true，才会复制
+    }));
+
     context.usePlugin(buildPluginCopy({
       copy: abc.copy || [],
       isRelease: isOnlyBuild,
       copyFrom: currentPublic,
       copyTo: path.join(cwd, abc.releasePath)
-    }));
-
-    context.usePlugin(copyShtmlPlugin({
-      dir: currentPublic,
-      disabled: !(isOnlyBuild && abc.useShtml) // 只有build环境下，并且useShtml为true，才会复制
     }));
   },
   server(abc, context) {
