@@ -159,7 +159,7 @@ preset.run = (core, context) => {
     ]),
     core.match(/\.scss$/, [
       sass(true, Object.assign({
-        minimize: isProduction
+        minimize: isProduction ? { calc: false } : false
       }, configuration.sass)),
       extractText(configuration.extractTextScss || scssStyleFileName)
     ]),

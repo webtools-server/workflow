@@ -21,7 +21,7 @@ function sass(isPostcss = false, options = {}) {
         loader: require.resolve('css-loader'),
         options: {
           sourceMap: Boolean(options.sourceMap),
-          minimize: Boolean(options.minimize)
+          minimize: options.minimize
         }
       },
       require.resolve('resolve-url-loader'),
