@@ -75,7 +75,7 @@ function commonDoneHandler(isWatch, resolve, err, stats) {
   if (errors && errors.length) {
     notifier.notify({
       title: 'Error',
-      message: chalk.red(errors.slice(80)),
+      message: chalk.red(errors.slice(0, 60)),
     });
     console.log(chalk.red(errors));
   }
