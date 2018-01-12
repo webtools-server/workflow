@@ -77,7 +77,9 @@ function commonDoneHandler(isWatch, resolve, err, stats) {
       title: 'Error',
       message: errors.join('').slice(0, 10)
     });
+    console.log(chalk.red('===== ERROR_START ====='));
     console.log(chalk.red(errors));
+    console.log(chalk.red('===== ERROR_END ====='));
   }
 
   if (!isWatch || stats.hasErrors()) {
