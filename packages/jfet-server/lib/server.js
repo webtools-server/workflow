@@ -112,7 +112,7 @@ class Server {
     });
 
     // listen
-    const port = parseInt(this.port, 10);
+    const port = parseInt(this.config.port || this.port, 10);
     const listenURL = `http://${util.getIPAddress}:${port}`;
     const opnURL = `${listenURL}${opnPath}`;
 

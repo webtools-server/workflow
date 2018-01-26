@@ -47,13 +47,15 @@ module.exports = {
     const serverEnv = process.env.SERVER_ENV;
 
     context.setConfig({
+      port: abc.port,
       opnPath: abc.opnPath[serverEnv] || '',
       ssi: { // ssi
         baseDir: path.join(cwd, '..', '..'),
         ext: '.html'
       },
       livereload: { // livereload
-        watch: path.join(cwd, abc.livereload.watch)
+        watch: path.join(cwd, abc.livereload.watch),
+        init: abc.livereload.init || {}
       }
     });
 

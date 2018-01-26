@@ -67,12 +67,16 @@ $ npm i @jyb/jfet-solution-h5product -g
     }]
   },
   "server": { // server配置
+    "port": 3000, // 服务端口
     "opnPath": { // 定义server自动打开路径
       "local": "/public/pages/index.html", // 本地访问路径
       "build": "/act/199701/test/pages/index.html" // 发布访问路径
     },
     "livereload": {
-      "watch": "./public/*" // 监听目录，一般不需要修改
+      "watch": "./public/*", // 监听目录，一般不需要修改
+      "init": {
+        "port": 8097 // 代理服务端口
+      }
     },
     "proxy": [{ // 代理配置
       "method": "post",
