@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-block-assemble",
-  "version": "1.2.1",
+  "version": "1.2.20",
   "description": "assemble build block for jfet",
   "main": "lib/index.js",
   "scripts": {
