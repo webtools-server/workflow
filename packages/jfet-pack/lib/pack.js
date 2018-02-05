@@ -129,9 +129,8 @@ class Pack {
         fse.removeSync(tempPath);
         console.log(chalk.green('打包成功'));
       } catch (e) {
-        console.log(chalk.red(e));
         fse.removeSync(tempPath);
-        throw new Error(e);
+        console.log(chalk.red(e));
       }
     });
   }
