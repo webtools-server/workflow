@@ -2,6 +2,7 @@
  * webpack plugin
  */
 
+const fs = require('fs');
 const chalk = require('chalk');
 const assemble = require('assemble');
 const watch = require('base-watch');
@@ -62,7 +63,8 @@ class AssemblePlugin {
     // task
     app.task('default', (cb) => {
       try {
-        this.resourceMap = require(options.mapPath);
+        const resourceMapContent = fs.readFileSync(options.mapPath);
+        this.resourceMap = JSON.parse(resourceMapContent);
       } catch (e) {
         console.log(chalk.red('Assemble can not found resource map'));
       }
