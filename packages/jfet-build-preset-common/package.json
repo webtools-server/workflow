@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-build-preset-common",
-  "version": "1.2.16",
+  "version": "1.2.20",
   "description": "common build preset for jfet",
   "main": "lib/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "author": "canye.wu@jyblife.com",
   "license": "MIT",
   "dependencies": {
-    "@jyb/jfet-build-block-assemble": "^1.2.1",
+    "@jyb/jfet-build-block-assemble": "^1.2.20",
     "@jyb/jfet-build-block-assets": "^1.1.0",
     "@jyb/jfet-build-block-babel6": "^1.0.15",
     "@jyb/jfet-build-block-dot": "^1.0.15",

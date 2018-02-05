@@ -8,6 +8,7 @@ const assemble = require('assemble');
 const watch = require('base-watch');
 const path = require('path');
 const glob = require('glob');
+const assembleHelper = require('./helper');
 
 const hasOwn = Object.prototype.hasOwnProperty;
 
@@ -49,9 +50,10 @@ class AssemblePlugin {
     app.pages(options.pages);
 
     // helper
-    app.helper('require', this.requireHelper.bind(this));
-    app.helper('manifest', this.manifestHelper.bind(this));
-    app.helper('inline', this.inlineHelper.bind(this));
+    app.helper('require', assembleHelper.requireHelper.bind(this));
+    app.helper('manifest', assembleHelper.manifestHelper.bind(this));
+    app.helper('inline', assembleHelper.inlineHelper.bind(this));
+    app.helper('moment', assembleHelper.momentHelper.bind(this));
     for (const k in helper) {
       if (hasOwn.call(helper, k)) {
         app.helper(k, helper[k]);
@@ -60,6 +62,13 @@ class AssemblePlugin {
 
     // task
     app.task('default', (cb) => {
+      try {
+        const resourceMapContent = fs.readFileSync(options.mapPath);
+        this.resourceMap = JSON.parse(resourceMapContent);
+      } catch (e) {
+        console.log(chalk.red('Assemble can not found resource map'));
+      }
+
       app.src(options.pages)
         .pipe(app.renderFile(options.injectData))
         .pipe(app.dest((file) => {
@@ -87,12 +96,6 @@ class AssemblePlugin {
 
     // webpack compiler after emit
     compiler.plugin('after-emit', (compilation, callback) => {
-      try {
-        this.resourceMap = require(options.mapPath);
-      } catch (e) {
-        console.log(chalk.red('Assemble can not found resource map'));
-      }
-
       app.build(['default'], (err) => {
         if (err) {
           throw err;
@@ -100,32 +103,6 @@ class AssemblePlugin {
         callback();
       });
     });
-  }
-  requireHelper(resource) {
-    if (hasOwn.call(this.resourceMap, resource)) {
-      return this.resourceMap[resource];
-    }
-
-    return resource;
-  }
-  manifestHelper() {
-    return JSON.stringify(this.resourceMap);
-  }
-  inlineHelper(resource) {
-    let relativePath = this.options.publicPath;
-    if (!path.isAbsolute(relativePath)) {
-      relativePath = path.join(process.cwd(), relativePath);
-    }
-
-    const mapName = this.resourceMap[resource];
-    if (!mapName) {
-      return '';
-    }
-
-    const name = resource.substring(0, resource.lastIndexOf('.'));
-    const newName = mapName.slice(mapName.lastIndexOf(name) - mapName.length);
-
-    return fs.readFileSync(path.join(relativePath, newName), 'utf-8');
   }
 }
 

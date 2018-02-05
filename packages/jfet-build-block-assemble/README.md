@@ -28,6 +28,7 @@ module.exports = {
 - `require`，用于处理静态资源路径
 - `manifest`，输出静态资源信息
 - `inline`，内嵌资源
+- `moment`，moment.js格式化日期时间，[helper-moment](https://github.com/helpers/helper-moment)
 
 ## 选项
 

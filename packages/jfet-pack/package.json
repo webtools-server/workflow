@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-pack",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "description": "pack command plugin for jfet.",
   "main": "lib/index.js",
   "scripts": {
