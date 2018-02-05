@@ -30,7 +30,7 @@ class Pack {
    */
   setConfig(cfg) {
     if (!util.isObject(cfg)) {
-      throw new Error('Config must be object.');
+      throw new Error('配置必须为Object类型');
     }
 
     extend(true, this.configuration, defaultOptions, cfg);
@@ -52,7 +52,7 @@ class Pack {
     const uid = String(appInfo.uid) || '';
 
     if (!rootPath) {
-      return console.log(chalk.red('File path is required.'));
+      throw new Error('文件路径必填');
     }
 
     if (!path.isAbsolute(rootPath)) {
@@ -72,7 +72,7 @@ class Pack {
 
         // 复制文件到realPath
         fse.copySync(rootPath, realPath);
-        console.log(chalk.green(`Copy files from "${rootPath}"`));
+        console.log(chalk.green(`从"${rootPath}"拷贝文件`));
 
         // 解析sinclude的路径
         yield that.parseSinclude(realPath);
@@ -98,7 +98,7 @@ class Pack {
 
         // 生成全量包
         yield helper.createZip(releaseFullZipFile, tempPath);
-        console.log(chalk.green('Pack full package'));
+        console.log(chalk.green('生成全量包'));
 
         // 判断是否生成增量包
         if (oldManifest) {
@@ -112,14 +112,14 @@ class Pack {
           }
         }
         yield helper.createZip(releaseIncrementalZipFile, tempPath);
-        console.log(chalk.green('Pack incremental package'));
+        console.log(chalk.green('生成增量包'));
 
         // 这个版本，是否使用全量包
         useFull = useFull || !oldManifest;
         if (useFull) {
           fse.outputFileSync(path.join(releaseZipPath, manifest.name), JSON.stringify(newManifest, null, 2));
-          console.log(chalk.yellow('This version will use full package'));
-          console.log(chalk.yellow('Output manifest file'));
+          console.log(chalk.yellow('这个版本将使用全量包'));
+          console.log(chalk.yellow('输出manifest文件'));
         }
 
         // 生成json配置文件
@@ -127,10 +127,11 @@ class Pack {
 
         // 删除temp目录
         fse.removeSync(tempPath);
-        console.log(chalk.green('Pack success'));
+        console.log(chalk.green('打包成功'));
       } catch (e) {
         console.log(chalk.red(e));
         fse.removeSync(tempPath);
+        throw new Error(e);
       }
     });
   }
@@ -147,20 +148,20 @@ class Pack {
 
     // 当前目录没有package.json
     if (!pkg) {
-      throw new Error('Please add package.json file in current path');
+      throw new Error('当前目录必须有package.json文件');
     }
 
     // package.json没有设置version
     versionFormat = pkg.version;
     if (!versionFormat) {
-      throw new Error('Please add version in package.json');
+      throw new Error('package.json文件必须有version字段');
     }
 
     // 跟前一个版本号判断是否一致，如果一致需要先修改
     if (util.fileExists(jsonFile)) {
       const jsonContent = util.tryRequire(jsonFile);
       if (versionFormat === jsonContent.version) {
-        throw new Error(`Please modify the version, current version is ${versionFormat}`);
+        throw new Error(`请修改版本号，当前版本号：${versionFormat}`);
       }
     }
 
@@ -183,7 +184,7 @@ class Pack {
       return new Promise((resolve, reject) => {
         helper.compileFile(ssiObj, sfile).then((content) => {
           fse.outputFileSync(sfile, content);
-          console.log(chalk.green(`Parse sinclude the path from "${sfile}"`));
+          console.log(chalk.green(`解析sinclude："${sfile}"`));
           resolve();
         }).catch((err) => {
           reject(err);
@@ -237,7 +238,7 @@ class Pack {
         jsonFile,
         JSON.stringify(settings, null, 2)
       );
-      console.log(chalk.green(`Create json file, ${jsonFile}`));
+      console.log(chalk.green(`创建配置文件, ${jsonFile}`));
     }
   }
 }
