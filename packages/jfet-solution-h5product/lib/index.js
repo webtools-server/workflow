@@ -29,6 +29,7 @@ module.exports = {
     const buildEnv = process.env.BUILD_ENV;
     const buildAbcJSON = abcJSON.build;
     const currentPublic = path.join(cwd, 'public');
+    const isOnlyBuild = isBuildEnv && buildEnv !== 'pack';
 
     // 修改预置构建方案的配置
     context.setConfig(buildConfig[buildEnv || 'default'](abc));
@@ -40,12 +41,12 @@ module.exports = {
 
     context.usePlugin(copyShtmlPlugin({
       dir: currentPublic,
-      disabled: !(isBuildEnv && abc.useShtml) // 只有build环境下，并且useShtml为true，才会复制
+      disabled: !(isOnlyBuild && abc.useShtml) // 只有build环境下，并且useShtml为true，才会复制
     }));
 
     context.usePlugin(buildPluginCopy({
       copy: abc.copy || [],
-      isRelease: isBuildEnv,
+      isRelease: isOnlyBuild,
       copyFrom: currentPublic,
       copyTo: path.join(cwd, abc.releasePath)
     }));
