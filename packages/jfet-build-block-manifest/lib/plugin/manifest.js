@@ -43,7 +43,7 @@ class ManifestPlugin {
           basenames.pop();
         }
         const nameWithoutHash = basenames.join(sep) + extname;
-        map[path.join(assetsPath, dirname, nameWithoutHash)] = path.join(appName, assetsPath, finalHashName);
+        map[path.join(assetsPath, dirname, nameWithoutHash)] = appName + assetsPath + finalHashName;
       }
 
       assets.forEach(processFile);
