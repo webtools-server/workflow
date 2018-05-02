@@ -16,7 +16,7 @@ module.exports = {
   // 解决方案前缀
   SOLUTION_PREFIX: ['@jyb/jfet-solution-', 'jfet-solution-'],
   // npm包信息接口
-  NPM_PACKAGE_API: 'http://npm.jyb.com/',
+  NPM_PACKAGE_API: 'http://npm.jyblife.com/',
   // npm搜索接口
-  NPM_SEARCH_API: 'http://npm.jyb.com/-/verdaccio/search/@jyb%2Fjfet',
+  NPM_SEARCH_API: 'http://npm.jyblife.com/-/verdaccio/search/@jyb%2Fjfet',
 };

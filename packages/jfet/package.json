@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet",
-  "version": "1.2.10",
+  "version": "1.2.24",
   "description": "jyb front-end tookit.",
   "bin": {
     "jfet": "./bin/jfet"

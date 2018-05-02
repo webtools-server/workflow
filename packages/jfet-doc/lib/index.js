@@ -125,7 +125,8 @@ plugin.handler = (configuration, argv) => {
       result = yield urllib.request(cfg.uploadUrl, {
         method: 'POST',
         headers: form.headers(),
-        stream: form
+        stream: form,
+        timeout: cfg.timeout || 5000
       });
 
       console.log(result.data.toString('utf-8'));
