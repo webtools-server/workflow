@@ -31,7 +31,7 @@ optionLS.run = (opts) => {
       if (name.indexOf(config.templatePrefix) > -1) {
         repoMap[name] = curr.http_url_to_repo;
         choices.push({
-          name: `${i + 1}：${name} - ${curr.description}`,
+          name: `${choices.length + 1}：${name} - ${curr.description}`,
           value: name
         });
       }

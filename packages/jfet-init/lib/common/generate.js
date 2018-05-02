@@ -21,7 +21,7 @@ function emptyStr() { return ''; }
  */
 function generate(templateName, cloneURL, outputPath, isForce) {
   const tempPath = path.join(__dirname, 'temp');
-  const command = `git clone ${cloneURL} ${tempPath}`;
+  const command = `git clone ${cloneURL} "${tempPath.replace(/"/g, '\\"')}"`;
 
   outputPath = outputPath || process.cwd();
 
