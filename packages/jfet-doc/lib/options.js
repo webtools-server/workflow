@@ -3,5 +3,6 @@
  */
 
 module.exports = {
-  uploadUrl: 'http://fe.doc.jyb.com//api/upload'
+  uploadUrl: 'http://doc.fe.jyb.com/api/upload',
+  timeout: 10000
 };
