@@ -1,0 +1,25 @@
+{
+  "name": "@jyb/jfet-lib",
+  "version": "0.1.0",
+  "description": "公共库命令插件，支持语法校验，构建，单元测试",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "jfet",
+    "command",
+    "plugin"
+  ],
+  "author": "canye.wu@jyblife.com",
+  "license": "MIT",
+  "dependencies": {
+    
+  },
+  "jfetOptions": {
+    "commandPlugin": "./lib/index.js"
+  }
+}
