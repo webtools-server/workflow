@@ -21,13 +21,16 @@ const cwd = process.cwd();
 
 const defaultOptions = {
   karma: {},
-  coverage: false // { reporterType: 'html', reporterDir: 'coverage/' }
+  coverage: {
+    reporterType: 'html',
+    reporterDir: 'coverage/'
+  }
 };
 
 class TestOptions extends EventEmitter {
   constructor(argv, options) {
     super();
-    this.karmaConfig = getKarmaConfig(Object.assign({}, defaultOptions, options));
+    this.karmaConfig = getKarmaConfig(this.argv, Object.assign({}, defaultOptions, options));
     this.karmaServer = new Server(this.karmaConfig);
   }
   start() {
@@ -39,7 +42,7 @@ class TestOptions extends EventEmitter {
 
 module.exports = TestOptions;
 
-function getKarmaConfig(options) {
+function getKarmaConfig(argv, options) {
   const karmaConfig = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: cwd,
@@ -113,11 +116,11 @@ function getKarmaConfig(options) {
   };
 
   // 输出代码覆盖率
-  if (Object.prototype.toString.call(options.coverage) === '[object Object]') {
+  if (argv.coverage) {
     karmaConfig.preprocessors['src/**/*.js'] = ['coverage'];
     karmaConfig.coverageReporter = {
-      type: options.coverage.reporterType || 'html',
-      dir: options.coverage.reporterDir || 'coverage/'
+      type: options.coverage.reporterType,
+      dir: options.coverage.reporterDir
     };
     karmaConfig.singleRun = true;
     karmaConfig.reporters.push('coverage');
