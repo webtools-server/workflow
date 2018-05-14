@@ -29,5 +29,9 @@ npm i @jyb/jfet-lib -g
 ## 配置文件
 
 ```javascript
-
+module.exports = {
+  lib(abc, context) {
+    
+  }
+};
 ```

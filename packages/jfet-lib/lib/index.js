@@ -7,19 +7,31 @@ const pkg = require('../package.json');
 const plugin = {};
 
 // name
-plugin.name = 'demo';
+plugin.name = 'lib';
 
 // version
 plugin.version = pkg.version;
 
 // command
-plugin.command = 'demo';
+plugin.command = 'lib';
 
 // describe
-plugin.describe = 'demo command for jfet';
+plugin.describe = 'lib command for jfet';
 
 // builder
 plugin.builder = {
+  sourcemap: {
+    type: 'boolean',
+    alias: 's',
+    describe: 'Create sourcemap file',
+    default: false
+  },
+  min: {
+    type: 'boolean',
+    alias: 'm',
+    describe: 'Uglify file',
+    default: false
+  },
   watch: {
     type: 'boolean',
     alias: 'w',
@@ -30,14 +42,18 @@ plugin.builder = {
 
 // handler
 plugin.handler = (configFunc, argv) => {
-  if (argv.watch) {
-    console.log('watch mode.');
-  } else {
-    console.log('normal mode.');
-  }
-  
-  // 执行配置函数
-  configFunc({});
+  const env = argv.watch ? 'watch' : 'build';
+  const context = new ContextBuild(env);
+
+  // 设置环境
+  process.env.JFET_ENV = env;
+
+  // 设置命令函数的参数
+  configFunc.setParameter(context);
+  // 执行命令函数
+  configFunc.getConfig();
+  // 启动构建
+  context.start();
 };
 
 module.exports = plugin;
