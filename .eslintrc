@@ -1,5 +1,8 @@
 {
     "extends": "@jyb/eslint-config-jyb",
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
     "rules": {
         "comma-dangle": "off",
         "no-plusplus": "off",

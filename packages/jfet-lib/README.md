@@ -31,7 +31,31 @@ npm i @jyb/jfet-lib -g
 ```javascript
 module.exports = {
   lib(abc, context) {
-    
+    // build
+    context.setConfig('build', {
+      rollup: {},
+      plugin: {},
+      output: {},
+      watch: {}
+    });
+
+    // test
+    context.setConfig('test', {
+      karma: {},
+      coverage: false
+    });
+
+    // event
+    const buildCtx = context.getContext('build');
+    const testCtx = context.getContext('test');
+
+    buildCtx.on('before-watch', () => {});
+    buildCtx.on('after-watch', () => {});
+    buildCtx.on('before-build', () => {});
+    buildCtx.on('after-build', () => {});
+
+    testCtx.on('before-test', () => {});
+    testCtx.on('after-test', () => {});
   }
 };
 ```

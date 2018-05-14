@@ -2,6 +2,7 @@
  * build
  */
 
+const EventEmitter = require('events');
 const path = require('path');
 const rollup = require('rollup');
 const resolve = require('rollup-plugin-node-resolve');
@@ -10,6 +11,7 @@ const uglify = require('rollup-plugin-uglify');
 const commonjs = require('rollup-plugin-commonjs');
 const eslint = require('rollup-plugin-eslint');
 const dot = require('@jyb/rollup-plugin-dot');
+
 const cwd = process.cwd();
 
 // 默认输出配置
@@ -26,8 +28,18 @@ const defaultRollupOptions = {
   plugins: []
 };
 
-class BuildOptions {
+class BuildOptions extends EventEmitter {
+  /**
+   * build
+   * @param {Object} argv
+   * @param {Object} options
+   * @param {Object} options.rollup rollup配置
+   * @param {Object} options.plugin 默认插件配置
+   * @param {Object} options.output 输出配置
+   * @param {Object} options.watch watch配置
+   */
   constructor(argv, options) {
+    super();
     this.argv = argv || {};
     // rollup配置
     this.rollupOptions = Object.assign({}, defaultRollupOptions, options.rollup);
@@ -47,8 +59,9 @@ class BuildOptions {
   }
   async start() {
     if (this.argv.watch) {
+      this.emit('before-watch');
       const watcher = rollup.watch(this.watchOptions);
-      watcher.on('event', event => {
+      watcher.on('event', (event) => {
         // event.code can be one of:
         //   START        — the watcher is (re)starting
         //   BUNDLE_START — building an individual bundle
@@ -57,12 +70,15 @@ class BuildOptions {
         //   ERROR        — encountered an error while bundling
         //   FATAL        — encountered an unrecoverable error
         console.log(event);
+        this.emit('after-watch');
       });
       return;
     }
 
+    this.emit('before-build');
     const bundle = await rollup.rollup(this.rollupOptions);
     await bundle.write(this.outputOptions);
+    this.emit('after-build');
   }
   initPlugin() {
     const options = this.pluginOptions;
@@ -97,3 +113,5 @@ class BuildOptions {
     this.rollupOptions.plugins.push(plugin);
   }
 }
+
+module.exports = BuildOptions;

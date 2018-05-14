@@ -6,6 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "@jyb/eslint-config-jyb": "^1.0.0",
+    "eslint": "^4.19.1",
     "lerna": "^2.0.0-rc.5",
     "mocha": "^3.4.2",
     "should": "^11.2.1"

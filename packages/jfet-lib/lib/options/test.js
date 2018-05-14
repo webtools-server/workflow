@@ -2,9 +2,9 @@
  * test
  */
 
+const EventEmitter = require('events');
 const path = require('path');
 const Server = require('karma').Server;
-const getLibDefine = require('./get_define');
 
 // rollup plugin
 const resolve = require('rollup-plugin-node-resolve');
@@ -17,13 +17,29 @@ const karmaChromeLauncher = require('karma-chrome-launcher');
 const karmaRollupPlugin = require('karma-rollup-plugin');
 const karmaCoverage = require('karma-coverage');
 
-const isCover = process.env.NODE_ENV === 'cover';
 const cwd = process.cwd();
 
-// 获取package libDefine字段
-const libDefineFields = getLibDefine();
+const defaultOptions = {
+  karma: {},
+  coverage: false // { reporterType: 'html', reporterDir: 'coverage/' }
+};
 
-function getKarmaConfig(fields) {
+class TestOptions extends EventEmitter {
+  constructor(argv, options) {
+    super();
+    this.karmaConfig = getKarmaConfig(Object.assign({}, defaultOptions, options));
+    this.karmaServer = new Server(this.karmaConfig);
+  }
+  start() {
+    this.emit('before-test');
+    this.karmaServer.start();
+    this.emit('after-test');
+  }
+}
+
+module.exports = TestOptions;
+
+function getKarmaConfig(options) {
   const karmaConfig = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: cwd,
@@ -48,13 +64,13 @@ function getKarmaConfig(fields) {
       plugins: [
         resolve(),
         babel({
-          include: path.join(__dirname, 'node_modules'),
+          include: path.join(cwd, 'node_modules'),
           exclude: 'node_modules/**'
         }),
         commonjs()
       ],
       format: 'umd',
-      moduleName: fields.moduleName,
+      moduleName: `rand_${String(Math.random()).replace(/\./g, '')}`,
       sourceMap: 'inline'
     },
 
@@ -96,20 +112,18 @@ function getKarmaConfig(fields) {
     ]
   };
 
-  if (isCover) {
+  // 输出代码覆盖率
+  if (Object.prototype.toString.call(options.coverage) === '[object Object]') {
     karmaConfig.preprocessors['src/**/*.js'] = ['coverage'];
     karmaConfig.coverageReporter = {
-      type: 'html',
-      dir: 'coverage/'
+      type: options.coverage.reporterType || 'html',
+      dir: options.coverage.reporterDir || 'coverage/'
     };
     karmaConfig.singleRun = true;
     karmaConfig.reporters.push('coverage');
     karmaConfig.plugins.push(karmaCoverage);
   }
 
+  Object.assign(karmaConfig, options.karma);
   return karmaConfig;
-}
-
-if (libDefineFields) {
-  new Server(getKarmaConfig(libDefineFields)).start();
 }

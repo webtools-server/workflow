@@ -2,6 +2,7 @@
  * command plugin
  */
 
+const LibContext = require('./context');
 const pkg = require('../package.json');
 
 const plugin = {};
@@ -20,6 +21,24 @@ plugin.describe = 'lib command for jfet';
 
 // builder
 plugin.builder = {
+  test: {
+    type: 'boolean',
+    alias: 't',
+    describe: 'Run unit testing',
+    default: false
+  },
+  coverage: {
+    type: 'boolean',
+    alias: 'c',
+    describe: 'Output coverage',
+    default: false
+  },
+  build: {
+    type: 'boolean',
+    alias: 'b',
+    describe: 'Run build',
+    default: false
+  },
   sourcemap: {
     type: 'boolean',
     alias: 's',
@@ -42,12 +61,9 @@ plugin.builder = {
 
 // handler
 plugin.handler = (configFunc, argv) => {
-  const env = argv.watch ? 'watch' : 'build';
-  const context = new ContextBuild(env);
-
+  const context = new LibContext(argv);
   // 设置环境
-  process.env.JFET_ENV = env;
-
+  process.env.JFET_ENV = argv.watch ? 'watch' : 'build';
   // 设置命令函数的参数
   configFunc.setParameter(context);
   // 执行命令函数
