@@ -104,7 +104,20 @@ class BuildOptions extends EventEmitter {
       ),
       babel(
         Object.assign({
-          exclude: path.join(cwd, 'node_modules/**')
+          babelrc: false,
+          exclude: path.join(cwd, 'node_modules/**'),
+          presets: [
+            [
+              'env',
+              {
+                modules: false
+              }
+            ]
+          ],
+          plugins: [
+            'external-helpers',
+            'transform-object-assign'
+          ]
         }, options.babel)
       )
     ]);
