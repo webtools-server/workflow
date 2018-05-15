@@ -29,7 +29,7 @@ function getModule(resources) {
   }
 
   if (!result) {
-    utilLog.error(err.join('\n'));
+    throw new Error(err.join('\n'));
   }
 
   return result;
