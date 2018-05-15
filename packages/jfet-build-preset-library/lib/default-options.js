@@ -70,3 +70,9 @@ exports.defaultOutputOptions = {
   sourcemap: false
 };
 
+// 默认watch配置
+exports.defaultWatchOptions = {
+  include: getDir('src/**'),
+  exclude: getDir('node_modules/**')
+};
+
