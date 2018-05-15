@@ -30,7 +30,7 @@ class ContextBuild extends EventEmitter {
   }
 
   setPreset(preset) {
-    if (!preset || !_.isString(preset) || !_.isFunction(preset.run)) {
+    if (!preset || (!_.isString(preset) && !_.isFunction(preset.run))) {
       throw new Error('Preset name not be empty and must be string or object which have a run function.');
     }
 
