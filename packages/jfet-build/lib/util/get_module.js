@@ -3,7 +3,6 @@
  */
 
 const path = require('path');
-const utilLog = require('./log');
 
 function getModule(resources) {
   const err = [];
