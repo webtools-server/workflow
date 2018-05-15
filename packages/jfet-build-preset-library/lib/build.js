@@ -3,6 +3,7 @@
  */
 
 const rollup = require('rollup');
+const chalk = require('chalk');
 const {
   PLUGIN_BABEL,
   PLUGIN_NODE_RESOLVE,
@@ -25,7 +26,8 @@ const {
   defaultRollupOptions,
   defaultUsePlugin,
   defaultPluginOptions,
-  defaultOutputOptions
+  defaultOutputOptions,
+  defaultWatchOptions
 } = require('./default-options');
 
 class Build {
@@ -48,13 +50,16 @@ class Build {
     // 输出配置
     this.outputOptions = Object.assign({}, defaultOutputOptions, options.output);
     // watch配置
-    this.watchOptions = options.watch || {};
-    this.watchOptions.output = Object.assign({}, this.outputOptions, this.watchOptions.output);
+    this.watchOptions = Object.assign({}, defaultWatchOptions, options.watch);
 
     this.initPlugin();
   }
   startWatch(done) {
-    const watcher = rollup.watch(this.watchOptions);
+    const watcher = rollup.watch({
+      ...this.rollupOptions,
+      output: this.outputOptions,
+      watch: this.watchOptions
+    });
     watcher.on('event', (event) => {
       // event.code can be one of:
       //   START        — the watcher is (re)starting
@@ -63,7 +68,19 @@ class Build {
       //   END          — finished building all bundles
       //   ERROR        — encountered an error while bundling
       //   FATAL        — encountered an unrecoverable error
-      console.log(event);
+      if (event.code === 'START') {
+        console.log(chalk.green('Compiled start...'));
+      } else if (event.code === 'ERROR' || event.code === 'FATAL') {
+        console.log(chalk.red(JSON.stringify(event, null, 2)));
+      } else if (event.code === 'BUNDLE_END') {
+        console.log(chalk.green(JSON.stringify({
+          input: event.input,
+          output: event.output,
+          duration: event.duration
+        }, null, 2)));
+      } else if (event.code === 'END') {
+        console.log(chalk.green('Compiled successfully.'));
+      }
       done();
     });
   }
@@ -75,14 +92,16 @@ class Build {
   }
   initPlugin() {
     const options = this.pluginOptions;
+    const plugins = [];
 
     for (const k in defaultPluginOptions) {
       if (this.usePlugin[k] && rollupPlugin[k]) {
-        this.addPlugin(rollupPlugin[k](
+        plugins.push(rollupPlugin[k](
           Object.assign({}, defaultPluginOptions[k], options[k])
         ));
       }
     }
+    this.rollupOptions.plugins = plugins.concat(this.rollupOptions.plugins);
   }
   addPlugin(plugin) {
     this.rollupOptions.plugins.push(plugin);
