@@ -22,6 +22,7 @@
 * [jfet-build-plugin-copy](/packages/jfet-build-plugin-copy/README.md)
 * [jfet-build-plugin-ftp](/packages/jfet-build-plugin-ftp/README.md)
 * [jfet-build-preset-common](/packages/jfet-build-preset-common/README.md)
+* [jfet-build-preset-library](/packages/jfet-build-preset-library/README.md)
 * [jfet-doc](/packages/jfet-doc/README.md)
 * [jfet-image](/packages/jfet-image/README.md)
 * [jfet-init](/packages/jfet-init/README.md)
