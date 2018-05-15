@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-init",
-  "version": "1.2.25",
+  "version": "1.3.0",
   "description": "init command plugin for jfet.",
   "main": "lib/index.js",
   "scripts": {

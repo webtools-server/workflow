@@ -59,6 +59,7 @@ module.exports = {
     
     // router
     context.registerRouter('get', '/home', function*(next) {});
+    // 代理，proxy选项参考：https://github.com/popomore/koa-proxy
     context.registerRouter('get', '/api/detail', proxy({
       url: 'http://alicdn.com/index.js'
     }));

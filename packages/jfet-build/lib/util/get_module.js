@@ -3,7 +3,6 @@
  */
 
 const path = require('path');
-const utilLog = require('./log');
 
 function getModule(resources) {
   const err = [];
@@ -12,7 +11,11 @@ function getModule(resources) {
   for (let i = 0, l = resources.length; i < l; i++) {
     try {
       const curr = resources[i];
-      const modulePaths = [path.join(__dirname, '..', '..', 'node_modules', curr), curr];
+      const modulePaths = [
+        path.join(__dirname, '..', '..', 'node_modules', curr),
+        path.join(__dirname, '..', '..', '..', curr),
+        curr
+      ];
 
       // 按照当前插件node_modules，全局下安装的node_modules顺序找到模块
       for (let m = 0, n = modulePaths.length; m < n; m++) {
@@ -25,7 +28,7 @@ function getModule(resources) {
   }
 
   if (!result) {
-    utilLog.error(err.join('\n'));
+    throw new Error(err.join('\n'));
   }
 
   return result;
