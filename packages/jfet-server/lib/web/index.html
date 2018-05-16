@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>正在启动...</title>
+  <style>
+    html,
+    body,
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .start-tips {
+      padding-top: 10px;
+      padding-left: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <p class="start-tips">jfet-server正在启动...</p>
+  <script>
+    (function() {
+      var RELOAD_COUNT = 'JFET_SERVER_RELOAD_COUNT';
+      var count = Number(window.sessionStorage.getItem(RELOAD_COUNT)) || 0;
+      if (count >= 10) {
+        document.querySelector('.start-tips').innerHTML = 'jfet-server启动失败，请尝试刷新页面或者重新启动server';
+        return;
+      };
+      setTimeout(() => {
+        window.sessionStorage.setItem(RELOAD_COUNT, ++count);
+        window.location.reload();
+      }, 2000);
+    })();
+  </script>
+</body>
+</html>
