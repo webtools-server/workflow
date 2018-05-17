@@ -52,6 +52,11 @@ plugin.builder = {
     describe: 'gitbook build',
     default: false
   },
+  publish: {
+    type: 'boolean',
+    describe: 'publish the document',
+    default: false
+  },
   name: {
     type: 'string',
     describe: 'book name',
@@ -96,19 +101,22 @@ plugin.handler = (configuration, argv) => {
         return false;
       }
 
-      // gitbook build
-      if (!argv.build) {
+      // 不是build和publish
+      if (!argv.build && !argv.publish) {
         console.log(chalk.green(`${pkg.name}，${pkg.description}`));
         return false;
       }
 
-      if (!validFields(cfg)) {
+      if (!normalizeFields(cfg)) {
         return false;
       }
 
-      stream = execa(gitbookBin, ['build']).stdout;
-      stream.pipe(process.stdout);
-      yield getStream(stream);
+      // gitbook build
+      if (argv.build) {
+        stream = execa(gitbookBin, ['build']).stdout;
+        stream.pipe(process.stdout);
+        yield getStream(stream);
+      }
 
       const form = new FormStream();
       let result = null;
@@ -116,7 +124,7 @@ plugin.handler = (configuration, argv) => {
       // 新建zip目录
       fse.ensureDirSync(zipPath);
       // 创建压缩包
-      yield util.createZip(zipFullName, zipName, path.join(process.cwd(), '_book'));
+      yield util.createZip(zipFullName, zipName, cfg.fileDir);
       // 设置name,token,file
       form.field('name', cfg.name);
       form.field('token', cfg.token);
@@ -143,7 +151,7 @@ plugin.handler = (configuration, argv) => {
  * 校验输入
  * @param {Object} cfg
  */
-function validFields(cfg) {
+function normalizeFields(cfg) {
   if (!/^[a-zA-Z0-9\-_]+$/.test(cfg.name)) {
     console.log(chalk.red('name格式有误，必须为a-zA-Z0-9_-'));
     return false;
@@ -159,6 +167,15 @@ function validFields(cfg) {
     return false;
   }
 
+  if (!cfg.fileDir) {
+    console.log(chalk.red('fileDir必须填写'));
+    return false;
+  }
+
+  // 如果fileDir不是绝对路径，进行转换
+  if (!path.isAbsolute(cfg.fileDir)) {
+    cfg.fileDir = path.resolve(process.cwd(), cfg.fileDir);
+  }
   return true;
 }
 
