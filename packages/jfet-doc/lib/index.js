@@ -121,6 +121,13 @@ plugin.handler = (configuration, argv) => {
       const form = new FormStream();
       let result = null;
 
+      // 写入docs_server.json文件
+      fse.writeFileSync(path.join(cfg.fileDir, 'docs_server.json'), JSON.stringify({
+        name: cfg.name || '',
+        title: cfg.title || '',
+        desc: cfg.desc || ''
+      }, null, 2));
+
       // 新建zip目录
       fse.ensureDirSync(zipPath);
       // 创建压缩包

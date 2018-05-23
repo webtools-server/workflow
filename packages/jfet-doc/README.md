@@ -38,6 +38,8 @@ module.export = {
   doc() {
     return {
       name: '', // 文档名
+      title: '', // 文档标题
+      desc: '', // 文档描述
       timeout: 10000, // 上传超时，单位ms
       fileDir: '_book', // 默认当前目录下的_book文件夹
       token: '21232F297A57A5A743894A0E4A801FC3',
