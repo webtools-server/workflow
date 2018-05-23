@@ -100,7 +100,7 @@ class Command {
         required: true
       },
       builder: {
-        type: 'Object',
+        type: ['Object', 'Function'],
         required: true
       },
       handler: {
