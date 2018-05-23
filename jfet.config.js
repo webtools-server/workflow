@@ -48,6 +48,8 @@ module.exports = {
 
     return {
       name: pkg.name,
+      title: 'jfet API文档',
+      desc: 'jfet各个模块的API文档，更详细的文档请查看jfet官方网站。',
       token: '21232F297A57A5A743894A0E4A801FC3',
       uploadUrl: 'http://doc.fe.jyb.com/api/upload'
     };
