@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <title>邀请奖励明细</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="邀请奖励明细">
+    <meta name="description" content="邀请奖励明细">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <script type="text/javascript">
+      (function(doc, win) {
+        var basicWidth = window.basicWidth || 750;
+        var minWidth = 320;
+        var htmlElement = doc.documentElement;
+        var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          clientWidth = clientWidth < minWidth? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+        };
+        recalc();
+        if (!win.addEventListener) return;
+        win.addEventListener('resize', recalc, false);
+      })(document, window);
+    </script>    <link rel="stylesheet" href="/public/css/detail-e0ffb38e.css">
+  </head>
+  <body data-stat-ea="invite" data-stat-eb="inviteDetail" data-stat-visit="pv">
+    <div id="container" class="ui-no-tap-highlight">
+  <div id="js-detail-head" class="detail-head ui-mb-28" z-component="detailHeadContent"></div>
+  <div class="detail-main ui-mb-32" z-component="detailMainContent"></div>
+</div>
+<!--#include virtual="/sinclude/env.tpl"-->
+
+    <script src="https://cdn.jyblife.com/static/js/lib/zepto-1.2.0-all-min.js"></script>
+    <script src="/public/js/detail-e0ffb38e.js"></script>
+  </body>
+</html>

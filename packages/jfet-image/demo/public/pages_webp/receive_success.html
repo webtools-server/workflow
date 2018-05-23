@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <title>领加油宝新用户专享福利</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="领加油宝新用户专享福利">
+    <meta name="description" content="领加油宝新用户专享福利">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <script type="text/javascript">
+      (function(doc, win) {
+        var basicWidth = window.basicWidth || 750;
+        var minWidth = 320;
+        var htmlElement = doc.documentElement;
+        var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          clientWidth = clientWidth < minWidth? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+        };
+        recalc();
+        if (!win.addEventListener) return;
+        win.addEventListener('resize', recalc, false);
+      })(document, window);
+    </script>    <link rel="stylesheet" data-href="/public/css/receive_success-dd31b224.css">
+  <script>!function(){var n="_jfet_webp",r={YES:"1",NO:"0"};function a(e,a){var o=new Image;o.onload=o.onerror=function(){var t=2===o.height;a&&window.localStorage.setItem(n,t?r.YES:r.NO),e(t)},o.src="data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA"}!function(e){"function"!=typeof e&&(e=function(){});try{var t=window.localStorage.getItem(n);t?e(t===r.YES):a(e,!0)}catch(t){a(e,!1)}}(function(e){var t=document.getElementsByTagName("link");[].forEach.call(t,function(t){t.href=e?t.getAttribute("data-href").replace(".css",".webp.css"):t.getAttribute("data-href"),t.removeAttribute("data-href")})})}();</script></head>
+  <body data-stat-ea="invite" data-stat-eb="receiveSuccess" data-stat-visit="pv">
+    <div id="container" class="ui-no-tap-highlight">
+  <div class="receive-success-box ui-pt-80 ui-mb-46">
+    <i class="icon-element icon-element__success"></i>
+    <strong class="receive-success__title ui-d-b">领取成功</strong>
+    <p class="receive-success__desc">
+      您的新手专享福利礼包已经发放到您 <span id="js-receive-success-user" class="color-ff8732"></span> 的账户，快去使用吧！
+    </p>
+  </div>
+  <div z-component="receiveSuccessWelfare"></div>
+  <a data-stat-ec="openJybApp" et="click:openJybApp" class="use-btn" href="javascript:;">去加油宝使用</a>
+</div>
+<!--#include virtual="/sinclude/env.tpl"-->
+
+    <script src="https://cdn.jyblife.com/static/js/lib/zepto-1.2.0-all-min.js"></script>
+    <script src="/public/js/receive_success-dd31b224.js"></script>
+  </body>
+</html>

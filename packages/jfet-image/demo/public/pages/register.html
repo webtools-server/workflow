@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <title>领加油宝新用户专享福利</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="领加油宝新用户专享福利">
+    <meta name="description" content="领加油宝新用户专享福利">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <script type="text/javascript">
+      (function(doc, win) {
+        var basicWidth = window.basicWidth || 750;
+        var minWidth = 320;
+        var htmlElement = doc.documentElement;
+        var recalc = function() {
+          var clientWidth = htmlElement.clientWidth || (basicWidth / 2);
+          clientWidth = clientWidth < minWidth? minWidth : clientWidth;
+          htmlElement.style.fontSize = 100 * (clientWidth / basicWidth) + 'px';
+        };
+        recalc();
+        if (!win.addEventListener) return;
+        win.addEventListener('resize', recalc, false);
+      })(document, window);
+    </script>    <link rel="stylesheet" href="/public/css/register-46443a28.css">
+  </head>
+  <body data-stat-ea="invite" data-stat-eb="register" data-stat-visit="pv">
+    <div id="container" class="ui-no-tap-highlight">
+  <div z-component="registerHeader"></div>
+  <div z-component="registerAwardList"></div>
+  <div z-component="registerBox"></div>
+  <div z-component="registerJybIntro"></div>
+</div>
+<!--#include virtual="/sinclude/env.tpl"-->
+
+    <script src="https://cdn.jyblife.com/static/js/lib/zepto-1.2.0-all-min.js"></script>
+    <script src="/public/js/register-46443a28.js"></script>
+  </body>
+</html>
