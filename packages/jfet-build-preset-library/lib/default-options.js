@@ -24,8 +24,8 @@ exports.defaultRollupOptions = {
 exports.defaultUsePlugin = {
   [PLUGIN_NODE_RESOLVE]: true,
   [PLUGIN_COMMONJS]: true,
-  [PLUGIN_ESLINT]: true,
-  [PLUGIN_DOT]: true,
+  [PLUGIN_ESLINT]: false,
+  [PLUGIN_DOT]: false,
   [PLUGIN_BABEL]: true,
   [PLUGIN_UGLIFY]: false
 };

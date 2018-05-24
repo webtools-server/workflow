@@ -107,7 +107,7 @@ class Server {
     this.app.use(function* (next) {
       yield next;
       if (/\.html/.test(this.url)) {
-        this.body = fs.readFileSync(path.join(__dirname, 'web/404.html'), 'utf-8');
+        this.body = fs.readFileSync(path.join(__dirname, 'web/index.html'), 'utf-8');
       }
     });
 

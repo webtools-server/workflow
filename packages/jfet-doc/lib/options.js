@@ -4,5 +4,8 @@
 
 module.exports = {
   uploadUrl: 'http://doc.fe.jyb.com/api/upload',
-  timeout: 10000
+  fileDir: '_book',
+  timeout: 10000,
+  title: '',
+  desc: ''
 };

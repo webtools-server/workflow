@@ -56,8 +56,8 @@ rollup配置，[文档](https://rollupjs.org/guide/en#using-config-files)
 {
   resolve: true,
   commonjs: true,
-  eslint: true,
-  dot: true,
+  eslint: false,
+  dot: false,
   babel: true,
   uglify: false
 };
