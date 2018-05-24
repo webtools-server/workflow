@@ -45,7 +45,7 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-manifest](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-manifest)
+使用[jfet-build-block-manifest](../jfet-build-block-manifest/README.md)
 
 ### uglifyJsPlugin
 - Type: `Object`
@@ -99,13 +99,13 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### entryPoint
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### setOutput
 - Type: `Object`
@@ -117,31 +117,31 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### defineConstants
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### resolveAliases
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### setContext
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### setDevTool
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### babel
 - Type: `Object`
@@ -158,25 +158,25 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-babel6](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-babel6)
+使用[jfet-build-block-babel6](../jfet-build-block-babel6/README.md)
 
 ### dot
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-dot](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-dot)
+使用[jfet-build-block-dot](../jfet-build-block-dot/README.md)
 
 ### vue
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-vue](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-vue)
+使用[jfet-build-block-vue](../jfet-build-block-vue/README.md)
 
 ### assemble
 - Type: `Object`
 - Default: undefined
 
-使用[jfet-build-block-assemble](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-assemble)
+使用[jfet-build-block-assemble](../jfet-build-block-assemble/README.md)
 
 ### less
 - Type: `Object`
@@ -188,7 +188,7 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-less](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-less)
+使用[jfet-build-block-less](../jfet-build-block-less/README.md)
 
 ### sass
 - Type: `Object`
@@ -200,25 +200,25 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-sass](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-sass)
+使用[jfet-build-block-sass](../jfet-build-block-sass/README.md)
 
 ### extractTextVue
 - Type: `Object`
 - Default: isProduction ? 'css/[name].vue.[chunkhash:8].css' : 'css/[name].vue.css'
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### extractTextLess
 - Type: `Object`
 - Default: isProduction ? 'css/[name].less.[chunkhash:8].css' : 'css/[name].less.css'
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 ### extractTextScss
 - Type: `Object`
 - Default: isProduction ? 'css/[name].scss.[chunkhash:8].css' : 'css/[name].scss.css'
 
-使用[jfet-build-block-webpack3](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-webpack3)
+使用[jfet-build-block-webpack3](../jfet-build-block-webpack3/README.md)
 
 
 ### image
@@ -232,13 +232,13 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-assets url-loader](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-assets)
+使用[jfet-build-block-assets url-loader](../jfet-build-block-assets/README.md)
 
 ### imageLoader
 - Type: `Object`
 - Default: {}
 
-使用[jfet-build-block-assets image-webpack-loader](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-assets)
+使用[jfet-build-block-assets image-webpack-loader](../jfet-build-block-assets/README.md)
 
 ### svg
 - Type: `Object`
@@ -251,7 +251,7 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-assets url-loader](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-assets)
+使用[jfet-build-block-assets url-loader](../jfet-build-block-assets/README.md)
 
 ### font
 - Type: `Object`
@@ -263,4 +263,4 @@ module.exports = {
 }
 ```
 
-使用[jfet-build-block-assets file-loader](http://git.jtjr.com/h5_webtools_grp/workflow/tree/master/packages/jfet-build-block-assets)
+使用[jfet-build-block-assets file-loader](../jfet-build-block-assets/README.md)
