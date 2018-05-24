@@ -99,6 +99,8 @@ module.exports = {
     return {
       name: abc.name, // 文档名
       token: abc.token,
+      title: abc.title || '',
+      desc: abc.desc || '',
       uploadUrl: abc.uploadUrl
     };
   },

@@ -83,6 +83,8 @@ $ npm i @jyb/jfet-solution-h5act -g
   },
   "doc": { // doc配置
     "name": "h5-act", // 文档名
+    "title": "", // 文档标题
+    "desc": "", // 文档描述
     "token": "21232F297A57A5A743894A0E4A801FC3", // token
     "uploadUrl": "http://172.16.1.10:7001/api/upload" // 上传接口
   },
