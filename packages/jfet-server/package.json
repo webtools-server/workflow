@@ -1,6 +1,6 @@
 {
   "name": "@jyb/jfet-server",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "server command plugin for jfet.",
   "main": "lib/index.js",
   "scripts": {
