@@ -55,6 +55,11 @@ module.exports = {
           proxy: ''
         },
         watch: ''
+      },
+      httpsOptions: {
+        // https://nodejs.org/dist/latest-v8.x/docs/api/https.html#https_https_createserver_options_requestlistener
+        key: '',
+        cert: ''
       }
     });
     

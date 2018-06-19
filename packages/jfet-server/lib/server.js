@@ -122,12 +122,13 @@ class Server {
     const port = parseInt(this.config.port || this.port, 10);
     let server = null;
     let listenURL = '';
+
     if (this.$options.ssl) {
       listenURL = `https://${util.getIPAddress}:${port}`;
-      server = https.createServer({
+      server = https.createServer(Object.assign({
         key: fs.readFileSync(resolve('ssl/jyblifeserver.key')),
         cert: fs.readFileSync(resolve('ssl/jyblifeserver.pem'))
-      }, this.app.callback());
+      }, this.config.httpsOptions), this.app.callback());
     } else {
       listenURL = `http://${util.getIPAddress}:${port}`;
       server = http.createServer(this.app.callback());
