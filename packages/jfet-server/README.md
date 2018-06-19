@@ -24,6 +24,7 @@ jfet server --cwd/-c <cwd>
 jfet server --port/-p <port>
 jfet server --ssi/-s
 jfet server --livereload/-l
+jfet server --ssl
 
 jfet server --version
 jfet server --help
@@ -54,6 +55,11 @@ module.exports = {
           proxy: ''
         },
         watch: ''
+      },
+      httpsOptions: {
+        // https://nodejs.org/dist/latest-v8.x/docs/api/https.html#https_https_createserver_options_requestlistener
+        key: '',
+        cert: ''
       }
     });
     

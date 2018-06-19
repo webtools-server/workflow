@@ -44,18 +44,25 @@ plugin.builder = {
     alias: 's',
     describe: 'Support server side includes',
     default: false
+  },
+  ssl: {
+    type: 'boolean',
+    describe: 'Use https',
+    default: false
   }
 };
 
 // handler
 plugin.handler = (configFunc, argv) => {
-  const serve = new Server(argv.cwd, argv.port, argv.ssi, argv.livereload);
+  const serve = new Server(argv);
 
-  configFunc({
+  configFunc.setParameter({
     setConfig: serve.setConfig.bind(serve),
     registerRouter: serve.registerRouter.bind(serve),
-    proxy: serve.proxy.bind(serve)
+    proxy: serve.proxy.bind(serve),
+    instance: serve
   });
+  configFunc.getConfig();
   serve.start();
 };
 
