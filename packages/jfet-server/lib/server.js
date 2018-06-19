@@ -3,6 +3,8 @@
  */
 
 const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const opn = require('opn');
 const chalk = require('chalk');
 const Koa = require('koa');
@@ -16,12 +18,17 @@ const util = require('./util');
 
 const koaSSI = require('./middleware/ssi');
 
+function resolve(p) {
+  return path.resolve(__dirname, p);
+}
+
 class Server {
-  constructor(cwd, port, ssi, livereload) {
-    this.cwd = cwd;
-    this.port = port;
-    this.ssi = ssi;
-    this.livereload = livereload;
+  constructor(options) {
+    this.$options = options;
+    this.cwd = options.cwd;
+    this.port = options.port;
+    this.ssi = options.ssi;
+    this.livereload = options.livereload;
 
     this.app = new Koa();
 
@@ -107,24 +114,37 @@ class Server {
     this.app.use(function* (next) {
       yield next;
       if (/\.html/.test(this.url)) {
-        this.body = fs.readFileSync(path.join(__dirname, 'web/index.html'), 'utf-8');
+        this.body = fs.readFileSync(resolve('web/index.html'), 'utf-8');
       }
     });
 
     // listen
     const port = parseInt(this.config.port || this.port, 10);
-    const listenURL = `http://${util.getIPAddress}:${port}`;
+    let server = null;
+    let listenURL = '';
+    if (this.$options.ssl) {
+      listenURL = `https://${util.getIPAddress}:${port}`;
+      server = https.createServer({
+        key: fs.readFileSync(resolve('ssl/jyblifeserver.key')),
+        cert: fs.readFileSync(resolve('ssl/jyblifeserver.pem'))
+      }, this.app.callback());
+    } else {
+      listenURL = `http://${util.getIPAddress}:${port}`;
+      server = http.createServer(this.app.callback());
+    }
+
     const opnURL = `${listenURL}${opnPath}`;
 
-    this.app.listen(port);
-    console.log(chalk.green(`server listening on ${listenURL}`));
+    server.listen(port, () => {
+      console.log(chalk.green(`Server running at ${listenURL}`));
 
-    // livereload
-    if (this.livereload) {
-      this.browserSync({ proxy: opnURL });
-    } else {
-      opn(opnURL);
-    }
+      // livereload
+      if (this.livereload) {
+        this.browserSync({ proxy: opnURL });
+      } else {
+        opn(opnURL);
+      }
+    });
   }
 }
 

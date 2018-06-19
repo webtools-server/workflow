@@ -24,6 +24,7 @@ jfet server --cwd/-c <cwd>
 jfet server --port/-p <port>
 jfet server --ssi/-s
 jfet server --livereload/-l
+jfet server --ssl
 
 jfet server --version
 jfet server --help
