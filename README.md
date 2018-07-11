@@ -13,7 +13,7 @@
 
 ## 发布
 
-发布前，需要先`把本地的修改都提交`，并且需要先切换npm registry为`http://npm.jyb.com/`
+发布前，需要先`把本地的修改都提交`，并且需要先切换npm registry为`http://npm.jyblife.com/`
 
 ```shell
 npm run publish
