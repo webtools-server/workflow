@@ -71,7 +71,7 @@ preset.run = (core, context) => {
   ];
 
   // 压缩混淆代码
-  if (isProduction) {
+  if (isProduction && configuration.uglifyJsPlugin !== false) {
     plugins.push(new UglifyJsPlugin(Object.assign({
       compress: {
         warnings: false
