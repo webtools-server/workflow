@@ -5,7 +5,7 @@
 const util = require('../util');
 
 // gitlab group http://git.jtjr.com/api/v3/groups/h5_webtools_grp
-const gitlabGroup = 'http://git.jtjr.com/groups/h5_webtools_grp';
+const gitlabGroup = 'http://git.jtjr.com/groups/fe-template';
 
 // userAgent
 const userAgent = 'jfet-init';
@@ -26,7 +26,7 @@ const templatePath = 'template';
 const questions = [{
   type: 'input',
   name: 'privateToken',
-  message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/account获取）：'
+  message: '请输入你的Gitlab private token（访问http://git.jtjr.com/profile/personal_access_tokens获取）：'
 }];
 
 // 全局变量，给模板生成使用

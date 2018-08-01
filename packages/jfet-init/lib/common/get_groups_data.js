@@ -17,7 +17,7 @@ function getGroupsData() {
     const match = config.gitlabGroup.match(/^(http|https):\/\/(\S+)\/groups\/(\S+)$/i);
 
     // [ 'http://git.jtjr.com/groups/noop', 'http', 'git.jtjr.com', 'noop']
-    // http://git.jtjr.com/api/v3/groups/noop
+    // http://git.jtjr.com/api/v4/groups/noop
     if (!match) {
       return reject('Repository url format error.');
     }
@@ -32,7 +32,7 @@ function getGroupsData() {
     const options = {
       hostname: urlInfo.host,
       port: getPort(urlInfo),
-      path: `/api/v3/groups/${match[3]}?private_token=${configPkg.privateToken}`,
+      path: `/api/v4/groups/${match[3]}?private_token=${configPkg.privateToken}`,
       headers: {
         'User-Agent': config.userAgent
       },
