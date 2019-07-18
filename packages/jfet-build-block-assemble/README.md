@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-assemble --save
+npm i jyb_jfet-build-block-assemble --save
 ```
 
 ## 使用
@@ -13,7 +13,7 @@ npm i @jyb/jfet-build-block-assemble --save
 更多用法见`jfet-build`的`开发构建功能块`[文档](../jfet-build/doc/DevelopBlock.md)
 
 ```javascript
-const assemble = require('@jyb/jfet-build-block-assemble');
+const assemble = require('jyb_jfet-build-block-assemble');
 
 // jfet.config.js
 module.exports = {

@@ -11,8 +11,8 @@ const {
   createConfig,
   webpackCore,
   commonDoneHandler
-} = require('@jyb/jfet-build-block-webpack3');
-const dot = require('@jyb/jfet-build-block-dot');
+} = require('jyb_jfet-build-block-webpack3');
+const dot = require('jyb_jfet-build-block-dot');
 
 module.exports = {
   /**
@@ -49,7 +49,7 @@ jfet-build默认构建方案为：`jfet-build-preset-common`
 
 ```javascript
 // 安装在当前项目才需要引入
-const presetDemo = require('@jyb/jfet-build-preset-demo');
+const presetDemo = require('jyb_jfet-build-preset-demo');
 
 module.exports = {
   build(abc, context) {

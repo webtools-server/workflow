@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-plugin-copy",
+  "name": "jyb_jfet-build-plugin-copy",
   "version": "1.3.0",
   "description": "copy build plugin for jfet",
   "main": "lib/index.js",

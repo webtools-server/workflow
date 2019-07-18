@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-server",
+  "name": "jyb_jfet-server",
   "version": "1.3.7",
   "description": "server command plugin for jfet.",
   "main": "lib/index.js",

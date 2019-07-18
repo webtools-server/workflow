@@ -2,19 +2,19 @@
 
 `build`默认使用的构建方案，支持：
 
-- @jyb/jfet-build-block-assets
-- @jyb/jfet-build-block-babel6
-- @jyb/jfet-build-block-dot
-- @jyb/jfet-build-block-less
-- @jyb/jfet-build-block-webpack3
-- @jyb/jfet-build-block-vue
-- @jyb/jfet-build-block-assemble
-- @jyb/jfet-build-block-sass
+- jyb_jfet-build-block-assets
+- jyb_jfet-build-block-babel6
+- jyb_jfet-build-block-dot
+- jyb_jfet-build-block-less
+- jyb_jfet-build-block-webpack3
+- jyb_jfet-build-block-vue
+- jyb_jfet-build-block-assemble
+- jyb_jfet-build-block-sass
 
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-preset-common --save
+npm i jyb_jfet-build-preset-common --save
 ```
 
 ## 使用

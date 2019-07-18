@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-manifest",
+  "name": "jyb_jfet-build-block-manifest",
   "version": "1.3.6",
   "description": "manifest build block for jfet",
   "main": "lib/index.js",

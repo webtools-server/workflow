@@ -71,7 +71,7 @@ module.exports = dot;
 在构建预设方案中使用
 
 ```javascript
-const { createConfig } = require('@jyb/jfet-build-block-webpack3');
+const { createConfig } = require('jyb_jfet-build-block-webpack3');
 const dot = require('./lib');
 
 module.exports = {

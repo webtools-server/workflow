@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-babel6",
+  "name": "jyb_jfet-build-block-babel6",
   "version": "1.3.6",
   "description": "babel6 build block for jfet",
   "main": "lib/index.js",

@@ -6,8 +6,8 @@ const path = require('path');
 const fse = require('fs-extra');
 
 // plugin
-const buildPluginFtp = require('@jyb/jfet-build-plugin-ftp');
-const buildPluginCopy = require('@jyb/jfet-build-plugin-copy');
+const buildPluginFtp = require('jyb_jfet-build-plugin-ftp');
+const buildPluginCopy = require('jyb_jfet-build-plugin-copy');
 
 const abcJSON = require('./abc.json');
 

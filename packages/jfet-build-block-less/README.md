@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-less --save
+npm i jyb_jfet-build-block-less --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-less --save
 
 
 ```javascript
-const less = require('@jyb/jfet-build-block-less');
+const less = require('jyb_jfet-build-block-less');
 
 // preset
 createConfig(context, [

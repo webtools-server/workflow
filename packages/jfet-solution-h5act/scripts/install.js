@@ -5,7 +5,7 @@
 const exec = require('child_process').exec;
 const index = require('../lib');
 
-const COMMAND_PREFIX = '@jyb/jfet-';
+const COMMAND_PREFIX = 'jyb_jfet-';
 const notInstalled = [];
 
 Object.keys(index).forEach((command) => {

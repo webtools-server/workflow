@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-webpack3",
+  "name": "jyb_jfet-build-block-webpack3",
   "version": "1.3.6",
   "description": "webpack3 build block for jfet",
   "main": "lib/index.js",

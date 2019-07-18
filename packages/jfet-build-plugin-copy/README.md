@@ -5,13 +5,13 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-plugin-copy --save
+npm i jyb_jfet-build-plugin-copy --save
 ```
 
 ## 使用
 
 ```javascript
-const copyPlugin = require('@jyb/jfet-build-plugin-copy');
+const copyPlugin = require('jyb_jfet-build-plugin-copy');
 
 this.usePlugin(copyPlugin({
   copy: [{ // 单独复制

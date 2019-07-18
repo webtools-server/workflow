@@ -1,9 +1,9 @@
 {
-  "name": "@jyb/jfet",
+  "name": "jyb_jfet",
   "version": "1.3.4",
   "description": "jyb front-end tookit.",
   "bin": {
-    "jfet": "./bin/jfet"
+    "jfet2": "./bin/jfet"
   },
   "main": "index.js",
   "files": [
@@ -20,7 +20,7 @@
     "front-end",
     "tookit"
   ],
-  "author": "canye.wu@jyblife.com",
+  "author": "mocept",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.0.1",

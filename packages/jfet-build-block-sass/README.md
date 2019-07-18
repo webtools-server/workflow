@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-sass --save
+npm i jyb_jfet-build-block-sass --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-sass --save
 
 
 ```javascript
-const sass = require('@jyb/jfet-build-block-sass');
+const sass = require('jyb_jfet-build-block-sass');
 
 // preset
 createConfig(context, [

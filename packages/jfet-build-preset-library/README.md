@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-preset-library --save
+npm i jyb_jfet-build-preset-library --save
 ```
 
 ## 使用

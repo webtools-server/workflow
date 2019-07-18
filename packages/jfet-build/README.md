@@ -25,8 +25,8 @@ sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 ```
 
 ```shell
-npm i @jyb/jfet -g
-npm i @jyb/jfet-build -g
+npm i jyb_jfet -g
+npm i jyb_jfet-build -g
 ```
 
 ## 使用

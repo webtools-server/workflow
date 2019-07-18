@@ -59,6 +59,7 @@ class Command {
     if (!PLUGIN_NAME_REGEX.test(name)) {
       return utilLog.error('Plugin name error. It should be a-z and 0-9.', true);
     }
+    console.log('loadPlugin' + cwd)
 
     // 如果存在commandPlugin选项，优先加载该路径的插件
     if (jfetOptions.commandPlugin) {

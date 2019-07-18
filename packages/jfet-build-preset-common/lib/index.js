@@ -5,15 +5,15 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 
-const webpack = require('@jyb/jfet-build-block-webpack3');
-const sass = require('@jyb/jfet-build-block-sass');
-const less = require('@jyb/jfet-build-block-less');
-const babel = require('@jyb/jfet-build-block-babel6');
-const assets = require('@jyb/jfet-build-block-assets');
-const dot = require('@jyb/jfet-build-block-dot');
-const vue = require('@jyb/jfet-build-block-vue');
-const assemble = require('@jyb/jfet-build-block-assemble');
-const manifest = require('@jyb/jfet-build-block-manifest');
+const webpack = require('jyb_jfet-build-block-webpack3');
+const sass = require('jyb_jfet-build-block-sass');
+const less = require('jyb_jfet-build-block-less');
+const babel = require('jyb_jfet-build-block-babel6');
+const assets = require('jyb_jfet-build-block-assets');
+const dot = require('jyb_jfet-build-block-dot');
+const vue = require('jyb_jfet-build-block-vue');
+const assemble = require('jyb_jfet-build-block-assemble');
+const manifest = require('jyb_jfet-build-block-manifest');
 const util = require('./util');
 
 const {

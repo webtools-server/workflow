@@ -10,11 +10,11 @@ module.exports = {
   // 工具配置文件
   CONFIG_FILES: 'jfet.config.js',
   // 工具命名
-  TOOL_PREFIX: ['@jyb/jfet', 'jfet'],
+  TOOL_PREFIX: ['jyb_jfet', 'jfet'],
   // 命令前缀
-  COMMAND_PREFIX: ['@jyb/jfet-', 'jfet-'],
+  COMMAND_PREFIX: ['jyb_jfet-', 'jfet-'],
   // 解决方案前缀
-  SOLUTION_PREFIX: ['@jyb/jfet-solution-', 'jfet-solution-'],
+  SOLUTION_PREFIX: ['jyb_jfet-solution-', 'jfet-solution-'],
   // npm包信息接口
   NPM_PACKAGE_API: 'http://npm.jyblife.com/',
   // npm搜索接口

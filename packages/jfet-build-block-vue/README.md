@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-vue --save
+npm i jyb_jfet-build-block-vue --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-vue --save
 
 
 ```javascript
-const vue = require('@jyb/jfet-build-block-vue');
+const vue = require('jyb_jfet-build-block-vue');
 
 // preset
 createConfig(context, [

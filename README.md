@@ -33,3 +33,19 @@ npm test
 npm run doc
 ```
 
+全局安装nrm，设置内部npm registry
+
+$ npm i nrm -g
+$ nrm add jnpm http://npm.jyblife.com/
+$ nrm use jnpm
+全局安装jfet
+
+$ npm i jyb_jfet -g
+因为jyb_jfet-build涉及到node-sass的安装，可以修改.npmrc文件，增加下面内容：
+
+sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+安装常用插件和解决方案
+
+$ npm i jyb_jfet-init -g
+$ npm i jyb_jfet-solution-h5act -g
+$ npm i jyb_jfet-solution-h5product -g

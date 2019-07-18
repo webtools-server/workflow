@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-less",
+  "name": "jyb_jfet-build-block-less",
   "version": "1.3.6",
   "description": "less build block for jfet",
   "main": "lib/index.js",

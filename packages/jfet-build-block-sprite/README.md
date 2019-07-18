@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-sprite --save
+npm i jyb_jfet-build-block-sprite --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-sprite --save
 
 
 ```javascript
-const sprite = require('@jyb/jfet-build-block-sprite');
+const sprite = require('jyb_jfet-build-block-sprite');
 
 // preset
 createConfig(context, [

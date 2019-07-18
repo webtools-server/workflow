@@ -12,8 +12,8 @@
 需要全局安装，如果已经安装过，可以跳过
 
 ```shell
-npm i @jyb/jfet -g
-npm i @jyb/jfet-init -g
+npm i jyb_jfet -g
+npm i jyb_jfet-init -g
 ```
 
 ## 使用

@@ -5,7 +5,7 @@
 如果没有安装，需要先安装
 
 ```shell
-$ npm i @jyb/jfet @jyb/jfet-init -g
+$ npm i jyb_jfet jyb_jfet-init -g
 ```
 
 ## 初始化

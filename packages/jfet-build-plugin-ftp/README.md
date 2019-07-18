@@ -5,13 +5,13 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-plugin-ftp --save
+npm i jyb_jfet-build-plugin-ftp --save
 ```
 
 ## 使用
 
 ```javascript
-const ftpPlugin = require('@jyb/jfet-build-plugin-ftp');
+const ftpPlugin = require('jyb_jfet-build-plugin-ftp');
 
 this.usePlugin(ftpPlugin({
   host: '172.16.1.8',

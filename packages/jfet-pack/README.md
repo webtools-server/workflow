@@ -12,8 +12,8 @@ H5产品应用本地化打包命令插件
 需要全局安装，如果已经安装过，可以跳过
 
 ```shell
-npm i @jyb/jfet -g
-npm i @jyb/jfet-pack -g
+npm i jyb_jfet -g
+npm i jyb_jfet-pack -g
 ```
 
 ## 使用

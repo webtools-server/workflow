@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-sprite",
+  "name": "jyb_jfet-build-block-sprite",
   "version": "1.3.6",
   "description": "sprite build block for jfet",
   "main": "lib/index.js",

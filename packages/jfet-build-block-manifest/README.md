@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-manifest --save
+npm i jyb_jfet-build-block-manifest --save
 ```
 
 ## 使用
@@ -13,7 +13,7 @@ npm i @jyb/jfet-build-block-manifest --save
 更多用法见`jfet-build`的`开发构建功能块`[文档](../jfet-build/doc/DevelopBlock.md)
 
 ```javascript
-const manifest = require('@jyb/jfet-build-block-manifest');
+const manifest = require('jyb_jfet-build-block-manifest');
 
 // jfet.config.js
 module.exports = {

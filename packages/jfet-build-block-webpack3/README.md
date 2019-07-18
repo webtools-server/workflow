@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-webpack3 --save
+npm i jyb_jfet-build-block-webpack3 --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-webpack3 --save
 
 
 ```javascript
-const { scanEntry } = require('@jyb/jfet-build-block-webpack3');
+const { scanEntry } = require('jyb_jfet-build-block-webpack3');
 
 // preset
 createConfig(context, [

@@ -3,5 +3,5 @@
  */
 
 module.exports = {
-  PRESET_PREFIX: ['@jyb/jfet-build-preset-', 'jfet-build-preset-']
+  PRESET_PREFIX: ['jyb_jfet-build-preset-', 'jfet-build-preset-']
 };

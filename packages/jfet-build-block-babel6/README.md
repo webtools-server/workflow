@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet-build-block-babel6 --save
+npm i jyb_jfet-build-block-babel6 --save
 ```
 
 ## 使用
@@ -14,7 +14,7 @@ npm i @jyb/jfet-build-block-babel6 --save
 
 
 ```javascript
-const babel6 = require('@jyb/jfet-build-block-babel6');
+const babel6 = require('jyb_jfet-build-block-babel6');
 
 // preset
 createConfig(context, [

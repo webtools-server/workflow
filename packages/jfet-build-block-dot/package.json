@@ -1,5 +1,5 @@
 {
-  "name": "@jyb/jfet-build-block-dot",
+  "name": "jyb_jfet-build-block-dot",
   "version": "1.3.6",
   "description": "dot build block for jfet",
   "main": "lib/index.js",

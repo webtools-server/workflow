@@ -25,6 +25,7 @@ const cli = {};
 function noop() {}
 
 cli.run = (option) => {
+  console.log('\n cli option ' + option);
   const ys = yargs.usage(TOOL_USAGE).version().help();
 
   // 输出版本

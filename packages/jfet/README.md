@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-npm i @jyb/jfet -g
+npm i jyb_jfet -g
 ```
 
 ## 使用

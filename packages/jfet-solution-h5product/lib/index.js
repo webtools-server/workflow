@@ -5,8 +5,8 @@
 const path = require('path');
 
 // plugin
-const buildPluginFtp = require('@jyb/jfet-build-plugin-ftp');
-const buildPluginCopy = require('@jyb/jfet-build-plugin-copy');
+const buildPluginFtp = require('jyb_jfet-build-plugin-ftp');
+const buildPluginCopy = require('jyb_jfet-build-plugin-copy');
 const copyShtmlPlugin = require('./plugin/copy_shtml');
 
 const abcJSON = require('./abc.json');

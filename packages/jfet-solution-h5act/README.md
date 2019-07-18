@@ -7,7 +7,7 @@
 全局安装，如果有安装，可以直接跳过
 
 ```shell
-$ npm i @jyb/jfet-solution-h5act -g
+$ npm i jyb_jfet-solution-h5act -g
 ```
 
 ## 环境

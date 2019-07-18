@@ -14,6 +14,8 @@ function loadPackage(resources = [], showLog = true) {
     resources = [resources];
   }
 
+  console.log('loadPackage resources ' + resources)
+
   const err = [];
   let result = null;
 
