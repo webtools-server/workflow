@@ -1,5 +1,5 @@
 {
-  "name": "workflow",
+  "name": "jyb_workflow",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -20,9 +20,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://git.jtjr.com/h5_webtools_grp/workflow.git"
+    "url": "https://github.com/h5webtools/workflow.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "mocept",
   "license": "MIT"
 }
